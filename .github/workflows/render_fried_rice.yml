@@ -15,7 +15,7 @@ on:
 jobs:
   probe:
     if: ${{ github.event.inputs.mode == 'probe' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
@@ -26,15 +26,15 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
-          key: pw-chromium-${{ runner.os }}-v1
+          key: pw-chromium-u24-v2
       - name: Install Three.js, Playwright, Pillow & Google Fonts
         run: |
           mkdir -p /tmp/pw_runtime
           cd /tmp/pw_runtime
           npm init -y >/dev/null 2>&1
-          npm install --no-audit --no-fund three@0.174.0 playwright@1.51.0
-          npx playwright install --with-deps chromium
-          python3 -m pip install --quiet pillow
+          npm install --no-audit --no-fund three@0.174.0 playwright@latest
+          npx playwright install chromium
+          python3 -m pip install --break-system-packages --quiet pillow
           mkdir -p "${{ github.workspace }}/videos/fried-rice-syndrome/vendor" "${{ github.workspace }}/videos/fried-rice-syndrome/fonts"
           cp /tmp/pw_runtime/node_modules/three/build/three.module.js "${{ github.workspace }}/videos/fried-rice-syndrome/vendor/"
           cp /tmp/pw_runtime/node_modules/three/build/three.core.js "${{ github.workspace }}/videos/fried-rice-syndrome/vendor/"
@@ -61,7 +61,7 @@ jobs:
 
   render-shards:
     if: ${{ github.event.inputs.mode == 'full' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 45
     strategy:
       fail-fast: true
@@ -76,14 +76,14 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
-          key: pw-chromium-${{ runner.os }}-v1
+          key: pw-chromium-u24-v2
       - name: Install Runtime & Fonts
         run: |
           mkdir -p /tmp/pw_runtime
           cd /tmp/pw_runtime
           npm init -y >/dev/null 2>&1
-          npm install --no-audit --no-fund three@0.174.0 playwright@1.51.0
-          npx playwright install --with-deps chromium
+          npm install --no-audit --no-fund three@0.174.0 playwright@latest
+          npx playwright install chromium
           mkdir -p "${{ github.workspace }}/videos/fried-rice-syndrome/vendor" "${{ github.workspace }}/videos/fried-rice-syndrome/fonts"
           cp /tmp/pw_runtime/node_modules/three/build/three.module.js "${{ github.workspace }}/videos/fried-rice-syndrome/vendor/"
           cp /tmp/pw_runtime/node_modules/three/build/three.core.js "${{ github.workspace }}/videos/fried-rice-syndrome/vendor/"
@@ -113,7 +113,7 @@ jobs:
   merge-and-mix:
     if: ${{ github.event.inputs.mode == 'full' }}
     needs: render-shards
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
@@ -128,7 +128,7 @@ jobs:
           PROJECT_ROOT: ${{ github.workspace }}/videos/fried-rice-syndrome
           SFX_DIR: ${{ github.workspace }}/videos/fried-rice-syndrome/assets_sfx
         run: |
-          python3 -m pip install --quiet pillow opencv-python-headless
+          python3 -m pip install --break-system-packages --quiet pillow opencv-python-headless
           cd videos/fried-rice-syndrome/out/segs
           printf "file 'seg_0.mp4'\nfile 'seg_1.mp4'\nfile 'seg_2.mp4'\nfile 'seg_3.mp4'\nfile 'seg_4.mp4'\nfile 'seg_5.mp4'\n" > concat_list.txt
           ffmpeg -nostdin -y -f concat -safe 0 -i concat_list.txt -c copy ../fried_rice_syndrome_silent.mp4
