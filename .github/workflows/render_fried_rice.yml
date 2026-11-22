@@ -77,8 +77,9 @@ jobs:
         with:
           path: ~/.cache/ms-playwright
           key: pw-chromium-u24-v2
-      - name: Install Runtime & Fonts
+      - name: Install Runtime, FFmpeg & Fonts
         run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
           mkdir -p /tmp/pw_runtime
           cd /tmp/pw_runtime
           npm init -y >/dev/null 2>&1
@@ -128,6 +129,7 @@ jobs:
           PROJECT_ROOT: ${{ github.workspace }}/videos/fried-rice-syndrome
           SFX_DIR: ${{ github.workspace }}/videos/fried-rice-syndrome/assets_sfx
         run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
           python3 -m pip install --break-system-packages --quiet pillow opencv-python-headless
           cd videos/fried-rice-syndrome/out/segs
           printf "file 'seg_0.mp4'\nfile 'seg_1.mp4'\nfile 'seg_2.mp4'\nfile 'seg_3.mp4'\nfile 'seg_4.mp4'\nfile 'seg_5.mp4'\n" > concat_list.txt
