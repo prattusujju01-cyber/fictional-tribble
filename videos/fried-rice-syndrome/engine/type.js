@@ -26,9 +26,9 @@ export function drawEra2Headline(ctx, tier1, tier2, localT, pal, opts = {}) {
     ctx.globalAlpha = clamp(t1P);
     const dy = lerp(14, 0, t1P);
     ctx.font = `700 ${tier1Size}px "OswaldBold", "Anton", sans-serif`;
-    ctx.shadowColor = pal.isDark ? 'rgba(0,0,0,0.58)' : 'rgba(60,30,4,0.16)';
-    ctx.shadowBlur = pal.isDark ? 12 : 4;
-    ctx.shadowOffsetY = 3;
+    ctx.shadowColor = pal.isDark ? 'rgba(0,0,0,0.78)' : 'rgba(255,244,210,0.55)';
+    ctx.shadowBlur = pal.isDark ? 14 : 6;
+    ctx.shadowOffsetY = pal.isDark ? 3 : 2;
     ctx.fillStyle = tier1Color;
     ctx.fillText(tier1.toUpperCase(), baseX, topY + dy);
     ctx.restore();
@@ -57,9 +57,15 @@ export function drawEra2Headline(ctx, tier1, tier2, localT, pal, opts = {}) {
     ctx.scale(sc, sc);
     ctx.translate(-baseX, -(punchY + fSize * 0.5));
 
-    ctx.shadowColor = pal.isDark ? 'rgba(0,0,0,0.68)' : 'rgba(60,30,4,0.22)';
-    ctx.shadowBlur = pal.isDark ? 16 : 6;
+    ctx.shadowColor = pal.isDark ? 'rgba(0,0,0,0.82)' : 'rgba(42,16,2,0.34)';
+    ctx.shadowBlur = pal.isDark ? 18 : 8;
     ctx.shadowOffsetY = 4;
+    if (!pal.isDark && strikeP <= 0.55) {
+      ctx.strokeStyle = 'rgba(255,246,220,0.45)';
+      ctx.lineWidth = 4;
+      ctx.lineJoin = 'round';
+      ctx.strokeText(txt, baseX, punchY);
+    }
     ctx.fillStyle = strikeP > 0.55 ? (pal.isDark ? 'rgba(246,240,228,0.42)' : 'rgba(28,20,10,0.38)') : accentColor;
     ctx.fillText(txt, baseX, punchY);
     ctx.restore();
@@ -91,19 +97,19 @@ export function drawPaperTag(ctx, x, y, title, sub = '', rotDeg = -2, appearP = 
   ctx.translate(x, y);
   ctx.rotate(rotDeg * Math.PI / 180);
 
-  ctx.font = '700 28px "Anton", "OswaldBold", sans-serif';
+  ctx.font = '700 38px "Anton", "OswaldBold", sans-serif';
   const m1 = ctx.measureText(title.toUpperCase()).width;
-  ctx.font = '700 18px "SpaceMonoBold", monospace';
+  ctx.font = '700 20px "SpaceMonoBold", monospace';
   const m2 = sub ? ctx.measureText(sub.toUpperCase()).width : 0;
-  const bw = Math.max(m1, m2) + 42;
-  const bh = sub ? 80 : 54;
+  const bw = Math.max(m1, m2) + 52;
+  const bh = sub ? 96 : 64;
 
-  ctx.shadowColor = 'rgba(0,0,0,0.36)';
-  ctx.shadowBlur = 18;
-  ctx.shadowOffsetY = 8;
-  ctx.fillStyle = '#F3E7CB';
+  ctx.shadowColor = 'rgba(0,0,0,0.40)';
+  ctx.shadowBlur = 20;
+  ctx.shadowOffsetY = 9;
+  ctx.fillStyle = '#F5E9CE';
   ctx.beginPath();
-  ctx.roundRect(-bw / 2, -bh / 2, bw, bh, 5);
+  ctx.roundRect(-bw / 2, -bh / 2, bw, bh, 6);
   ctx.fill();
   ctx.shadowBlur = 0;
   ctx.shadowOffsetY = 0;
@@ -111,22 +117,22 @@ export function drawPaperTag(ctx, x, y, title, sub = '', rotDeg = -2, appearP = 
   // Tiny brass/red specimen pin dot at top center
   ctx.fillStyle = '#C82818';
   ctx.beginPath();
-  ctx.arc(0, -bh / 2 + 10, 4.5, 0, Math.PI * 2);
+  ctx.arc(0, -bh / 2 + 11, 5, 0, Math.PI * 2);
   ctx.fill();
 
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   if (sub) {
-    ctx.font = '700 16px "SpaceMonoBold", monospace';
-    ctx.fillStyle = '#5C4B32';
-    ctx.fillText(sub.toUpperCase(), 0, -10);
-    ctx.font = '700 30px "Anton", "OswaldBold", sans-serif';
+    ctx.font = '700 18px "SpaceMonoBold", monospace';
+    ctx.fillStyle = '#5A482F';
+    ctx.fillText(sub.toUpperCase(), 0, -11);
+    ctx.font = '700 38px "Anton", "OswaldBold", sans-serif';
     ctx.fillStyle = '#1B140C';
-    ctx.fillText(title.toUpperCase(), 0, 18);
+    ctx.fillText(title.toUpperCase(), 0, 22);
   } else {
-    ctx.font = '700 30px "Anton", "OswaldBold", sans-serif';
+    ctx.font = '700 38px "Anton", "OswaldBold", sans-serif';
     ctx.fillStyle = '#1B140C';
-    ctx.fillText(title.toUpperCase(), 0, 4);
+    ctx.fillText(title.toUpperCase(), 0, 5);
   }
   ctx.restore();
 }

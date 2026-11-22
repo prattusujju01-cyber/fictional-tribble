@@ -288,12 +288,12 @@ export function evalCamera3D(camKeyframes, localP, globalT, impactOpts = null) {
   const rawPy = lerp(k0.pos[1], k1.pos[1], u) + by + sy;
   const rawPz = lerp(k0.pos[2], k1.pos[2], u) + bz;
 
-  // Clean portrait 9:16 breathing distance so hero 3D props occupy 48-62% cleanly
-  const px = lx + (rawPx - lx) * 1.35;
-  const py = ly + (rawPy - ly) * 1.25;
-  const pz = lz + (rawPz - lz) * 1.38;
+  // Generous portrait 9:16 studio breathing distance (ZERO left/right clipping across all 35 Era-2 shots!)
+  const px = lx + (rawPx - lx) * 1.56;
+  const py = ly + (rawPy - ly) * 1.42;
+  const pz = lz + (rawPz - lz) * 1.66;
 
-  const fov = clamp(lerp(k0.fov || 40, k1.fov || 40, u) * 1.16, 30, 54);
+  const fov = clamp(lerp(k0.fov || 40, k1.fov || 40, u) * 1.18, 30, 56);
   const roll = lerp(k0.roll || 0, k1.roll || 0, u) + sRoll;
 
   camera.position.set(px, py, pz);
