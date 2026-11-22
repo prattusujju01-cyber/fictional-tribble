@@ -145,24 +145,24 @@ export function buildKitchenCounterDiorama3D() {
   frameBar(0.08, 2.15, 0, 0); frameBar(1.75, 0.08, 0, 0.05);
   root.add(winGroup);
 
-  // Brass hanging pendant lamp casting warm golden pool onto the rice bowl
+  // Brass hanging pendant lamp shifted slightly right so top-left headline zone stays 100% clean dark tiles
   const cord = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.018, 1.7, 8), mats.castIron);
-  cord.position.set(0.25, 2.75, -0.2);
+  cord.position.set(0.62, 2.95, -0.25);
   root.add(cord);
   const shade = new THREE.Mesh(
-    new THREE.ConeGeometry(0.62, 0.42, 28, 1, true),
+    new THREE.ConeGeometry(0.56, 0.38, 28, 1, true),
     mats.brass
   );
-  shade.position.set(0.25, 1.85, -0.2);
+  shade.position.set(0.62, 2.08, -0.25);
   root.add(shade);
   const bulb = new THREE.Mesh(
-    new THREE.SphereGeometry(0.14, 14, 12),
+    new THREE.SphereGeometry(0.13, 14, 12),
     new THREE.MeshBasicMaterial({ color: 0xffe49e })
   );
-  bulb.position.set(0.25, 1.70, -0.2);
+  bulb.position.set(0.62, 1.94, -0.25);
   root.add(bulb);
   const lampLight = new THREE.PointLight(0xffbe5c, 22, 8, 1.8);
-  lampLight.position.set(0.25, 1.45, -0.1);
+  lampLight.position.set(0.55, 1.65, -0.1);
   root.add(lampLight);
 
   // Ceramic stoneware bowl + sculpted dome + 165 distinct instanced Basmati rice grains!
@@ -963,17 +963,17 @@ export function buildArteryGauge3D() {
 
   // Embedded brass-bezel clinical dial right at the Y-fork (crisp green/amber/red CanvasTexture!)
   const gaugeGroup = new THREE.Group();
-  gaugeGroup.position.set(0, -0.18, 0.48);
-  const caseRing = new THREE.Mesh(new THREE.TorusGeometry(0.74, 0.088, 16, 44), mats.brass);
+  gaugeGroup.position.set(0, -0.34, 0.48);
+  const caseRing = new THREE.Mesh(new THREE.TorusGeometry(0.68, 0.082, 16, 44), mats.brass);
   gaugeGroup.add(caseRing);
-  const face = new THREE.Mesh(new THREE.CircleGeometry(0.71, 44), mats.arteryGaugeFace);
+  const face = new THREE.Mesh(new THREE.CircleGeometry(0.65, 44), mats.arteryGaugeFace);
   face.position.z = 0.02;
   gaugeGroup.add(face);
   const needle = new THREE.Group();
   needle.position.z = 0.06;
-  const bar = new THREE.Mesh(new THREE.BoxGeometry(0.044, 0.56, 0.025), mats.mercuryRed);
-  bar.position.y = 0.22;
-  const hub = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 0.05, 16), mats.castIron);
+  const bar = new THREE.Mesh(new THREE.BoxGeometry(0.042, 0.50, 0.025), mats.mercuryRed);
+  bar.position.y = 0.19;
+  const hub = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.075, 0.05, 16), mats.castIron);
   hub.rotation.x = Math.PI / 2;
   needle.add(bar); needle.add(hub);
   gaugeGroup.add(needle);

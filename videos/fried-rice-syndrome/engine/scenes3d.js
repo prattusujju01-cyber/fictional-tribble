@@ -368,23 +368,24 @@ function stageShot3D(pool, id, { t, p }) {
       };
     }
 
-    // S13: Heat Actually Wakes Them Up — Armored Shell Cracks Open & Living Emerald Rod Sprouts!
+    // S13: Heat Actually Wakes Them Up — Armored Shell Cracks Wide Open & Living Emerald Rod Bursts Out!
     case 13: {
       pool.endospore.visible = true;
       const { leftShell, rightShell, emergingRod } = pool.endospore.userData;
-      const crackP = easeInOutCubic(clamp((p - 0.14) / 0.62));
-      leftShell.position.set(-crackP * 0.68, 0, 0);
-      leftShell.rotation.z = crackP * 0.38;
-      rightShell.position.set(crackP * 0.68, 0, 0);
-      rightShell.rotation.z = -crackP * 0.38;
-      emergingRod.scale.setScalar(0.18 + crackP * 0.92);
-      emergingRod.position.set(0, crackP * 0.38, 0.22);
-      pool.endospore.rotation.y = lerp(-0.18, 0.28, p);
+      const crackP = easeInOutCubic(clamp((p - 0.10) / 0.56));
+      leftShell.position.set(-crackP * 0.96, -0.08, -0.05);
+      leftShell.rotation.z = crackP * 0.44;
+      rightShell.position.set(crackP * 0.96, -0.08, -0.05);
+      rightShell.rotation.z = -crackP * 0.44;
+      emergingRod.scale.setScalar(0.32 + crackP * 0.96);
+      emergingRod.position.set(0, 0.12 + crackP * 0.48, 0.52);
+      emergingRod.rotation.set(0.15, p * 0.7, -0.22);
+      pool.endospore.rotation.y = lerp(-0.14, 0.20, p);
       return {
-        impact: { at: 0.20, mag: 0.18 },
+        impact: { at: 0.18, mag: 0.18 },
         cam: [
-          { p: 0.0, pos: [0, 0.25, 5.2], look: [0, 0.05, 0], fov: 39, roll: 0 },
-          { p: 1.0, pos: [0.3, 0.15, 4.3], look: [0, 0.15, 0], fov: 35, roll: 0 }
+          { p: 0.0, pos: [0, 0.25, 5.4], look: [0, 0.08, 0], fov: 39, roll: 0 },
+          { p: 1.0, pos: [0.3, 0.20, 4.6], look: [0, 0.16, 0], fov: 36, roll: 0 }
         ]
       };
     }
@@ -443,7 +444,7 @@ function stageShot3D(pool, id, { t, p }) {
           { p: 1.0, pos: [0.3, 0.15, 5.4], look: [0, -0.1, 0], fov: 41, roll: 0.02 }
         ],
         hudDraw: (ctx) => {
-          drawSplitFlapBoard(ctx, 540, 1590, ['0','1',' ','M','I','N'], ['2','0',' ','M','I','N'], clamp(p * 2.3), 'DOUBLING TIME IN WARM RICE', 78, 108, 10);
+          drawSplitFlapBoard(ctx, 540, 1590, ['0','1',' ','M','I','N'], ['2','0',' ','M','I','N'], clamp(p * 2.6), 'DOUBLING TIME IN WARM RICE', 88, 108, 10);
         }
       };
     }
@@ -591,8 +592,8 @@ function stageShot3D(pool, id, { t, p }) {
       return {
         shadowFloor: false,
         cam: [
-          { p: 0.0, pos: [0, 0.35, 5.0], look: [0, -0.05, 0.2], fov: 38, roll: 0 },
-          { p: 1.0, pos: [0.25, 0.1, 4.0], look: [0, -0.05, 0.35], fov: 33, roll: 0.01 }
+          { p: 0.0, pos: [0, 0.55, 5.2], look: [0, 0.15, 0.2], fov: 39, roll: 0 },
+          { p: 1.0, pos: [0.25, 0.30, 4.3], look: [0, 0.10, 0.35], fov: 34, roll: 0.01 }
         ]
       };
     }
