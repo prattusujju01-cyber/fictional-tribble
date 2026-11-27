@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Water Intoxication (Hyponatremia) — Pure-Code 3D Explainer (v14.0)</title>
+  <style>
+    @font-face {
+      font-family: "Anton";
+      src: url("./fonts/Anton-Regular.ttf") format("truetype");
+      font-weight: 700;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: "OswaldBold";
+      src: url("./fonts/Oswald-Bold.ttf") format("truetype");
+      font-weight: 100 900;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: "SpaceMono";
+      src: url("./fonts/SpaceMono-Regular.ttf") format("truetype");
+      font-weight: 400;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: "SpaceMonoBold";
+      src: url("./fonts/SpaceMono-Bold.ttf") format("truetype");
+      font-weight: 700;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: "CaveatBold";
+      src: url("./fonts/Caveat-Bold.ttf") format("truetype");
+      font-weight: 100 900;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: "LibreBaskerville";
+      src: url("./fonts/LibreBaskerville-Regular.ttf") format("truetype");
+      font-weight: 100 900;
+      font-style: normal;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      background: #070C18;
+    }
+    canvas {
+      display: block;
+      width: 1080px;
+      height: 1920px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="stage" width="1080" height="1920"></canvas>
+  <script type="module">
+    import { renderAtTime } from './engine/scenes3d.js';
+
+    const canvas = document.getElementById('stage');
+    const ctx = canvas.getContext('2d', { alpha: false });
+
+    window.__renderAt = (tSec) => {
+      renderAtTime(ctx, tSec);
+      return true;
+    };
+
+    window.renderFrame = (frameIdx) => {
+      renderAtTime(ctx, frameIdx / 30.0);
+      return true;
+    };
+
+    (async () => {
+      await document.fonts.ready;
+      const params = new URLSearchParams(window.location.search);
+      const tParam = parseFloat(params.get('t') || '0');
+      window.__renderAt(Number.isFinite(tParam) ? tParam : 0);
+      window.__READY__ = true;
+    })();
+  </script>
+</body>
+</html>

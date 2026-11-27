@@ -1,0 +1,147 @@
+name: Render Water Intoxication v14.0
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'probe (36 shots) or full (3600 frames 6-shard parallel)'
+        required: true
+        default: 'probe'
+        type: choice
+        options:
+          - probe
+          - full
+
+jobs:
+  probe:
+    if: ${{ github.event.inputs.mode == 'probe' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Cache Playwright Chromium
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: pw-chromium-u24-v2
+      - name: Install Three.js, Playwright, Pillow & Google Fonts
+        run: |
+          mkdir -p /tmp/pw_runtime
+          cd /tmp/pw_runtime
+          npm init -y >/dev/null 2>&1
+          npm install --no-audit --no-fund three@0.174.0 playwright@latest
+          npx playwright install chromium
+          python3 -m pip install --break-system-packages --quiet pillow
+          mkdir -p "${{ github.workspace }}/videos/water-intoxication/vendor" "${{ github.workspace }}/videos/water-intoxication/fonts"
+          cp /tmp/pw_runtime/node_modules/three/build/three.module.js "${{ github.workspace }}/videos/water-intoxication/vendor/"
+          cp /tmp/pw_runtime/node_modules/three/build/three.core.js "${{ github.workspace }}/videos/water-intoxication/vendor/"
+          FDIR="${{ github.workspace }}/videos/water-intoxication/fonts"
+          curl -fsSL "https://raw.githubusercontent.com/google/fonts/main/ofl/anton/Anton-Regular.ttf" -o "$FDIR/Anton-Regular.ttf"
+          curl -fsSL "https://raw.githubusercontent.com/google/fonts/main/ofl/oswald/Oswald%5Bwght%5D.ttf" -o "$FDIR/Oswald-Bold.ttf"
+          curl -fsSL "https://raw.githubusercontent.com/google/fonts/main/ofl/spacemono/SpaceMono-Regular.ttf" -o "$FDIR/SpaceMono-Regular.ttf"
+          curl -fsSL "https://raw.githubusercontent.com/google/fonts/main/ofl/spacemono/SpaceMono-Bold.ttf" -o "$FDIR/SpaceMono-Bold.ttf"
+          curl -fsSL "https://raw.githubusercontent.com/google/fonts/main/ofl/caveat/Caveat%5Bwght%5D.ttf" -o "$FDIR/Caveat-Bold.ttf"
+          curl -fsSL "https://raw.githubusercontent.com/google/fonts/main/ofl/librebaskerville/LibreBaskerville%5Bwght%5D.ttf" -o "$FDIR/LibreBaskerville-Regular.ttf"
+      - name: Render 36-Shot v14.0 Probe
+        env:
+          NODE_PATH: /tmp/pw_runtime/node_modules
+          PROJECT_ROOT: ${{ github.workspace }}/videos/water-intoxication
+        run: |
+          node videos/water-intoxication/tools/probe_render.mjs
+      - name: Upload Probe Sheet
+        uses: actions/upload-artifact@v4
+        with:
+          name: water-intox-probe
+          path: videos/water-intoxication/out/probe_36.jpg
+          retention-days: 7
+
+  render-shards:
+    if: ${{ github.event.inputs.mode == 'full' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: true
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Cache Playwright Chromium
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: pw-chromium-u24-v2
+      - name: Install Runtime, FFmpeg & Fonts
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          mkdir -p /tmp/pw_runtime
+          cd /tmp/pw_runtime
+          npm init -y >/dev/null 2>&1
+          npm install --no-audit --no-fund three@0.174.0 playwright@latest
+          npx playwright install chromium
+          mkdir -p "${{ github.workspace }}/videos/water-intoxication/vendor" "${{ github.workspace }}/videos/water-intoxication/fonts"
+          cp /tmp/pw_runtime/node_modules/three/build/three.module.js "${{ github.workspace }}/videos/water-intoxication/vendor/"
+          cp /tmp/pw_runtime/node_modules/three/build/three.core.js "${{ github.workspace }}/videos/water-intoxication/vendor/"
+          FDIR="${{ github.workspace }}/videos/water-intoxication/fonts"
+          curl -fsSL "https://raw.githubusercontent.com/google/fonts/main/ofl/anton/Anton-Regular.ttf" -o "$FDIR/Anton-Regular.ttf"
+          curl -fsSL "https://raw.githubusercontent.com/google/fonts/main/ofl/oswald/Oswald%5Bwght%5D.ttf" -o "$FDIR/Oswald-Bold.ttf"
+          curl -fsSL "https://raw.githubusercontent.com/google/fonts/main/ofl/spacemono/SpaceMono-Regular.ttf" -o "$FDIR/SpaceMono-Regular.ttf"
+          curl -fsSL "https://raw.githubusercontent.com/google/fonts/main/ofl/spacemono/SpaceMono-Bold.ttf" -o "$FDIR/SpaceMono-Bold.ttf"
+          curl -fsSL "https://raw.githubusercontent.com/google/fonts/main/ofl/caveat/Caveat%5Bwght%5D.ttf" -o "$FDIR/Caveat-Bold.ttf"
+          curl -fsSL "https://raw.githubusercontent.com/google/fonts/main/ofl/librebaskerville/LibreBaskerville%5Bwght%5D.ttf" -o "$FDIR/LibreBaskerville-Regular.ttf"
+      - name: Render 600-Frame Shard ${{ matrix.shard }}
+        env:
+          NODE_PATH: /tmp/pw_runtime/node_modules
+          PROJECT_ROOT: ${{ github.workspace }}/videos/water-intoxication
+        run: |
+          S=$((${{ matrix.shard }} * 600))
+          E=$(((${{ matrix.shard }} + 1) * 600))
+          node videos/water-intoxication/tools/render_parallel.mjs --clean --start=$S --end=$E --workers=3 --out="${{ github.workspace }}/videos/water-intoxication/out/seg_${{ matrix.shard }}.mp4"
+          ffprobe -v error -select_streams v:0 -count_frames -show_entries stream=width,height,r_frame_rate,nb_read_frames,duration -of default=nw=1 "${{ github.workspace }}/videos/water-intoxication/out/seg_${{ matrix.shard }}.mp4"
+      - name: Upload Shard MP4
+        uses: actions/upload-artifact@v4
+        with:
+          name: water-intox-seg-${{ matrix.shard }}
+          path: videos/water-intoxication/out/seg_${{ matrix.shard }}.mp4
+          retention-days: 3
+
+  merge-and-mix:
+    if: ${{ github.event.inputs.mode == 'full' }}
+    needs: render-shards
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download All 6 Shards
+        uses: actions/download-artifact@v4
+        with:
+          pattern: water-intox-seg-*
+          path: videos/water-intoxication/out/segs
+          merge-multiple: true
+      - name: Concat Shards, Mix -14.2 LUFS Audio & Generate Audit Sheet
+        env:
+          PROJECT_ROOT: ${{ github.workspace }}/videos/water-intoxication
+          SFX_DIR: ${{ github.workspace }}/videos/fried-rice-syndrome/assets_sfx
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          python3 -m pip install --break-system-packages --quiet pillow opencv-python-headless
+          cd videos/water-intoxication/out/segs
+          printf "file 'seg_0.mp4'\nfile 'seg_1.mp4'\nfile 'seg_2.mp4'\nfile 'seg_3.mp4'\nfile 'seg_4.mp4'\nfile 'seg_5.mp4'\n" > concat_list.txt
+          ffmpeg -nostdin -y -f concat -safe 0 -i concat_list.txt -c copy ../water_intoxication_silent.mp4
+          cd "${{ github.workspace }}"
+          python3 videos/water-intoxication/tools/mix_audio.py
+          echo "=== FINAL FFPROBE VERIFICATION ==="
+          ffprobe -v error -show_entries format=duration,size,bit_rate:stream=codec_type,codec_name,width,height,r_frame_rate,nb_frames,sample_rate,channels -of default=nw=1 videos/water-intoxication/out/water_intoxication_final.mp4
+      - name: Upload Final MP4 & Audit Contact Sheet
+        uses: actions/upload-artifact@v4
+        with:
+          name: water-intox-final
+          path: |
+            videos/water-intoxication/out/water_intoxication_final.mp4
+            videos/water-intoxication/out/audit_36.jpg
+          retention-days: 7
