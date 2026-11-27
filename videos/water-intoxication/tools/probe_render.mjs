@@ -44,7 +44,9 @@ page.on('pageerror', err => { console.error('PAGE_ERROR:', err); errors.push(Str
 page.on('console', msg => { if (msg.type() === 'error') console.error('CONSOLE_ERROR:', msg.text()); });
 
 await page.goto(`http://127.0.0.1:${port}/?t=0`, { waitUntil: 'networkidle', timeout: 120000 });
-await page.waitForFunction(() => window.__READY__ === true, null, { timeout: 120000 });
+await page.waitForFunction(() => window.__READY__ === true || Boolean(window.__INIT_ERROR__), null, { timeout: 120000 });
+const initErr = await page.evaluate(() => window.__INIT_ERROR__ || null);
+if (initErr) throw new Error(`Browser init failed: ${initErr}`);
 
 // 1. Capture all 32 shots at t0 + 1.55s (both Line 1 & Line 2 + mid-action diorama state!)
 for (let i = 0; i < shots.length; i++) {

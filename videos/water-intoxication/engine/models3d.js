@@ -12,6 +12,7 @@ import {
   getSwitchboardSteelMat,
   makeLabelTex
 } from './materials3d.js';
+import { buildBrassDialGauge } from './relief_anatomy.js';
 import { clamp, lerp, easeOutCubic, easeInOutCubic } from './dossier.js';
 
 // Helper: Contoured Spring-Water Bottle with Printed Label & Dynamic Fill Level

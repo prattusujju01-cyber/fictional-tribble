@@ -74,11 +74,16 @@
     };
 
     (async () => {
-      await document.fonts.ready;
-      const params = new URLSearchParams(window.location.search);
-      const tParam = parseFloat(params.get('t') || '0');
-      window.__renderAt(Number.isFinite(tParam) ? tParam : 0);
-      window.__READY__ = true;
+      try {
+        await document.fonts.ready;
+        const params = new URLSearchParams(window.location.search);
+        const tParam = parseFloat(params.get('t') || '0');
+        window.__renderAt(Number.isFinite(tParam) ? tParam : 0);
+        window.__READY__ = true;
+      } catch (err) {
+        console.error(err);
+        window.__INIT_ERROR__ = String(err && err.stack ? err.stack : err);
+      }
     })();
   </script>
 </body>
