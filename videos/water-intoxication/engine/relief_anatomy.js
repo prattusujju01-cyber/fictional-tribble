@@ -689,30 +689,31 @@ export function buildOsmosisMembraneWorld() {
   uTubeGroup.add(bench);
 
   // Left & Right Glass Vertical Arms + Bottom U-Bend + Central Brass Semi-Permeable Flange
-  const leftGlass = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.42, 2.75, 32, 1, true), glass);
-  leftGlass.position.set(-1.05, -0.35, 0);
-  const rightGlass = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.42, 2.75, 32, 1, true), glass);
-  rightGlass.position.set(1.05, -0.35, 0);
-  const bottomBend = new THREE.Mesh(new THREE.TorusGeometry(1.05, 0.40, 20, 40, Math.PI), glass);
+  const armX = 0.78;
+  const leftGlass = new THREE.Mesh(new THREE.CylinderGeometry(0.36, 0.36, 2.55, 32, 1, true), glass);
+  leftGlass.position.set(-armX, -0.35, 0);
+  const rightGlass = new THREE.Mesh(new THREE.CylinderGeometry(0.36, 0.36, 2.55, 32, 1, true), glass);
+  rightGlass.position.set(armX, -0.35, 0);
+  const bottomBend = new THREE.Mesh(new THREE.TorusGeometry(armX, 0.34, 20, 40, Math.PI), glass);
   bottomBend.rotation.z = Math.PI;
-  bottomBend.position.set(0, -1.68, 0);
-  const membraneFlange = new THREE.Mesh(new THREE.CylinderGeometry(0.56, 0.56, 0.14, 28), brass);
+  bottomBend.position.set(0, -1.62, 0);
+  const membraneFlange = new THREE.Mesh(new THREE.CylinderGeometry(0.48, 0.48, 0.14, 28), brass);
   membraneFlange.rotation.z = Math.PI / 2;
-  membraneFlange.position.set(0, -2.68, 0);
+  membraneFlange.position.set(0, -2.40, 0);
   // Stand base under U-tube
-  const standBlock = new THREE.Mesh(new THREE.BoxGeometry(3.4, 0.24, 1.2), getWoodMat('walnut'));
+  const standBlock = new THREE.Mesh(new THREE.BoxGeometry(2.8, 0.24, 1.2), getWoodMat('walnut'));
   standBlock.position.set(0, -1.92, -0.35);
   uTubeGroup.add(leftGlass, rightGlass, bottomBend, membraneFlange, standBlock);
 
-  const leftWater = new THREE.Mesh(new THREE.CylinderGeometry(0.37, 0.37, 1.0, 28), getWaterLiquidMat(0x5BD4FF, 0.80));
-  const rightWater = new THREE.Mesh(new THREE.CylinderGeometry(0.37, 0.37, 1.0, 28), getWaterLiquidMat(0xF5B638, 0.85));
-  const bottomWater = new THREE.Mesh(new THREE.TorusGeometry(1.05, 0.35, 18, 36, Math.PI), getWaterLiquidMat(0x8ACDF0, 0.82));
+  const leftWater = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.32, 1.0, 28), getWaterLiquidMat(0x5BD4FF, 0.80));
+  const rightWater = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.32, 1.0, 28), getWaterLiquidMat(0xF5B638, 0.85));
+  const bottomWater = new THREE.Mesh(new THREE.TorusGeometry(armX, 0.30, 18, 36, Math.PI), getWaterLiquidMat(0x8ACDF0, 0.82));
   bottomWater.rotation.z = Math.PI;
-  bottomWater.position.set(0, -1.68, 0);
+  bottomWater.position.set(0, -1.62, 0);
   uTubeGroup.add(leftWater, rightWater, bottomWater);
 
-  // Brass Plaques for Left ("LOW SALT BLOOD") and Right ("SALTY CELLS")
-  const mkPlaque = (txt, x) => {
+  // Brass Plaques for Left ("DILUTE BLOOD") and Right ("SALTY CELLS")
+  const mkPlaque = (txt, x, y = -2.72) => {
     const { tex } = makeLabelTex(320, 88, (ctx, w, h) => {
       ctx.fillStyle = '#2B1F12';
       ctx.fillRect(0, 0, w, h);
@@ -725,11 +726,11 @@ export function buildOsmosisMembraneWorld() {
       ctx.textBaseline = 'middle';
       ctx.fillText(txt, w / 2, h / 2 + 2);
     });
-    const m = new THREE.Mesh(new THREE.BoxGeometry(1.38, 0.38, 0.08), new THREE.MeshStandardMaterial({ map: tex, roughness: 0.4 }));
-    m.position.set(x, -2.02, 0.56);
+    const m = new THREE.Mesh(new THREE.BoxGeometry(1.18, 0.34, 0.08), new THREE.MeshStandardMaterial({ map: tex, roughness: 0.4 }));
+    m.position.set(x, y, 0.46);
     return m;
   };
-  uTubeGroup.add(mkPlaque('DILUTE BLOOD', -1.08), mkPlaque('SALTY CELLS', 1.08));
+  uTubeGroup.add(mkPlaque('DILUTE BLOOD', -0.82, -2.78), mkPlaque('SALTY CELLS', 0.82, -2.78));
   root.add(uTubeGroup);
 
   // --- S17: Phospholipid Bilayer + 3 Hourglass Cyan Aquaporin-4 Channels ---
@@ -809,30 +810,30 @@ export function buildOsmosisMembraneWorld() {
   compareGroup.add(ochreBg);
 
   const muscleGroup = new THREE.Group();
-  muscleGroup.position.set(-1.12, -0.15, 0);
+  muscleGroup.position.set(-0.76, -0.08, 0);
   const muscleMat = addFresnelRim(new THREE.MeshStandardMaterial({ color: 0xBF3438, roughness: 0.42 }), 0xFFA29A, 2.4, 0.35);
-  for (const [ox, oy] of [[0, 0], [-0.26, 0.15], [0.26, 0.15], [-0.22, -0.22], [0.22, -0.22]]) {
-    const f = new THREE.Mesh(new THREE.CapsuleGeometry(0.24, 1.25, 12, 24), muscleMat);
+  for (const [ox, oy] of [[0, 0], [-0.20, 0.14], [0.20, 0.14], [-0.18, -0.18], [0.18, -0.18]]) {
+    const f = new THREE.Mesh(new THREE.CapsuleGeometry(0.19, 1.05, 12, 24), muscleMat);
     f.position.set(ox, oy, 0);
     muscleGroup.add(f);
   }
   compareGroup.add(muscleGroup);
-  compareGroup.add(mkPlaque('SOFT MUSCLE', -1.12));
+  compareGroup.add(mkPlaque('SOFT MUSCLE', -0.76, -1.35));
 
   const skullLockGroup = new THREE.Group();
-  skullLockGroup.position.set(1.12, -0.15, 0);
+  skullLockGroup.position.set(0.76, -0.08, 0);
   const boneRing = new THREE.Mesh(
-    new THREE.TorusGeometry(0.76, 0.17, 22, 48),
+    new THREE.TorusGeometry(0.62, 0.14, 22, 48),
     new THREE.MeshStandardMaterial({ color: 0xEFE5CE, roughness: 0.46 })
   );
   const trappedCore = new THREE.Mesh(
-    new THREE.SphereGeometry(0.58, 28, 28),
+    new THREE.SphereGeometry(0.48, 28, 28),
     addFresnelRim(new THREE.MeshStandardMaterial({ color: 0xDF7674, roughness: 0.38 }), 0xFF4444, 2.2, 0.45)
   );
   trappedCore.scale.z = 0.55;
   skullLockGroup.add(boneRing, trappedCore);
   compareGroup.add(skullLockGroup);
-  compareGroup.add(mkPlaque('SOLID SKULL', 1.12));
+  compareGroup.add(mkPlaque('SOLID SKULL', 0.76, -1.35));
 
   root.add(compareGroup);
 
@@ -845,12 +846,12 @@ export function buildOsmosisMembraneWorld() {
 
       if (shotId === 'S16') {
         const k = easeInOutCubic(clamp(localSec / 2.8));
-        const lh = lerp(1.65, 0.78, k);
-        const rh = lerp(1.15, 2.25, k);
+        const lh = lerp(1.55, 0.72, k);
+        const rh = lerp(1.05, 2.10, k);
         leftWater.scale.y = lh;
-        leftWater.position.set(-1.05, -1.68 + lh * 0.5, 0);
+        leftWater.position.set(-armX, -1.62 + lh * 0.5, 0);
         rightWater.scale.y = rh;
-        rightWater.position.set(1.05, -1.68 + rh * 0.5, 0);
+        rightWater.position.set(armX, -1.62 + rh * 0.5, 0);
       } else if (shotId === 'S17') {
         for (const item of h2oList) {
           const u = (item.off + localSec * 0.42) % 1.0;
@@ -1020,84 +1021,105 @@ export function buildSkullBrainWorld() {
   ];
 
   const cerebrumMesh = buildMappedRelief({
-    key: 'folded_cerebrum_gyri_v15',
+    key: 'folded_cerebrum_gyri_v15_curved',
     width: 3.92,
     height: 4.40,
     depth: 0.22,
     bevel: 0.05,
     outlinePts: cerebrumOutline,
     sideColor: 0x8F3D42,
-    roughness: 0.36,
-    bumpStrength: 3.1,
-    rimHex: 0xFFD0C8,
-    rimStrength: 0.36,
+    roughness: 0.38,
+    bumpStrength: 2.8,
+    rimHex: 0xFFD4CC,
+    rimStrength: 0.34,
     paintFn: (ctx, hCtx, S) => {
-      // Coral-pink cortical base gradient
-      const bg = ctx.createRadialGradient(S * 0.50, S * 0.33, 30, S * 0.52, S * 0.35, S * 0.34);
-      bg.addColorStop(0, '#F09D95');
-      bg.addColorStop(0.65, '#D9746E');
-      bg.addColorStop(1, '#A64644');
+      const bg = ctx.createRadialGradient(S * 0.48, S * 0.32, 30, S * 0.52, S * 0.35, S * 0.35);
+      bg.addColorStop(0, '#F4ABA2');
+      bg.addColorStop(0.65, '#DF7F78');
+      bg.addColorStop(1, '#AC4E4B');
       ctx.fillStyle = bg;
       ctx.fillRect(0, 0, S, S);
 
-      hCtx.fillStyle = '#CECECE';
+      hCtx.fillStyle = '#D2D2D2';
       hCtx.fillRect(0, 0, S, S);
 
-      // Winding Cerebral Sulci & Gyri (Rich medical illustration folds + Sobel groove depth!)
+      // Soft airbrushed rounded gyrus pads
+      const gyriPads = [
+        [0.34, 0.27, 0.07, 0.04], [0.43, 0.22, 0.08, 0.04], [0.55, 0.21, 0.08, 0.04],
+        [0.66, 0.25, 0.07, 0.04], [0.72, 0.35, 0.06, 0.05], [0.33, 0.38, 0.07, 0.04],
+        [0.45, 0.45, 0.09, 0.04], [0.63, 0.44, 0.08, 0.04]
+      ];
+      for (const [gx, gy, rx, ry] of gyriPads) {
+        const gg = ctx.createRadialGradient(gx * S, gy * S - 6, 4, gx * S, gy * S, rx * S);
+        gg.addColorStop(0, 'rgba(255, 226, 218, 0.58)');
+        gg.addColorStop(1, 'rgba(255, 226, 218, 0.0)');
+        ctx.fillStyle = gg;
+        ctx.beginPath(); ctx.ellipse(gx * S, gy * S, rx * S, ry * S, 0, 0, Math.PI * 2); ctx.fill();
+      }
+
+      const smoothCurve = (targetCtx, pts) => {
+        targetCtx.beginPath();
+        targetCtx.moveTo(pts[0][0] * S, pts[0][1] * S);
+        for (let i = 1; i < pts.length - 1; i++) {
+          const mx = (pts[i][0] + pts[i + 1][0]) * 0.5 * S;
+          const my = (pts[i][1] + pts[i + 1][1]) * 0.5 * S;
+          targetCtx.quadraticCurveTo(pts[i][0] * S, pts[i][1] * S, mx, my);
+        }
+        const last = pts[pts.length - 1];
+        targetCtx.lineTo(last[0] * S, last[1] * S);
+      };
+
       const sulci = [
-        [[0.30, 0.32], [0.37, 0.28], [0.43, 0.34], [0.48, 0.27]],
-        [[0.34, 0.22], [0.41, 0.26], [0.47, 0.20], [0.54, 0.25]],
-        [[0.51, 0.17], [0.53, 0.26], [0.50, 0.33], [0.55, 0.38]], // Central sulcus
-        [[0.57, 0.20], [0.63, 0.27], [0.60, 0.34], [0.68, 0.32]],
-        [[0.66, 0.23], [0.72, 0.29], [0.69, 0.38], [0.76, 0.41]],
-        [[0.28, 0.39], [0.36, 0.38], [0.44, 0.42], [0.53, 0.39]], // Sylvian / lateral fissure
-        [[0.33, 0.46], [0.41, 0.45], [0.48, 0.48], [0.58, 0.45]],
-        [[0.59, 0.42], [0.66, 0.44], [0.72, 0.42], [0.76, 0.46]],
-        [[0.39, 0.24], [0.36, 0.33], [0.42, 0.39]],
-        [[0.61, 0.25], [0.57, 0.31], [0.64, 0.39]]
+        [[0.27, 0.39], [0.35, 0.36], [0.43, 0.41], [0.51, 0.37], [0.58, 0.39]],
+        [[0.51, 0.17], [0.49, 0.24], [0.53, 0.30], [0.50, 0.36]],
+        [[0.30, 0.31], [0.35, 0.26], [0.41, 0.31], [0.46, 0.25]],
+        [[0.35, 0.21], [0.41, 0.24], [0.46, 0.19], [0.50, 0.23]],
+        [[0.57, 0.19], [0.60, 0.25], [0.56, 0.31], [0.63, 0.33]],
+        [[0.65, 0.22], [0.69, 0.28], [0.66, 0.35], [0.74, 0.37]],
+        [[0.71, 0.29], [0.75, 0.34], [0.72, 0.42], [0.77, 0.45]],
+        [[0.32, 0.45], [0.39, 0.43], [0.46, 0.47], [0.54, 0.44]],
+        [[0.57, 0.44], [0.63, 0.42], [0.69, 0.46], [0.75, 0.43]],
+        [[0.38, 0.27], [0.37, 0.33], [0.43, 0.36]],
+        [[0.62, 0.27], [0.61, 0.34], [0.67, 0.39]]
       ];
 
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      hCtx.lineCap = 'round';
+      hCtx.lineJoin = 'round';
+
       for (const path of sulci) {
-        // Soft gyrus highlight alongside sulcus
-        ctx.lineCap = 'round';
-        ctx.lineJoin = 'round';
-        ctx.strokeStyle = 'rgba(255, 218, 210, 0.55)';
-        ctx.lineWidth = 22;
-        ctx.beginPath();
-        path.forEach(([u, v], idx) => idx === 0 ? ctx.moveTo(u * S, v * S - 5) : ctx.lineTo(u * S, v * S - 5));
+        ctx.strokeStyle = 'rgba(128, 42, 48, 0.38)';
+        ctx.lineWidth = 16;
+        smoothCurve(ctx, path);
         ctx.stroke();
 
-        // Deep sulcal shadow crease
-        ctx.strokeStyle = '#5D1B22';
-        ctx.lineWidth = 9;
-        ctx.beginPath();
-        path.forEach(([u, v], idx) => idx === 0 ? ctx.moveTo(u * S, v * S) : ctx.lineTo(u * S, v * S));
+        ctx.strokeStyle = '#6A2026';
+        ctx.lineWidth = 6.5;
+        smoothCurve(ctx, path);
         ctx.stroke();
 
-        // Pial red blood vessel inside sulcus
-        ctx.strokeStyle = '#C91D26';
-        ctx.lineWidth = 3.2;
+        ctx.strokeStyle = 'rgba(205, 34, 42, 0.72)';
+        ctx.lineWidth = 2.2;
         ctx.stroke();
 
-        // Deep groove in Sobel heightmap!
-        hCtx.strokeStyle = '#383838';
-        hCtx.lineWidth = 16;
-        hCtx.beginPath();
-        path.forEach(([u, v], idx) => idx === 0 ? hCtx.moveTo(u * S, v * S) : hCtx.lineTo(u * S, v * S));
+        hCtx.strokeStyle = '#484848';
+        hCtx.lineWidth = 14;
+        smoothCurve(hCtx, path);
         hCtx.stroke();
       }
 
-      // Arched White-Matter Corpus Callosum & Thalamus at Sagittal Center!
-      ctx.strokeStyle = '#F6EBDD';
-      ctx.lineWidth = 30;
+      // Arched White-Matter Corpus Callosum & Thalamus at Sagittal Center
+      ctx.strokeStyle = '#F7EDE0';
+      ctx.lineWidth = 28;
       ctx.beginPath();
       ctx.moveTo(S * 0.39, S * 0.43);
-      ctx.bezierCurveTo(S * 0.40, S * 0.33, S * 0.61, S * 0.33, S * 0.63, S * 0.43);
+      ctx.bezierCurveTo(S * 0.40, S * 0.325, S * 0.61, S * 0.325, S * 0.63, S * 0.43);
       ctx.stroke();
 
-      ctx.fillStyle = '#D99B88';
+      ctx.fillStyle = '#DCA08D';
       ctx.beginPath();
-      ctx.ellipse(S * 0.52, S * 0.43, S * 0.075, S * 0.045, 0, 0, Math.PI * 2);
+      ctx.ellipse(S * 0.52, S * 0.43, S * 0.072, S * 0.044, 0, 0, Math.PI * 2);
       ctx.fill();
     }
   });
@@ -1178,17 +1200,17 @@ export function buildSkullBrainWorld() {
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     ctx.fillText('7 MM BONE', w / 2, h / 2 + 2);
   });
-  const calTag = new THREE.Mesh(new THREE.BoxGeometry(1.05, 0.34, 0.08), new THREE.MeshStandardMaterial({ map: calPlate.tex }));
-  calTag.position.set(1.42, 1.38, 0.25);
-  const calPin = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.62, 12), brass);
-  calPin.rotation.z = Math.PI * 0.32;
-  calPin.position.set(0.95, 1.18, 0.22);
+  const calTag = new THREE.Mesh(new THREE.BoxGeometry(0.96, 0.32, 0.08), new THREE.MeshStandardMaterial({ map: calPlate.tex }));
+  calTag.position.set(1.12, 1.48, 0.25);
+  const calPin = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.48, 12), brass);
+  calPin.rotation.z = Math.PI * 0.28;
+  calPin.position.set(0.78, 1.24, 0.22);
   caliperGroup.add(calTag, calPin);
   root.add(caliperGroup);
 
   // S21 Intracranial Pressure (ICP mmHg) Brass Manometer
-  const icpGauge = buildBrassDialGauge({ radius: 0.56, title: 'SKULL ICP', subLeft: '45!', subRight: '10' });
-  icpGauge.group.position.set(1.38, 1.05, 0.28);
+  const icpGauge = buildBrassDialGauge({ radius: 0.48, title: 'SKULL ICP', subLeft: '45!', subRight: '10' });
+  icpGauge.group.position.set(1.06, 1.05, 0.28);
   root.add(icpGauge.group);
 
   // S22 Red Foramen Magnum Pinch Indicators at Skull Base

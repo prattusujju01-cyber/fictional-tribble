@@ -68,7 +68,9 @@ async function runWorker(workerIdx) {
   const page = await browser.newPage({ viewport: { width: 1080, height: 1920 }, deviceScaleFactor: 1 });
   page.on('pageerror', err => console.error(`[W${workerIdx}] PAGE_ERROR:`, err));
   await page.goto(`http://127.0.0.1:${port}/?t=0`, { waitUntil: 'networkidle', timeout: 120000 });
-  await page.waitForFunction(() => window.__READY__ === true, null, { timeout: 120000 });
+  await page.waitForFunction(() => window.__READY__ === true || Boolean(window.__INIT_ERROR__), null, { timeout: 120000 });
+  const initErr = await page.evaluate(() => window.__INIT_ERROR__ || null);
+  if (initErr) throw new Error(`[W${workerIdx}] Browser init failed: ${initErr}`);
 
   while (true) {
     const startIdx = cursor;

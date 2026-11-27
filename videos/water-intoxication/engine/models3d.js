@@ -101,17 +101,17 @@ export function buildRadioStudioWorld() {
   backWall.receiveShadow = true;
   root.add(backWall);
 
-  // Studio Window Frame on Back Wall
+  // Studio Window Frame on Back Wall (glass cleanly in front of walnut frame!)
   const winGlass = new THREE.Mesh(
-    new THREE.PlaneGeometry(4.4, 2.3),
-    new THREE.MeshStandardMaterial({ color: 0x132230, roughness: 0.18, metalness: 0.55 })
+    new THREE.PlaneGeometry(3.8, 1.65),
+    new THREE.MeshStandardMaterial({ color: 0x102130, roughness: 0.16, metalness: 0.58 })
   );
-  winGlass.position.set(-0.3, 1.35, -2.42);
-  const winFrame = new THREE.Mesh(new THREE.BoxGeometry(4.65, 2.55, 0.14), walnut);
-  winFrame.position.set(-0.3, 1.35, -2.46);
+  winGlass.position.set(-0.25, 0.32, -2.36);
+  const winFrame = new THREE.Mesh(new THREE.BoxGeometry(4.05, 1.90, 0.12), walnut);
+  winFrame.position.set(-0.25, 0.32, -2.44);
   root.add(winFrame, winGlass);
 
-  // Glowing "ON AIR — 107.9 FM" Lightbox above Window
+  // Glowing "ON AIR — 107.9 FM" Lightbox mounted cleanly below top caption zone!
   const onAirTexObj = makeLabelTex(512, 144, (ctx, w, h) => {
     ctx.fillStyle = '#B81418';
     ctx.fillRect(0, 0, w, h);
@@ -131,13 +131,13 @@ export function buildRadioStudioWorld() {
     emissiveIntensity: 0.95,
     roughness: 0.25
   });
-  const onAirBox = new THREE.Mesh(new THREE.BoxGeometry(2.15, 0.58, 0.22), onAirMat);
-  onAirBox.position.set(-0.35, 2.95, -2.35);
+  const onAirBox = new THREE.Mesh(new THREE.BoxGeometry(1.95, 0.52, 0.22), onAirMat);
+  onAirBox.position.set(-0.35, 1.68, -2.34);
   root.add(onAirBox);
 
   // Studio Wall Clock on Right (sweeps 3 hours during S03!)
   const clockGroup = new THREE.Group();
-  clockGroup.position.set(1.85, 2.35, -2.38);
+  clockGroup.position.set(1.35, 1.66, -2.36);
   const clockRim = new THREE.Mesh(new THREE.CylinderGeometry(0.52, 0.52, 0.10, 36), brass);
   clockRim.rotation.x = Math.PI / 2;
   const clockFaceTex = makeLabelTex(256, 256, (ctx, w, h) => {
@@ -337,16 +337,16 @@ export function buildBedroomNightWorld() {
   floor.receiveShadow = true;
   root.add(floor);
 
-  // Recessed Window with Moonlight Slatted Blinds
+  // Recessed Window with Moonlight Slatted Blinds (positioned below top caption zone!)
   const winGlow = new THREE.Mesh(
-    new THREE.PlaneGeometry(2.1, 2.5),
+    new THREE.PlaneGeometry(1.85, 1.95),
     new THREE.MeshBasicMaterial({ color: 0x5E82C4 })
   );
-  winGlow.position.set(0.95, 1.45, -2.12);
+  winGlow.position.set(0.85, 0.72, -2.12);
   root.add(winGlow);
-  for (let i = 0; i < 11; i++) {
-    const slat = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.08, 0.08), walnut);
-    slat.position.set(0.95, 0.35 + i * 0.22, -2.06);
+  for (let i = 0; i < 9; i++) {
+    const slat = new THREE.Mesh(new THREE.BoxGeometry(1.95, 0.07, 0.08), walnut);
+    slat.position.set(0.85, -0.12 + i * 0.21, -2.06);
     root.add(slat);
   }
 
@@ -483,21 +483,21 @@ export function buildEvidenceBoardWorld() {
     return g;
   };
 
-  const waterBaby = mkBabyBottle(-1.05, 0x5AD2FF, 0.78, 'PLAIN WATER: NO!', 0xD62824);
+  const waterBaby = mkBabyBottle(-0.78, 0x5AD2FF, 0.78, 'PLAIN WATER: NO!', 0xD62824);
   // Bold 3D Red Prohibition Ring + Slash over Plain Water Infant Bottle
   const noRing = new THREE.Mesh(
-    new THREE.TorusGeometry(0.68, 0.085, 18, 44),
+    new THREE.TorusGeometry(0.60, 0.078, 18, 44),
     new THREE.MeshStandardMaterial({ color: 0xDC221E, roughness: 0.3 })
   );
-  noRing.position.set(-1.05, -0.52, 0.62);
+  noRing.position.set(-0.78, -0.52, 0.62);
   const noSlash = new THREE.Mesh(
-    new THREE.BoxGeometry(1.32, 0.14, 0.08),
+    new THREE.BoxGeometry(1.18, 0.13, 0.08),
     new THREE.MeshStandardMaterial({ color: 0xDC221E, roughness: 0.3 })
   );
   noSlash.rotation.z = -Math.PI / 4;
-  noSlash.position.set(-1.05, -0.52, 0.64);
+  noSlash.position.set(-0.78, -0.52, 0.64);
 
-  const milkBaby = mkBabyBottle(1.05, 0xFAF1DC, 0.98, 'MILK ONLY: SAFE', 0x228B4E);
+  const milkBaby = mkBabyBottle(0.78, 0xFAF1DC, 0.98, 'MILK ONLY: SAFE', 0x228B4E);
   infantGroup.add(waterBaby, noRing, noSlash, milkBaby);
   root.add(infantGroup);
 
@@ -532,82 +532,82 @@ export function buildSwitchboardIcuWorld() {
   boardGroup.add(steelWall);
 
   const channels = [
-    { x: -1.32, name: 'BREATHING', delay: 0.45 },
-    { x: 0.0,   name: 'HEARTBEAT', delay: 0.85 },
-    { x: 1.32,  name: 'WAKE',      delay: 1.25 }
+    { x: -0.92, name: 'BREATHING', delay: 0.45 },
+    { x: 0.0,   name: 'HEARTBEAT', delay: 0.95 },
+    { x: 0.92,  name: 'WAKE',      delay: 1.40 }
   ];
   const switches = [];
 
   for (const ch of channels) {
     const unit = new THREE.Group();
-    unit.position.set(ch.x, 0.15, 0);
+    unit.position.set(ch.x, 0.05, 0);
 
     // Recessed glass relay window with copper coils inside (strip_08.jpg f2250!)
-    const boxFrame = new THREE.Mesh(new THREE.BoxGeometry(1.08, 1.35, 0.24), darkBrass);
-    boxFrame.position.y = 0.55;
+    const boxFrame = new THREE.Mesh(new THREE.BoxGeometry(0.82, 1.15, 0.24), darkBrass);
+    boxFrame.position.y = 0.42;
     boxFrame.castShadow = true;
     const recess = new THREE.Mesh(
-      new THREE.PlaneGeometry(0.88, 1.14),
+      new THREE.PlaneGeometry(0.66, 0.96),
       new THREE.MeshStandardMaterial({ color: 0x0C1E17, roughness: 0.7 })
     );
-    recess.position.set(0, 0.55, 0.13);
+    recess.position.set(0, 0.42, 0.13);
     const coil = new THREE.Mesh(
-      new THREE.TorusGeometry(0.24, 0.065, 14, 32),
+      new THREE.TorusGeometry(0.19, 0.055, 14, 32),
       new THREE.MeshStandardMaterial({ color: 0xC86D32, roughness: 0.28, metalness: 0.85 })
     );
-    coil.position.set(0, 0.62, 0.15);
-    const glassPane = new THREE.Mesh(new THREE.PlaneGeometry(0.90, 1.16), getClearGlassMat(0.24));
-    glassPane.position.set(0, 0.55, 0.18);
+    coil.position.set(0, 0.48, 0.15);
+    const glassPane = new THREE.Mesh(new THREE.PlaneGeometry(0.68, 0.98), getClearGlassMat(0.24));
+    glassPane.position.set(0, 0.42, 0.18);
     unit.add(boxFrame, recess, coil, glassPane);
 
-    // Bolted White/Brass Nameplate ("BREATHING" | "HEARTBEAT" | "WAKE")
+    // Bolted White/Brass Nameplate mounted ABOVE relay window so levers NEVER obscure text!
     const plateTex = makeLabelTex(280, 88, (ctx, w, h) => {
       ctx.fillStyle = '#F5EFE0'; ctx.fillRect(0, 0, w, h);
       ctx.strokeStyle = '#1B1815'; ctx.lineWidth = 8; ctx.strokeRect(6, 6, w - 12, h - 12);
-      ctx.fillStyle = '#141210'; ctx.font = '700 42px "OswaldBold"';
+      ctx.fillStyle = '#141210'; ctx.font = '700 40px "OswaldBold"';
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       ctx.fillText(ch.name, w / 2, h / 2 + 2);
     });
-    const nameplate = new THREE.Mesh(new THREE.BoxGeometry(1.06, 0.34, 0.10), new THREE.MeshStandardMaterial({ map: plateTex.tex }));
-    nameplate.position.set(0, -0.36, 0.12);
+    const nameplate = new THREE.Mesh(new THREE.BoxGeometry(0.84, 0.28, 0.10), new THREE.MeshStandardMaterial({ map: plateTex.tex }));
+    nameplate.position.set(0, 1.22, 0.14);
     unit.add(nameplate);
 
-    // Heavy Copper Knife-Switch Lever Pivot (rotates around X from UP = ON to DOWN = OFF!)
+    // Heavy Copper Knife-Switch Lever Pivot below window (flips from UP = ON to DOWN = OFF!)
     const leverPivot = new THREE.Group();
-    leverPivot.position.set(0, 0.18, 0.24);
+    leverPivot.position.set(0, -0.22, 0.24);
     const blade = new THREE.Mesh(
-      new THREE.BoxGeometry(0.14, 0.92, 0.05),
+      new THREE.BoxGeometry(0.11, 0.68, 0.05),
       new THREE.MeshStandardMaterial({ color: 0xD9823B, roughness: 0.25, metalness: 0.88 })
     );
-    blade.position.y = 0.42;
+    blade.position.y = 0.30;
     const handle = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.11, 0.11, 0.38, 20),
-      new THREE.MeshStandardMaterial({ color: 0x191919, roughness: 0.45 })
+      new THREE.CylinderGeometry(0.09, 0.09, 0.32, 20),
+      new THREE.MeshStandardMaterial({ color: 0xD32F2F, roughness: 0.38 })
     );
     handle.rotation.z = Math.PI / 2;
-    handle.position.set(0, 0.88, 0.08);
+    handle.position.set(0, 0.66, 0.06);
     leverPivot.add(blade, handle);
     unit.add(leverPivot);
 
     // Spark flash sphere
     const spark = new THREE.Mesh(
-      new THREE.SphereGeometry(0.18, 16, 16),
+      new THREE.SphereGeometry(0.16, 16, 16),
       new THREE.MeshBasicMaterial({ color: 0xFFB838, transparent: true, opacity: 0 })
     );
-    spark.position.set(0, 0.22, 0.32);
+    spark.position.set(0, -0.18, 0.32);
     unit.add(spark);
 
     // 5 Thick Colored Insulated Cables Hanging Downward (strip_08.jpg f2250!)
     const cableColors = [0xD92B2B, 0x246BCE, 0xE89B25, 0x209C7A, 0xC8382E];
     for (let c = 0; c < 5; c++) {
-      const cx = (c - 2) * 0.19;
+      const cx = (c - 2) * 0.145;
       const curve = new THREE.CatmullRomCurve3([
-        new THREE.Vector3(cx, -0.56, 0.05),
-        new THREE.Vector3(cx * 1.08, -1.65, 0.12 + (c % 2) * 0.06),
+        new THREE.Vector3(cx, -0.32, 0.05),
+        new THREE.Vector3(cx * 1.08, -1.55, 0.12 + (c % 2) * 0.06),
         new THREE.Vector3(cx * 0.96, -3.20, 0.08)
       ]);
       const cable = new THREE.Mesh(
-        new THREE.TubeGeometry(curve, 24, 0.055, 12, false),
+        new THREE.TubeGeometry(curve, 24, 0.046, 12, false),
         new THREE.MeshStandardMaterial({ color: cableColors[c], roughness: 0.42 })
       );
       cable.castShadow = true;
@@ -949,13 +949,13 @@ export function buildHydrationRulesWorld() {
 
   // --- S29: Crystal Tumbler + Dropping Effervescent ORS Tablet + Fizz Bubbles ---
   const rule2Group = new THREE.Group();
-  const tumbler = new THREE.Mesh(new THREE.CylinderGeometry(0.62, 0.50, 1.75, 32, 1, true), glass);
-  tumbler.position.set(-0.25, -0.78, 0.15);
-  const tumblerWater = new THREE.Mesh(new THREE.CylinderGeometry(0.56, 0.47, 1.38, 28), getWaterLiquidMat(0x5BD4FF, 0.76));
-  tumblerWater.position.set(-0.25, -0.92, 0.15);
+  const tumbler = new THREE.Mesh(new THREE.CylinderGeometry(0.56, 0.46, 1.65, 32, 1, true), glass);
+  tumbler.position.set(-0.52, -0.82, 0.15);
+  const tumblerWater = new THREE.Mesh(new THREE.CylinderGeometry(0.51, 0.43, 1.30, 28), getWaterLiquidMat(0x5BD4FF, 0.76));
+  tumblerWater.position.set(-0.52, -0.96, 0.15);
 
   const orsTab = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.24, 0.24, 0.11, 28),
+    new THREE.CylinderGeometry(0.22, 0.22, 0.11, 28),
     new THREE.MeshStandardMaterial({ color: 0xFFA726, emissive: 0xAA5500, emissiveIntensity: 0.35, roughness: 0.4 })
   );
   orsTab.rotation.x = 0.5;
@@ -966,7 +966,7 @@ export function buildHydrationRulesWorld() {
   for (let i = 0; i < 26; i++) {
     const b = new THREE.Mesh(fizzGeo, fizzMat);
     rule2Group.add(b);
-    fizzBubbles.push({ mesh: b, off: i / 26, ang: i * 1.7, r: 0.08 + (i % 5) * 0.07 });
+    fizzBubbles.push({ mesh: b, off: i / 26, ang: i * 1.7, r: 0.08 + (i % 5) * 0.06 });
   }
 
   // Printed ORS Electrolyte Packet beside glass
@@ -982,12 +982,12 @@ export function buildHydrationRulesWorld() {
     ctx.fillText('ELECTROLYTES', w / 2, 292);
   });
   const orsPacket = new THREE.Mesh(
-    new THREE.BoxGeometry(0.88, 1.18, 0.12),
+    new THREE.BoxGeometry(0.84, 1.14, 0.12),
     new THREE.MeshStandardMaterial({ map: pktTex.tex, roughness: 0.35 })
   );
-  orsPacket.position.set(1.02, -1.05, 0.25);
-  orsPacket.rotation.y = -0.28;
-  orsPacket.rotation.z = -0.08;
+  orsPacket.position.set(0.56, -1.06, 0.25);
+  orsPacket.rotation.y = -0.22;
+  orsPacket.rotation.z = -0.06;
   rule2Group.add(tumbler, tumblerWater, orsTab, orsPacket);
   root.add(rule2Group);
 
@@ -1040,8 +1040,8 @@ export function buildHydrationRulesWorld() {
   scaleGroup.add(scaleBase, pillar);
 
   const beamPivot = new THREE.Group();
-  beamPivot.position.set(0, 0.82, 0.1);
-  const beamBar = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 2.75, 20), brass);
+  beamPivot.position.set(0, 0.72, 0.1);
+  const beamBar = new THREE.Mesh(new THREE.CylinderGeometry(0.042, 0.042, 1.92, 20), brass);
   beamBar.rotation.z = Math.PI / 2;
   beamPivot.add(beamBar);
 
@@ -1072,8 +1072,8 @@ export function buildHydrationRulesWorld() {
     }
     return pg;
   };
-  const leftPan = makePan(-1.26, true);
-  const rightPan = makePan(1.26, false);
+  const leftPan = makePan(-0.88, true);
+  const rightPan = makePan(0.88, false);
   beamPivot.add(leftPan, rightPan);
   scaleGroup.add(beamPivot);
   root.add(scaleGroup);
@@ -1096,7 +1096,7 @@ export function buildHydrationRulesWorld() {
         watch.needlePivot.rotation.z = -localSec * 1.1;
       } else if (shotId === 'S29') {
         const drop = clamp(localSec / 0.65);
-        orsTab.position.set(-0.25, lerp(0.55, -1.42, easeOutCubic(drop)), 0.15);
+        orsTab.position.set(-0.52, lerp(0.55, -1.42, easeOutCubic(drop)), 0.15);
         const s = clamp(1.0 - Math.max(0, localSec - 0.65) * 0.22, 0.35, 1.0);
         orsTab.scale.setScalar(s);
         tumblerWater.material.color.setHex(localSec > 0.7 ? 0x62DEEE : 0x5BD4FF);
@@ -1105,7 +1105,7 @@ export function buildHydrationRulesWorld() {
           fb.mesh.visible = localSec > 0.55;
           const u = ((localSec - 0.55) * 0.85 + fb.off) % 1.0;
           fb.mesh.position.set(
-            -0.25 + Math.cos(fb.ang + u * 5) * fb.r,
+            -0.52 + Math.cos(fb.ang + u * 5) * fb.r,
             lerp(-1.45, -0.28, u),
             0.15 + Math.sin(fb.ang + u * 5) * fb.r
           );
