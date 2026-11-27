@@ -337,7 +337,7 @@ function stageShot3D(pool, id, { t, p }) {
         ],
         hudDraw: (ctx) => {
           drawSplitFlapBoard(ctx, 540, 1570, ['0','.','2',' ','L','/','H'], ['0','.','8',' ','L','/','H'], clamp(p * 2.2), 'MAXIMUM SAFE EXCRETION RATE', 80, 108, 9, p * 4);
-          drawHandCircle(ctx, 540, 1575, 365, 86, (p - 0.45) * 2.4, '#4AE3B5');
+          drawHandCircle(ctx, 540, 1585, 425, 112, (p - 0.45) * 2.4, '#4AE3B5');
         }
       };
     }
@@ -447,8 +447,6 @@ function stageShot3D(pool, id, { t, p }) {
 
     // S15: Below 135 mmol/L Danger Starts — Live Ink-Drawn Clinical Sodium Crash Chart + Red Circle!
     case 15: {
-      pool.waterSodium.visible = true;
-      pool.waterSodium.rotation.y = t * 0.35;
       return {
         shadowFloor: false,
         cam: [
@@ -457,7 +455,7 @@ function stageShot3D(pool, id, { t, p }) {
         ],
         hudDraw: (ctx) => {
           drawLiveChartCard(
-            ctx, 540, 1080, 840, 480,
+            ctx, 540, 1020, 840, 480,
             'SERUM SODIUM (mmol/L) OVER 3 HOURS',
             '140', '115',
             [[0.0, 0.88], [0.22, 0.82], [0.45, 0.62], [0.68, 0.38], [0.85, 0.20], [1.0, 0.12]],
@@ -465,9 +463,9 @@ function stageShot3D(pool, id, { t, p }) {
             p * 4
           );
           if (p > 0.58) {
-            drawHandCircle(ctx, 845, 1218, 72, 48, (p - 0.58) * 3.0, '#D92418');
+            drawHandCircle(ctx, 845, 1158, 72, 48, (p - 0.58) * 3.0, '#D92418');
           }
-          drawSplitFlapBoard(ctx, 540, 1580, ['1','4','0',' ','N','a'], ['1','1','8',' ','N','a'], clamp(p * 2.0), 'CRITICAL HYPONATREMIA (< 120)', 84, 108, 10, p * 4);
+          drawSplitFlapBoard(ctx, 540, 1560, ['1','4','0'], ['1','1','8'], clamp(p * 2.0), 'SERUM SODIUM (mmol/L) — CRITICAL!', 104, 118, 14, p * 4);
         }
       };
     }
@@ -580,7 +578,7 @@ function stageShot3D(pool, id, { t, p }) {
           { p: 1.0, pos: [0.5, 0.15, 4.3],  look: [0, -0.05, 0], fov: 35, roll: 0.01 }
         ],
         hudDraw: (ctx) => {
-          drawDimensionCaliper(ctx, 260, 1510, 820, 1510, '7 MM SOLID CORTICAL BONE · ZERO GIVE', true, (p - 0.18) * 3);
+          drawDimensionCaliper(ctx, 260, 1615, 820, 1615, '7 MM SOLID CORTICAL BONE · ZERO GIVE', true, (p - 0.18) * 3);
         }
       };
     }

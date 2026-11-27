@@ -489,25 +489,25 @@ export function buildNeuronSpark3D() {
   const mats = getMaterials3D();
   const root = new THREE.Group();
 
-  const soma = new THREE.Mesh(sculptOrganicGeo(new THREE.IcosahedronGeometry(0.62, 3), 0.14, 3.8, 72), mats.brainTissue);
-  soma.position.set(-1.05, 0.08, 0);
+  const soma = new THREE.Mesh(sculptOrganicGeo(new THREE.IcosahedronGeometry(0.56, 3), 0.14, 3.8, 72), mats.brainTissue);
+  soma.position.set(-0.78, 0.08, 0);
   root.add(soma);
 
   // Dendrite branches
   for (let i = 0; i < 6; i++) {
     const a = (i / 6) * Math.PI * 2;
     const dCurve = new THREE.CatmullRomCurve3([
-      new THREE.Vector3(-1.05, 0.08, 0),
-      new THREE.Vector3(-1.45 + Math.cos(a) * 0.35, 0.08 + Math.sin(a) * 0.55, Math.sin(a * 2) * 0.25)
+      new THREE.Vector3(-0.78, 0.08, 0),
+      new THREE.Vector3(-1.12 + Math.cos(a) * 0.30, 0.08 + Math.sin(a) * 0.48, Math.sin(a * 2) * 0.22)
     ]);
-    root.add(new THREE.Mesh(new THREE.TubeGeometry(dCurve, 10, 0.055, 8, false), mats.brainTissue));
+    root.add(new THREE.Mesh(new THREE.TubeGeometry(dCurve, 10, 0.05, 8, false), mats.brainTissue));
   }
 
   // Myelinated axon extending right
   const axCurve = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(-0.55, 0.08, 0),
-    new THREE.Vector3(0.45, -0.06, 0.08),
-    new THREE.Vector3(1.48, 0.04, 0)
+    new THREE.Vector3(-0.32, 0.08, 0),
+    new THREE.Vector3(0.48, -0.05, 0.08),
+    new THREE.Vector3(1.26, 0.04, 0)
   ]);
   root.add(new THREE.Mesh(new THREE.TubeGeometry(axCurve, 24, 0.11, 14, false), mats.skullBone));
 
@@ -767,23 +767,27 @@ export function buildVitalSwitchboard3D() {
   const mats = getMaterials3D();
   const root = new THREE.Group();
 
-  const panel = new THREE.Mesh(new THREE.BoxGeometry(2.68, 2.24, 0.24), mats.castIron);
+  const panel = new THREE.Mesh(new THREE.BoxGeometry(2.68, 2.24, 0.24), mats.museumStand);
   root.add(panel);
-  const brassBorder = new THREE.Mesh(new THREE.BoxGeometry(2.78, 2.34, 0.18), mats.brass);
+  const brassBorder = new THREE.Mesh(new THREE.BoxGeometry(2.80, 2.36, 0.18), mats.brass);
   brassBorder.position.z = -0.04;
   root.add(brassBorder);
 
   const switches = [];
   const bulbs = [];
   for (const s of [-0.66, 0.66]) {
-    const slot = new THREE.Mesh(new THREE.BoxGeometry(0.46, 1.12, 0.12), mats.museumStand);
-    slot.position.set(s, -0.14, 0.12);
+    const plate = new THREE.Mesh(new THREE.BoxGeometry(0.76, 0.22, 0.04), mats.brass);
+    plate.position.set(s, 0.96, 0.13);
+    root.add(plate);
+
+    const slot = new THREE.Mesh(new THREE.BoxGeometry(0.44, 1.04, 0.12), mats.steel);
+    slot.position.set(s, -0.18, 0.12);
     root.add(slot);
 
     // Indicator bulb above each lever (green -> dead dark red!)
     const bulbMat = new THREE.MeshBasicMaterial({ color: 0x34d399 });
-    const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.16, 18, 14), bulbMat);
-    bulb.position.set(s, 0.74, 0.18);
+    const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.15, 18, 14), bulbMat);
+    bulb.position.set(s, 0.58, 0.18);
     root.add(bulb);
     bulbs.push(bulbMat);
 
