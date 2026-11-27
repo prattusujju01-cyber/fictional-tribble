@@ -4,7 +4,7 @@
   "width": 1080,
   "height": 1920,
   "voice": "en-GB-RyanNeural",
-  "voiceRate": "+5%",
+  "voiceRate": "+11%",
   "chapters": [
     { "index": 0, "label": "THE HOOK" },
     { "index": 1, "label": "THE BASELINE" },

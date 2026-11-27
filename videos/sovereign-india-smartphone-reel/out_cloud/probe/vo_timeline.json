@@ -1,0 +1,1485 @@
+{
+  "fps": 30,
+  "totalFrames": 3192,
+  "totalDurationSec": 106.4,
+  "scenes": [
+    {
+      "id": "S01_HOOK_IMPORT",
+      "index": 0,
+      "startSec": 0.12,
+      "endSec": 4.2215,
+      "speechDurSec": 3.8815,
+      "words": [
+        {
+          "text": "Ten",
+          "startLocal": 0.04,
+          "endLocal": 0.29
+        },
+        {
+          "text": "years",
+          "startLocal": 0.302,
+          "endLocal": 0.528
+        },
+        {
+          "text": "ago",
+          "startLocal": 0.54,
+          "endLocal": 0.826
+        },
+        {
+          "text": "three",
+          "startLocal": 1.052,
+          "endLocal": 1.326
+        },
+        {
+          "text": "out",
+          "startLocal": 1.338,
+          "endLocal": 1.516
+        },
+        {
+          "text": "of",
+          "startLocal": 1.528,
+          "endLocal": 1.623
+        },
+        {
+          "text": "every",
+          "startLocal": 1.635,
+          "endLocal": 1.85
+        },
+        {
+          "text": "four",
+          "startLocal": 1.861,
+          "endLocal": 2.004
+        },
+        {
+          "text": "smartphones",
+          "startLocal": 2.016,
+          "endLocal": 2.659
+        },
+        {
+          "text": "in",
+          "startLocal": 2.671,
+          "endLocal": 2.766
+        },
+        {
+          "text": "India",
+          "startLocal": 2.778,
+          "endLocal": 3.099
+        },
+        {
+          "text": "were",
+          "startLocal": 3.111,
+          "endLocal": 3.29
+        },
+        {
+          "text": "imported",
+          "startLocal": 3.302,
+          "endLocal": 3.933
+        }
+      ]
+    },
+    {
+      "id": "S02_HOOK_LOCK",
+      "index": 1,
+      "startSec": 4.2215,
+      "endSec": 14.2766,
+      "speechDurSec": 9.7752,
+      "words": [
+        {
+          "text": "Today",
+          "startLocal": 0.04,
+          "endLocal": 0.492
+        },
+        {
+          "text": "ninety-nine",
+          "startLocal": 0.754,
+          "endLocal": 1.326
+        },
+        {
+          "text": "point",
+          "startLocal": 1.338,
+          "endLocal": 1.611
+        },
+        {
+          "text": "two",
+          "startLocal": 1.623,
+          "endLocal": 1.778
+        },
+        {
+          "text": "percent",
+          "startLocal": 1.79,
+          "endLocal": 2.147
+        },
+        {
+          "text": "of",
+          "startLocal": 2.159,
+          "endLocal": 2.242
+        },
+        {
+          "text": "phones",
+          "startLocal": 2.254,
+          "endLocal": 2.6
+        },
+        {
+          "text": "sold",
+          "startLocal": 2.611,
+          "endLocal": 2.838
+        },
+        {
+          "text": "in",
+          "startLocal": 2.85,
+          "endLocal": 2.957
+        },
+        {
+          "text": "India",
+          "startLocal": 2.969,
+          "endLocal": 3.35
+        },
+        {
+          "text": "are",
+          "startLocal": 3.361,
+          "endLocal": 3.421
+        },
+        {
+          "text": "made",
+          "startLocal": 3.433,
+          "endLocal": 3.719
+        },
+        {
+          "text": "right",
+          "startLocal": 3.73,
+          "endLocal": 3.98
+        },
+        {
+          "text": "here",
+          "startLocal": 3.992,
+          "endLocal": 4.385
+        },
+        {
+          "text": "How",
+          "startLocal": 5.204,
+          "endLocal": 5.644
+        },
+        {
+          "text": "Stay",
+          "startLocal": 6.466,
+          "endLocal": 6.847
+        },
+        {
+          "text": "with",
+          "startLocal": 6.859,
+          "endLocal": 7.014
+        },
+        {
+          "text": "me",
+          "startLocal": 7.026,
+          "endLocal": 7.18
+        },
+        {
+          "text": "because",
+          "startLocal": 7.335,
+          "endLocal": 7.561
+        },
+        {
+          "text": "one",
+          "startLocal": 7.573,
+          "endLocal": 7.859
+        },
+        {
+          "text": "number",
+          "startLocal": 7.871,
+          "endLocal": 8.133
+        },
+        {
+          "text": "in",
+          "startLocal": 8.145,
+          "endLocal": 8.252
+        },
+        {
+          "text": "this",
+          "startLocal": 8.264,
+          "endLocal": 8.442
+        },
+        {
+          "text": "video",
+          "startLocal": 8.454,
+          "endLocal": 8.788
+        },
+        {
+          "text": "explains",
+          "startLocal": 8.8,
+          "endLocal": 9.347
+        },
+        {
+          "text": "everything",
+          "startLocal": 9.359,
+          "endLocal": 9.835
+        }
+      ]
+    },
+    {
+      "id": "S03_BASELINE_2014",
+      "index": 2,
+      "startSec": 14.2766,
+      "endSec": 24.7616,
+      "speechDurSec": 10.245,
+      "words": [
+        {
+          "text": "Go",
+          "startLocal": 0.04,
+          "endLocal": 0.219
+        },
+        {
+          "text": "back",
+          "startLocal": 0.23,
+          "endLocal": 0.445
+        },
+        {
+          "text": "to",
+          "startLocal": 0.457,
+          "endLocal": 0.528
+        },
+        {
+          "text": "twenty",
+          "startLocal": 0.54,
+          "endLocal": 0.85
+        },
+        {
+          "text": "fourteen",
+          "startLocal": 0.861,
+          "endLocal": 1.528
+        },
+        {
+          "text": "India",
+          "startLocal": 2.347,
+          "endLocal": 2.788
+        },
+        {
+          "text": "exported",
+          "startLocal": 2.8,
+          "endLocal": 3.311
+        },
+        {
+          "text": "just",
+          "startLocal": 3.323,
+          "endLocal": 3.526
+        },
+        {
+          "text": "one",
+          "startLocal": 3.538,
+          "endLocal": 3.811
+        },
+        {
+          "text": "thousand",
+          "startLocal": 3.823,
+          "endLocal": 4.276
+        },
+        {
+          "text": "five",
+          "startLocal": 4.288,
+          "endLocal": 4.585
+        },
+        {
+          "text": "hundred",
+          "startLocal": 4.597,
+          "endLocal": 4.871
+        },
+        {
+          "text": "and",
+          "startLocal": 4.883,
+          "endLocal": 4.966
+        },
+        {
+          "text": "sixty-six",
+          "startLocal": 4.978,
+          "endLocal": 5.609
+        },
+        {
+          "text": "crore",
+          "startLocal": 5.621,
+          "endLocal": 5.895
+        },
+        {
+          "text": "rupees",
+          "startLocal": 5.907,
+          "endLocal": 6.371
+        },
+        {
+          "text": "of",
+          "startLocal": 6.383,
+          "endLocal": 6.466
+        },
+        {
+          "text": "mobile",
+          "startLocal": 6.478,
+          "endLocal": 6.942
+        },
+        {
+          "text": "phones",
+          "startLocal": 6.954,
+          "endLocal": 7.526
+        },
+        {
+          "text": "Barely",
+          "startLocal": 8.347,
+          "endLocal": 8.716
+        },
+        {
+          "text": "a",
+          "startLocal": 8.728,
+          "endLocal": 8.778
+        },
+        {
+          "text": "footnote",
+          "startLocal": 8.788,
+          "endLocal": 9.311
+        },
+        {
+          "text": "in",
+          "startLocal": 9.323,
+          "endLocal": 9.43
+        },
+        {
+          "text": "global",
+          "startLocal": 9.442,
+          "endLocal": 9.811
+        },
+        {
+          "text": "trade",
+          "startLocal": 9.823,
+          "endLocal": 10.3
+        }
+      ]
+    },
+    {
+      "id": "S04_EXPLOSION_165X",
+      "index": 3,
+      "startSec": 24.7616,
+      "endSec": 34.7189,
+      "speechDurSec": 9.6572,
+      "words": [
+        {
+          "text": "And",
+          "startLocal": 0.04,
+          "endLocal": 0.195
+        },
+        {
+          "text": "today",
+          "startLocal": 0.207,
+          "endLocal": 0.814
+        },
+        {
+          "text": "Two",
+          "startLocal": 1.633,
+          "endLocal": 1.907
+        },
+        {
+          "text": "lakh",
+          "startLocal": 1.919,
+          "endLocal": 2.192
+        },
+        {
+          "text": "sixty",
+          "startLocal": 2.204,
+          "endLocal": 2.55
+        },
+        {
+          "text": "thousand",
+          "startLocal": 2.561,
+          "endLocal": 3.038
+        },
+        {
+          "text": "crore",
+          "startLocal": 3.05,
+          "endLocal": 3.288
+        },
+        {
+          "text": "rupees",
+          "startLocal": 3.3,
+          "endLocal": 4.073
+        },
+        {
+          "text": "That",
+          "startLocal": 4.895,
+          "endLocal": 5.145
+        },
+        {
+          "text": "is",
+          "startLocal": 5.157,
+          "endLocal": 5.264
+        },
+        {
+          "text": "one",
+          "startLocal": 5.276,
+          "endLocal": 5.49
+        },
+        {
+          "text": "hundred",
+          "startLocal": 5.502,
+          "endLocal": 5.8
+        },
+        {
+          "text": "and",
+          "startLocal": 5.811,
+          "endLocal": 5.895
+        },
+        {
+          "text": "sixty-five",
+          "startLocal": 5.907,
+          "endLocal": 6.573
+        },
+        {
+          "text": "times",
+          "startLocal": 6.585,
+          "endLocal": 6.954
+        },
+        {
+          "text": "more",
+          "startLocal": 6.966,
+          "endLocal": 7.228
+        },
+        {
+          "text": "now",
+          "startLocal": 7.395,
+          "endLocal": 7.68
+        },
+        {
+          "text": "India's",
+          "startLocal": 7.692,
+          "endLocal": 8.157
+        },
+        {
+          "text": "number",
+          "startLocal": 8.169,
+          "endLocal": 8.466
+        },
+        {
+          "text": "one",
+          "startLocal": 8.478,
+          "endLocal": 8.788
+        },
+        {
+          "text": "tech",
+          "startLocal": 8.8,
+          "endLocal": 9.061
+        },
+        {
+          "text": "export",
+          "startLocal": 9.073,
+          "endLocal": 9.692
+        }
+      ]
+    },
+    {
+      "id": "S05_MECHANISM_PLI",
+      "index": 4,
+      "startSec": 34.7189,
+      "endSec": 44.7965,
+      "speechDurSec": 9.8377,
+      "words": [
+        {
+          "text": "So",
+          "startLocal": 0.04,
+          "endLocal": 0.266
+        },
+        {
+          "text": "how",
+          "startLocal": 0.278,
+          "endLocal": 0.457
+        },
+        {
+          "text": "did",
+          "startLocal": 0.469,
+          "endLocal": 0.623
+        },
+        {
+          "text": "that",
+          "startLocal": 0.635,
+          "endLocal": 0.742
+        },
+        {
+          "text": "happen",
+          "startLocal": 0.754,
+          "endLocal": 1.183
+        },
+        {
+          "text": "India",
+          "startLocal": 2.002,
+          "endLocal": 2.395
+        },
+        {
+          "text": "stopped",
+          "startLocal": 2.407,
+          "endLocal": 2.68
+        },
+        {
+          "text": "just",
+          "startLocal": 2.692,
+          "endLocal": 2.907
+        },
+        {
+          "text": "importing",
+          "startLocal": 2.919,
+          "endLocal": 3.407
+        },
+        {
+          "text": "boxes",
+          "startLocal": 3.419,
+          "endLocal": 3.859
+        },
+        {
+          "text": "and",
+          "startLocal": 3.871,
+          "endLocal": 3.978
+        },
+        {
+          "text": "switched",
+          "startLocal": 3.99,
+          "endLocal": 4.323
+        },
+        {
+          "text": "on",
+          "startLocal": 4.335,
+          "endLocal": 4.43
+        },
+        {
+          "text": "P",
+          "startLocal": 4.442,
+          "endLocal": 4.657
+        },
+        {
+          "text": "L",
+          "startLocal": 4.669,
+          "endLocal": 4.835
+        },
+        {
+          "text": "I",
+          "startLocal": 4.847,
+          "endLocal": 4.954
+        },
+        {
+          "text": "in",
+          "startLocal": 4.966,
+          "endLocal": 5.121
+        },
+        {
+          "text": "mission",
+          "startLocal": 5.133,
+          "endLocal": 5.419
+        },
+        {
+          "text": "mode",
+          "startLocal": 5.43,
+          "endLocal": 5.859
+        },
+        {
+          "text": "Mobile",
+          "startLocal": 6.68,
+          "endLocal": 7.228
+        },
+        {
+          "text": "factories",
+          "startLocal": 7.24,
+          "endLocal": 7.752
+        },
+        {
+          "text": "jumped",
+          "startLocal": 7.764,
+          "endLocal": 8.097
+        },
+        {
+          "text": "from",
+          "startLocal": 8.109,
+          "endLocal": 8.276
+        },
+        {
+          "text": "just",
+          "startLocal": 8.288,
+          "endLocal": 8.538
+        },
+        {
+          "text": "two",
+          "startLocal": 8.55,
+          "endLocal": 8.764
+        },
+        {
+          "text": "to",
+          "startLocal": 8.776,
+          "endLocal": 8.871
+        },
+        {
+          "text": "over",
+          "startLocal": 8.883,
+          "endLocal": 9.109
+        },
+        {
+          "text": "three",
+          "startLocal": 9.121,
+          "endLocal": 9.371
+        },
+        {
+          "text": "hundred",
+          "startLocal": 9.383,
+          "endLocal": 9.895
+        }
+      ]
+    },
+    {
+      "id": "S06_BLUEPRINT_XRAY",
+      "index": 5,
+      "startSec": 44.7965,
+      "endSec": 56.1258,
+      "speechDurSec": 11.0693,
+      "words": [
+        {
+          "text": "And",
+          "startLocal": 0.04,
+          "endLocal": 0.23
+        },
+        {
+          "text": "this",
+          "startLocal": 0.242,
+          "endLocal": 0.421
+        },
+        {
+          "text": "isn't",
+          "startLocal": 0.433,
+          "endLocal": 0.671
+        },
+        {
+          "text": "basic",
+          "startLocal": 0.683,
+          "endLocal": 1.052
+        },
+        {
+          "text": "screwdriver",
+          "startLocal": 1.064,
+          "endLocal": 1.683
+        },
+        {
+          "text": "work",
+          "startLocal": 1.695,
+          "endLocal": 2.028
+        },
+        {
+          "text": "anymore",
+          "startLocal": 2.04,
+          "endLocal": 2.48
+        },
+        {
+          "text": "Precision",
+          "startLocal": 3.3,
+          "endLocal": 3.776
+        },
+        {
+          "text": "enclosures",
+          "startLocal": 3.788,
+          "endLocal": 4.43
+        },
+        {
+          "text": "camera",
+          "startLocal": 4.633,
+          "endLocal": 4.99
+        },
+        {
+          "text": "modules",
+          "startLocal": 5.002,
+          "endLocal": 5.526
+        },
+        {
+          "text": "and",
+          "startLocal": 5.728,
+          "endLocal": 5.871
+        },
+        {
+          "text": "multilayer",
+          "startLocal": 5.883,
+          "endLocal": 6.395
+        },
+        {
+          "text": "circuit",
+          "startLocal": 6.407,
+          "endLocal": 6.811
+        },
+        {
+          "text": "boards",
+          "startLocal": 6.823,
+          "endLocal": 7.228
+        },
+        {
+          "text": "engineered",
+          "startLocal": 7.43,
+          "endLocal": 7.895
+        },
+        {
+          "text": "across",
+          "startLocal": 7.907,
+          "endLocal": 8.252
+        },
+        {
+          "text": "Tamil",
+          "startLocal": 8.264,
+          "endLocal": 8.597
+        },
+        {
+          "text": "Nadu",
+          "startLocal": 8.609,
+          "endLocal": 9.085
+        },
+        {
+          "text": "Karnataka",
+          "startLocal": 9.335,
+          "endLocal": 9.954
+        },
+        {
+          "text": "and",
+          "startLocal": 10.192,
+          "endLocal": 10.311
+        },
+        {
+          "text": "Uttar",
+          "startLocal": 10.323,
+          "endLocal": 10.526
+        },
+        {
+          "text": "Pradesh",
+          "startLocal": 10.538,
+          "endLocal": 11.121
+        }
+      ]
+    },
+    {
+      "id": "S07_SECRET_UNLOCKED",
+      "index": 6,
+      "startSec": 56.1258,
+      "endSec": 64.8999,
+      "speechDurSec": 8.4941,
+      "words": [
+        {
+          "text": "Remember",
+          "startLocal": 0.04,
+          "endLocal": 0.445
+        },
+        {
+          "text": "that",
+          "startLocal": 0.456,
+          "endLocal": 0.623
+        },
+        {
+          "text": "locked",
+          "startLocal": 0.635,
+          "endLocal": 0.849
+        },
+        {
+          "text": "number",
+          "startLocal": 0.861,
+          "endLocal": 1.278
+        },
+        {
+          "text": "Today",
+          "startLocal": 2.098,
+          "endLocal": 2.586
+        },
+        {
+          "text": "India",
+          "startLocal": 2.848,
+          "endLocal": 3.229
+        },
+        {
+          "text": "builds",
+          "startLocal": 3.241,
+          "endLocal": 3.551
+        },
+        {
+          "text": "more",
+          "startLocal": 3.562,
+          "endLocal": 3.717
+        },
+        {
+          "text": "than",
+          "startLocal": 3.729,
+          "endLocal": 3.872
+        },
+        {
+          "text": "ten",
+          "startLocal": 3.884,
+          "endLocal": 4.181
+        },
+        {
+          "text": "smartphones",
+          "startLocal": 4.193,
+          "endLocal": 4.848
+        },
+        {
+          "text": "every",
+          "startLocal": 4.86,
+          "endLocal": 5.074
+        },
+        {
+          "text": "single",
+          "startLocal": 5.086,
+          "endLocal": 5.455
+        },
+        {
+          "text": "second",
+          "startLocal": 5.467,
+          "endLocal": 5.92
+        },
+        {
+          "text": "including",
+          "startLocal": 6.11,
+          "endLocal": 6.586
+        },
+        {
+          "text": "one",
+          "startLocal": 6.598,
+          "endLocal": 6.812
+        },
+        {
+          "text": "in",
+          "startLocal": 6.824,
+          "endLocal": 6.943
+        },
+        {
+          "text": "every",
+          "startLocal": 6.955,
+          "endLocal": 7.158
+        },
+        {
+          "text": "seven",
+          "startLocal": 7.17,
+          "endLocal": 7.479
+        },
+        {
+          "text": "iPhones",
+          "startLocal": 7.491,
+          "endLocal": 7.979
+        },
+        {
+          "text": "on",
+          "startLocal": 7.991,
+          "endLocal": 8.134
+        },
+        {
+          "text": "Earth",
+          "startLocal": 8.146,
+          "endLocal": 8.551
+        }
+      ]
+    },
+    {
+      "id": "S08_GLOBAL_SHOCKWAVE",
+      "index": 7,
+      "startSec": 64.8999,
+      "endSec": 74.1431,
+      "speechDurSec": 8.9832,
+      "words": [
+        {
+          "text": "And",
+          "startLocal": 0.04,
+          "endLocal": 0.23
+        },
+        {
+          "text": "the",
+          "startLocal": 0.242,
+          "endLocal": 0.314
+        },
+        {
+          "text": "world",
+          "startLocal": 0.326,
+          "endLocal": 0.683
+        },
+        {
+          "text": "is",
+          "startLocal": 0.695,
+          "endLocal": 0.814
+        },
+        {
+          "text": "buying",
+          "startLocal": 0.826,
+          "endLocal": 1.314
+        },
+        {
+          "text": "Millions",
+          "startLocal": 2.133,
+          "endLocal": 2.573
+        },
+        {
+          "text": "of",
+          "startLocal": 2.585,
+          "endLocal": 2.669
+        },
+        {
+          "text": "Made-in-India",
+          "startLocal": 2.68,
+          "endLocal": 3.335
+        },
+        {
+          "text": "phones",
+          "startLocal": 3.347,
+          "endLocal": 3.692
+        },
+        {
+          "text": "now",
+          "startLocal": 3.704,
+          "endLocal": 3.907
+        },
+        {
+          "text": "ship",
+          "startLocal": 3.919,
+          "endLocal": 4.169
+        },
+        {
+          "text": "to",
+          "startLocal": 4.18,
+          "endLocal": 4.252
+        },
+        {
+          "text": "the",
+          "startLocal": 4.264,
+          "endLocal": 4.335
+        },
+        {
+          "text": "United",
+          "startLocal": 4.347,
+          "endLocal": 4.799
+        },
+        {
+          "text": "States",
+          "startLocal": 4.811,
+          "endLocal": 5.24
+        },
+        {
+          "text": "the",
+          "startLocal": 5.43,
+          "endLocal": 5.514
+        },
+        {
+          "text": "U",
+          "startLocal": 5.526,
+          "endLocal": 5.716
+        },
+        {
+          "text": "K",
+          "startLocal": 5.728,
+          "endLocal": 6.049
+        },
+        {
+          "text": "the",
+          "startLocal": 6.276,
+          "endLocal": 6.359
+        },
+        {
+          "text": "Netherlands",
+          "startLocal": 6.371,
+          "endLocal": 6.883
+        },
+        {
+          "text": "the",
+          "startLocal": 7.109,
+          "endLocal": 7.192
+        },
+        {
+          "text": "U",
+          "startLocal": 7.204,
+          "endLocal": 7.502
+        },
+        {
+          "text": "A",
+          "startLocal": 7.514,
+          "endLocal": 7.728
+        },
+        {
+          "text": "E",
+          "startLocal": 7.74,
+          "endLocal": 8.121
+        },
+        {
+          "text": "and",
+          "startLocal": 8.359,
+          "endLocal": 8.478
+        },
+        {
+          "text": "Japan",
+          "startLocal": 8.49,
+          "endLocal": 9.026
+        }
+      ]
+    },
+    {
+      "id": "S09_HONEST_PART",
+      "index": 8,
+      "startSec": 74.1431,
+      "endSec": 82.856,
+      "speechDurSec": 8.473,
+      "words": [
+        {
+          "text": "Now",
+          "startLocal": 0.04,
+          "endLocal": 0.457
+        },
+        {
+          "text": "the",
+          "startLocal": 0.695,
+          "endLocal": 0.814
+        },
+        {
+          "text": "honest",
+          "startLocal": 0.826,
+          "endLocal": 1.135
+        },
+        {
+          "text": "part",
+          "startLocal": 1.147,
+          "endLocal": 1.611
+        },
+        {
+          "text": "We",
+          "startLocal": 2.43,
+          "endLocal": 2.621
+        },
+        {
+          "text": "still",
+          "startLocal": 2.633,
+          "endLocal": 2.895
+        },
+        {
+          "text": "import",
+          "startLocal": 2.907,
+          "endLocal": 3.24
+        },
+        {
+          "text": "most",
+          "startLocal": 3.252,
+          "endLocal": 3.502
+        },
+        {
+          "text": "of",
+          "startLocal": 3.514,
+          "endLocal": 3.573
+        },
+        {
+          "text": "the",
+          "startLocal": 3.585,
+          "endLocal": 3.669
+        },
+        {
+          "text": "tiny",
+          "startLocal": 3.68,
+          "endLocal": 4.026
+        },
+        {
+          "text": "nanometer",
+          "startLocal": 4.038,
+          "endLocal": 4.609
+        },
+        {
+          "text": "silicon",
+          "startLocal": 4.621,
+          "endLocal": 4.99
+        },
+        {
+          "text": "chips",
+          "startLocal": 5.002,
+          "endLocal": 5.264
+        },
+        {
+          "text": "inside",
+          "startLocal": 5.276,
+          "endLocal": 5.716
+        },
+        {
+          "text": "those",
+          "startLocal": 5.728,
+          "endLocal": 5.978
+        },
+        {
+          "text": "phones",
+          "startLocal": 5.99,
+          "endLocal": 6.538
+        },
+        {
+          "text": "That's",
+          "startLocal": 7.359,
+          "endLocal": 7.645
+        },
+        {
+          "text": "the",
+          "startLocal": 7.657,
+          "endLocal": 7.752
+        },
+        {
+          "text": "real",
+          "startLocal": 7.764,
+          "endLocal": 8.049
+        },
+        {
+          "text": "catch",
+          "startLocal": 8.061,
+          "endLocal": 8.514
+        }
+      ]
+    },
+    {
+      "id": "S10_SEMICON_SUPERPOWER",
+      "index": 9,
+      "startSec": 82.856,
+      "endSec": 95.5691,
+      "speechDurSec": 12.4331,
+      "words": [
+        {
+          "text": "Which",
+          "startLocal": 0.04,
+          "endLocal": 0.266
+        },
+        {
+          "text": "is",
+          "startLocal": 0.278,
+          "endLocal": 0.373
+        },
+        {
+          "text": "why",
+          "startLocal": 0.385,
+          "endLocal": 0.623
+        },
+        {
+          "text": "five",
+          "startLocal": 0.635,
+          "endLocal": 0.992
+        },
+        {
+          "text": "semiconductor",
+          "startLocal": 1.004,
+          "endLocal": 1.671
+        },
+        {
+          "text": "fabs",
+          "startLocal": 1.683,
+          "endLocal": 2.04
+        },
+        {
+          "text": "worth",
+          "startLocal": 2.052,
+          "endLocal": 2.302
+        },
+        {
+          "text": "one",
+          "startLocal": 2.314,
+          "endLocal": 2.588
+        },
+        {
+          "text": "point",
+          "startLocal": 2.6,
+          "endLocal": 2.85
+        },
+        {
+          "text": "five",
+          "startLocal": 2.861,
+          "endLocal": 3.195
+        },
+        {
+          "text": "two",
+          "startLocal": 3.207,
+          "endLocal": 3.397
+        },
+        {
+          "text": "lakh",
+          "startLocal": 3.409,
+          "endLocal": 3.683
+        },
+        {
+          "text": "crore",
+          "startLocal": 3.695,
+          "endLocal": 4.004
+        },
+        {
+          "text": "are",
+          "startLocal": 4.016,
+          "endLocal": 4.076
+        },
+        {
+          "text": "rising",
+          "startLocal": 4.088,
+          "endLocal": 4.528
+        },
+        {
+          "text": "in",
+          "startLocal": 4.54,
+          "endLocal": 4.635
+        },
+        {
+          "text": "Gujarat",
+          "startLocal": 4.647,
+          "endLocal": 5.242
+        },
+        {
+          "text": "and",
+          "startLocal": 5.254,
+          "endLocal": 5.314
+        },
+        {
+          "text": "Assam",
+          "startLocal": 5.326,
+          "endLocal": 5.802
+        },
+        {
+          "text": "Because",
+          "startLocal": 6.621,
+          "endLocal": 6.907
+        },
+        {
+          "text": "a",
+          "startLocal": 6.919,
+          "endLocal": 6.968999999999999
+        },
+        {
+          "text": "country",
+          "startLocal": 6.978,
+          "endLocal": 7.323
+        },
+        {
+          "text": "that",
+          "startLocal": 7.335,
+          "endLocal": 7.49
+        },
+        {
+          "text": "only",
+          "startLocal": 7.502,
+          "endLocal": 7.728
+        },
+        {
+          "text": "assembles",
+          "startLocal": 7.74,
+          "endLocal": 8.169
+        },
+        {
+          "text": "phones",
+          "startLocal": 8.18,
+          "endLocal": 8.538
+        },
+        {
+          "text": "is",
+          "startLocal": 8.55,
+          "endLocal": 8.669
+        },
+        {
+          "text": "a",
+          "startLocal": 8.68,
+          "endLocal": 8.73
+        },
+        {
+          "text": "factory",
+          "startLocal": 8.74,
+          "endLocal": 9.264
+        },
+        {
+          "text": "A",
+          "startLocal": 10.085,
+          "endLocal": 10.216
+        },
+        {
+          "text": "country",
+          "startLocal": 10.228,
+          "endLocal": 10.609
+        },
+        {
+          "text": "that",
+          "startLocal": 10.621,
+          "endLocal": 10.8
+        },
+        {
+          "text": "builds",
+          "startLocal": 10.811,
+          "endLocal": 11.073
+        },
+        {
+          "text": "the",
+          "startLocal": 11.085,
+          "endLocal": 11.181
+        },
+        {
+          "text": "chips",
+          "startLocal": 11.192,
+          "endLocal": 11.514
+        },
+        {
+          "text": "is",
+          "startLocal": 11.526,
+          "endLocal": 11.657
+        },
+        {
+          "text": "a",
+          "startLocal": 11.669,
+          "endLocal": 11.74
+        },
+        {
+          "text": "superpower",
+          "startLocal": 11.752,
+          "endLocal": 12.478
+        }
+      ]
+    },
+    {
+      "id": "S11_POLL_CTA",
+      "index": 10,
+      "startSec": 95.5691,
+      "endSec": 102.1382,
+      "speechDurSec": 6.3491,
+      "words": [
+        {
+          "text": "Look",
+          "startLocal": 0.04,
+          "endLocal": 0.278
+        },
+        {
+          "text": "at",
+          "startLocal": 0.29,
+          "endLocal": 0.35
+        },
+        {
+          "text": "the",
+          "startLocal": 0.361,
+          "endLocal": 0.433
+        },
+        {
+          "text": "phone",
+          "startLocal": 0.445,
+          "endLocal": 0.73
+        },
+        {
+          "text": "in",
+          "startLocal": 0.742,
+          "endLocal": 0.814
+        },
+        {
+          "text": "your",
+          "startLocal": 0.826,
+          "endLocal": 0.957
+        },
+        {
+          "text": "hand",
+          "startLocal": 0.969,
+          "endLocal": 1.23
+        },
+        {
+          "text": "right",
+          "startLocal": 1.242,
+          "endLocal": 1.469
+        },
+        {
+          "text": "now",
+          "startLocal": 1.48,
+          "endLocal": 1.742
+        },
+        {
+          "text": "iPhone",
+          "startLocal": 1.909,
+          "endLocal": 2.326
+        },
+        {
+          "text": "Samsung",
+          "startLocal": 2.492,
+          "endLocal": 2.957
+        },
+        {
+          "text": "or",
+          "startLocal": 3.195,
+          "endLocal": 3.278
+        },
+        {
+          "text": "OnePlus",
+          "startLocal": 3.29,
+          "endLocal": 3.992
+        },
+        {
+          "text": "Drop",
+          "startLocal": 4.811,
+          "endLocal": 5.121
+        },
+        {
+          "text": "one",
+          "startLocal": 5.133,
+          "endLocal": 5.371
+        },
+        {
+          "text": "word",
+          "startLocal": 5.383,
+          "endLocal": 5.645
+        },
+        {
+          "text": "in",
+          "startLocal": 5.657,
+          "endLocal": 5.728
+        },
+        {
+          "text": "the",
+          "startLocal": 5.74,
+          "endLocal": 5.8
+        },
+        {
+          "text": "comments",
+          "startLocal": 5.811,
+          "endLocal": 6.383
+        }
+      ]
+    },
+    {
+      "id": "S12_SHARE_OUTRO",
+      "index": 11,
+      "startSec": 102.1382,
+      "endSec": 106.4,
+      "speechDurSec": 2.8095,
+      "words": [
+        {
+          "text": "And",
+          "startLocal": 0.04,
+          "endLocal": 0.23
+        },
+        {
+          "text": "send",
+          "startLocal": 0.242,
+          "endLocal": 0.504
+        },
+        {
+          "text": "this",
+          "startLocal": 0.516,
+          "endLocal": 0.671
+        },
+        {
+          "text": "to",
+          "startLocal": 0.683,
+          "endLocal": 0.766
+        },
+        {
+          "text": "someone",
+          "startLocal": 0.778,
+          "endLocal": 1.123
+        },
+        {
+          "text": "watching",
+          "startLocal": 1.135,
+          "endLocal": 1.492
+        },
+        {
+          "text": "on",
+          "startLocal": 1.504,
+          "endLocal": 1.587
+        },
+        {
+          "text": "a",
+          "startLocal": 1.599,
+          "endLocal": 1.649
+        },
+        {
+          "text": "Made-in-India",
+          "startLocal": 1.647,
+          "endLocal": 2.314
+        },
+        {
+          "text": "phone",
+          "startLocal": 2.326,
+          "endLocal": 2.849
+        }
+      ]
+    }
+  ]
+}

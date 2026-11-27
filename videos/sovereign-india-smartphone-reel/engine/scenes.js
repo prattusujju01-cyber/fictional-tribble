@@ -363,10 +363,12 @@ export function createDirector({ canvas, script, timeline, geo }) {
       ctx.globalAlpha = cardP;
       ctx.font = '400 54px PlusJakarta';
       ctx.fillStyle = '#FFFFFF';
-      ctx.fillText('Production Linked', 136, 412);
+      const plText = 'Production Linked ';
+      ctx.fillText(plText, 136, 412);
+      const plW = ctx.measureText(plText).width;
       ctx.font = 'italic 400 66px InstrumentSerif';
       ctx.fillStyle = '#FDE68A';
-      ctx.fillText('Incentive', 606, 412);
+      ctx.fillText('Incentive', 136 + plW + 6, 412);
       ctx.restore();
 
       drawTrackedCaps(ctx, 'MISSION MODE', 136, 486, { fontSize: 22, tracking: 3.6, color: 'rgba(255,255,255,0.85)', alpha: cardP });

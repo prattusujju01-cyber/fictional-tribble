@@ -96,10 +96,10 @@ export function drawOpticalMarkup(ctx, markup, opts = {}) {
           Math.floor((item.idx / Math.max(1, totalTokens)) * wordTimings.length)
         );
         const wt = wordTimings[mappedIdx];
-        wp = easeOutCubic(clamp((localTimeSec - wt.startLocal + 0.04) / revealWindow, 0, 1));
+        wp = easeOutCubic(clamp((localTimeSec * 1.06 - wt.startLocal + 0.06) / revealWindow, 0, 1));
       } else {
-        const wordStartP = (item.idx / Math.max(1, totalTokens)) * 0.78;
-        wp = easeOutCubic(clamp((progress - wordStartP) / 0.22, 0, 1));
+        const wordStartP = (item.idx / Math.max(1, totalTokens)) * 0.72;
+        wp = easeOutCubic(clamp((progress - wordStartP) / 0.20, 0, 1));
       }
 
       if (wp > 0.005) {
@@ -223,11 +223,23 @@ export function drawOdometer(ctx, opts = {}) {
   const suffW = suffix ? ctx.measureText(suffix).width + fontSize * 0.10 : 0;
 
   let bodyW = 0;
+  const colWidths = [];
   for (const ch of formatted) {
-    if (ch >= '0' && ch <= '9') bodyW += sampleDigitW;
-    else if (ch === ',') bodyW += commaW;
-    else if (ch === '.') bodyW += dotW;
-    else bodyW += ctx.measureText(ch).width;
+    if (ch >= '0' && ch <= '9') {
+      const cw = ch === '1' ? sampleDigitW * 0.74 : sampleDigitW * 0.96;
+      colWidths.push(cw);
+      bodyW += cw;
+    } else if (ch === ',') {
+      colWidths.push(commaW);
+      bodyW += commaW;
+    } else if (ch === '.') {
+      colWidths.push(dotW);
+      bodyW += dotW;
+    } else {
+      const w = ctx.measureText(ch).width;
+      colWidths.push(w);
+      bodyW += w;
+    }
   }
 
   const totalW = prefW + bodyW + suffW;
@@ -247,12 +259,12 @@ export function drawOdometer(ctx, opts = {}) {
   ctx.font = digitFont;
   ctx.fillStyle = color;
 
-  let digitPower = Math.pow(10, decimals);
-  // Count remaining digits to compute exact continuous wheel phase per place value
   const totalDigits = [...formatted].filter(c => c >= '0' && c <= '9').length;
   let seenDigits = 0;
 
-  for (const ch of formatted) {
+  for (let ci = 0; ci < formatted.length; ci++) {
+    const ch = formatted[ci];
+    const colW = colWidths[ci];
     if (ch >= '0' && ch <= '9') {
       const placeIdxFromRight = totalDigits - 1 - seenDigits;
       const placeScale = Math.pow(10, placeIdxFromRight - decimals);
@@ -263,7 +275,7 @@ export function drawOdometer(ctx, opts = {}) {
 
       ctx.save();
       ctx.beginPath();
-      ctx.rect(cx - 4, slotTop, sampleDigitW + 8, slotH);
+      ctx.rect(cx - 6, slotTop, colW + 12, slotH);
       ctx.clip();
 
       // Subtle vertical blur when wheel is spinning fast
@@ -273,18 +285,21 @@ export function drawOdometer(ctx, opts = {}) {
       }
 
       const rollShift = frac * fontSize * 0.88;
-      ctx.fillText(String(baseD), cx, y - rollShift);
+      const d0Str = String(baseD);
+      const d0Off = (colW - ctx.measureText(d0Str).width) * 0.5;
+      ctx.fillText(d0Str, cx + d0Off, y - rollShift);
       if (frac > 0.01) {
-        ctx.fillText(String(nextD), cx, y + fontSize * 0.88 - rollShift);
+        const d1Str = String(nextD);
+        const d1Off = (colW - ctx.measureText(d1Str).width) * 0.5;
+        ctx.fillText(d1Str, cx + d1Off, y + fontSize * 0.88 - rollShift);
       }
       ctx.restore();
 
-      cx += sampleDigitW;
+      cx += colW;
       seenDigits++;
     } else {
-      const w = ch === ',' ? commaW : ch === '.' ? dotW : ctx.measureText(ch).width;
       ctx.fillText(ch, cx, y);
-      cx += w;
+      cx += colW;
     }
   }
 

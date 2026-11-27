@@ -547,16 +547,16 @@ export function drawExplodedSmartphone3D(ctx, opts = {}) {
   if (ep > 0.25) {
     const ca = clamp((ep - 0.25) / 0.45, 0, 1);
     const callouts = [
-      { anchor: proj(pw * 0.45, -40, zOffsets[3] + 6), side: 'right', x: 745, y: 710, code: '01', title: 'OLED COVER GLASS' },
-      { anchor: camBase.center, side: 'left', x: 74, y: 905, code: '02', title: 'OPTICS CAMERA MODULE' },
-      { anchor: proj(pw * 0.40, 20, zOffsets[1] + 8), side: 'right', x: 725, y: 1120, code: '03', title: 'MULTILAYER SMT PCB' },
-      { anchor: proj(-pw * 0.45, 60, zOffsets[0] + 12), side: 'left', x: 74, y: 1355, code: '04', title: 'CNC METAL CHASSIS' }
+      { anchor: proj(pw * 0.45, -40, zOffsets[3] + 6), side: 'right', x: 710, y: 710, code: '01', title: 'OLED COVER GLASS' },
+      { anchor: camBase.center, side: 'left', x: 60, y: 905, code: '02', title: 'OPTICS CAMERA ARRAY' },
+      { anchor: proj(pw * 0.40, 20, zOffsets[1] + 8), side: 'right', x: 710, y: 1120, code: '03', title: 'MULTILAYER SMT PCB' },
+      { anchor: proj(-pw * 0.45, 60, zOffsets[0] + 12), side: 'left', x: 60, y: 1355, code: '04', title: 'CNC METAL CHASSIS' }
     ];
 
     ctx.save();
     ctx.globalAlpha = ca;
     for (const c of callouts) {
-      const pillW = 278, pillH = 62;
+      const pillW = 310, pillH = 62;
       const targetX = c.side === 'left' ? c.x + pillW : c.x;
       const targetY = c.y + pillH / 2;
 
@@ -574,12 +574,13 @@ export function drawExplodedSmartphone3D(ctx, opts = {}) {
 
       drawFrostedCard(ctx, c.x, c.y, pillW, pillH, {
         radius: 16,
-        fill: 'rgba(8, 25, 58, 0.85)',
+        fill: 'rgba(8, 25, 58, 0.88)',
         borderTop: 'rgba(91, 192, 255, 0.65)'
       });
-      drawTrackedCaps(ctx, `${c.code} • ${c.title}`, c.x + 18, c.y + pillH / 2 + 1, {
+      drawTrackedCaps(ctx, `${c.code} • ${c.title}`, c.x + pillW / 2, c.y + pillH / 2 + 1, {
         fontSize: 15,
-        tracking: 2.1,
+        tracking: 2.0,
+        align: 'center',
         color: '#FDE68A'
       });
     }
