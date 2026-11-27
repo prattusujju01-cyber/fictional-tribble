@@ -37,7 +37,7 @@ export const SHOTS = [
   {
     id: 'S02', t0: 3.6, t1: 7.4, world: 'radio_studio', light: 'radio_booth', palette: 'studio_day',
     line1: 'THE CONTEST RULE:', line2: "DON'T PEE TO WIN", accent: '#49CEFF', line2Delay: 0.60,
-    cam0: [0.35, 0.25, 4.95], cam1: [0.45, 0.22, 4.45], look0: [0.38, 0.02, -0.15], look1: [0.46, 0.00, -0.18], fov: 33
+    cam0: [0.58, 0.22, 5.45], cam1: [0.66, 0.18, 4.95], look0: [0.58, 0.02, -0.15], look1: [0.64, 0.00, -0.18], fov: 33
   },
   {
     id: 'S03', t0: 7.4, t1: 11.4, world: 'radio_studio', light: 'radio_booth', palette: 'studio_day',
@@ -119,7 +119,7 @@ export const SHOTS = [
   {
     id: 'S16', t0: 57.0, t1: 61.0, world: 'osmosis_membrane', light: 'warm_museum', palette: 'slate_lab',
     line1: "NATURE'S IRON RULE:", line2: 'WATER CHASES SALT', accent: '#F49328', line2Delay: 0.58,
-    cam0: [0.0, -0.35, 8.95], cam1: [0.05, -0.32, 8.35], look0: [0.0, -0.45, 0.0], look1: [0.04, -0.42, 0.0], fov: 34
+    cam0: [0.0, -0.15, 8.95], cam1: [0.05, -0.12, 8.35], look0: [0.0, -0.25, 0.0], look1: [0.04, -0.22, 0.0], fov: 34
   },
   {
     id: 'S17', t0: 61.0, t1: 65.0, world: 'osmosis_membrane', light: 'crimson_bio', palette: 'cellular_indigo',
@@ -146,12 +146,12 @@ export const SHOTS = [
   {
     id: 'S21', t0: 76.8, t1: 80.6, world: 'skull_brain', light: 'anatomy_dramatic', palette: 'dark_anatomy',
     line1: 'RISING PRESSURE', line2: 'CHOKES BLOOD FLOW', accent: '#FF4B45', line2Delay: 0.58,
-    cam0: [0.28, 0.78, 6.95], cam1: [0.35, 0.82, 6.35], look0: [0.26, 0.84, 0.12], look1: [0.32, 0.88, 0.12], fov: 32
+    cam0: [0.22, 0.78, 7.55], cam1: [0.28, 0.82, 6.95], look0: [0.20, 0.84, 0.12], look1: [0.26, 0.88, 0.12], fov: 32
   },
   {
     id: 'S22', t0: 80.6, t1: 84.6, world: 'skull_brain', light: 'anatomy_dramatic', palette: 'dark_anatomy',
     line1: 'SWOLLEN TISSUE', line2: 'PLUGS THE SKULL BASE', accent: '#FF4B45', line2Delay: 0.58,
-    cam0: [0.08, -0.05, 6.15], cam1: [0.08, -0.15, 5.45], look0: [0.06, 0.02, 0.10], look1: [0.06, -0.08, 0.10], fov: 30,
+    cam0: [0.08, 0.34, 6.95], cam1: [0.08, 0.24, 6.25], look0: [0.06, 0.42, 0.10], look1: [0.06, 0.32, 0.10], fov: 31,
     impactAt: 1.80
   },
 
@@ -165,7 +165,7 @@ export const SHOTS = [
   {
     id: 'S24', t0: 88.5, t1: 92.5, world: 'switchboard_icu', light: 'warm_museum', palette: 'icu_ward',
     line1: 'LUNGS AND HEART', line2: 'STOP TOGETHER', accent: '#FF4B45', line2Delay: 0.56,
-    cam0: [0.0, 0.36, 8.35], cam1: [0.0, 0.32, 7.75], look0: [0.0, 0.42, 0.0], look1: [0.0, 0.38, 0.0], fov: 34
+    cam0: [0.0, 0.38, 9.65], cam1: [0.0, 0.34, 9.05], look0: [0.0, 0.44, 0.0], look1: [0.0, 0.40, 0.0], fov: 34
   },
 
   // WORLD 7: Real-World Victims & Emergency 3% Saline Rescue (S25 - S27)
@@ -178,7 +178,7 @@ export const SHOTS = [
   {
     id: 'S26', t0: 96.2, t1: 99.8, world: 'evidence_board', light: 'warm_museum', palette: 'ochre_board',
     line1: 'BABIES UNDER 6 MONTHS', line2: 'NEED ZERO PLAIN WATER', accent: '#FFFDF7', line2Delay: 0.58,
-    cam0: [0.0, 0.02, 7.95], cam1: [0.0, 0.00, 7.45], look0: [0.0, -0.18, 0.0], look1: [0.0, -0.20, 0.0], fov: 34
+    cam0: [0.0, 0.02, 8.65], cam1: [0.0, 0.00, 8.15], look0: [0.0, -0.18, 0.0], look1: [0.0, -0.20, 0.0], fov: 34
   },
   {
     id: 'S27', t0: 99.8, t1: 103.5, world: 'real_cases_icu', light: 'warm_museum', palette: 'icu_ward',

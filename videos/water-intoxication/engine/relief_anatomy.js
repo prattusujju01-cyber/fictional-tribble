@@ -730,7 +730,7 @@ export function buildOsmosisMembraneWorld() {
     m.position.set(x, y, 0.46);
     return m;
   };
-  uTubeGroup.add(mkPlaque('DILUTE BLOOD', -0.82, -2.78), mkPlaque('SALTY CELLS', 0.82, -2.78));
+  uTubeGroup.add(mkPlaque('DILUTE BLOOD', -0.78, -1.94), mkPlaque('SALTY CELLS', 0.78, -1.94));
   root.add(uTubeGroup);
 
   // --- S17: Phospholipid Bilayer + 3 Hourglass Cyan Aquaporin-4 Channels ---

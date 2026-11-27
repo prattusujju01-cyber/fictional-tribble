@@ -131,13 +131,13 @@ export function buildRadioStudioWorld() {
     emissiveIntensity: 0.95,
     roughness: 0.25
   });
-  const onAirBox = new THREE.Mesh(new THREE.BoxGeometry(1.95, 0.52, 0.22), onAirMat);
-  onAirBox.position.set(-0.35, 1.68, -2.34);
+  const onAirBox = new THREE.Mesh(new THREE.BoxGeometry(1.85, 0.48, 0.22), onAirMat);
+  onAirBox.position.set(-0.42, 0.96, -2.34);
   root.add(onAirBox);
 
   // Studio Wall Clock on Right (sweeps 3 hours during S03!)
   const clockGroup = new THREE.Group();
-  clockGroup.position.set(1.35, 1.66, -2.36);
+  clockGroup.position.set(1.28, 0.96, -2.36);
   const clockRim = new THREE.Mesh(new THREE.CylinderGeometry(0.52, 0.52, 0.10, 36), brass);
   clockRim.rotation.x = Math.PI / 2;
   const clockFaceTex = makeLabelTex(256, 256, (ctx, w, h) => {
@@ -483,21 +483,21 @@ export function buildEvidenceBoardWorld() {
     return g;
   };
 
-  const waterBaby = mkBabyBottle(-0.78, 0x5AD2FF, 0.78, 'PLAIN WATER: NO!', 0xD62824);
+  const waterBaby = mkBabyBottle(-0.64, 0x5AD2FF, 0.78, 'PLAIN WATER: NO!', 0xD62824);
   // Bold 3D Red Prohibition Ring + Slash over Plain Water Infant Bottle
   const noRing = new THREE.Mesh(
-    new THREE.TorusGeometry(0.60, 0.078, 18, 44),
+    new THREE.TorusGeometry(0.56, 0.075, 18, 44),
     new THREE.MeshStandardMaterial({ color: 0xDC221E, roughness: 0.3 })
   );
-  noRing.position.set(-0.78, -0.52, 0.62);
+  noRing.position.set(-0.64, -0.52, 0.62);
   const noSlash = new THREE.Mesh(
-    new THREE.BoxGeometry(1.18, 0.13, 0.08),
+    new THREE.BoxGeometry(1.10, 0.12, 0.08),
     new THREE.MeshStandardMaterial({ color: 0xDC221E, roughness: 0.3 })
   );
   noSlash.rotation.z = -Math.PI / 4;
-  noSlash.position.set(-0.78, -0.52, 0.64);
+  noSlash.position.set(-0.64, -0.52, 0.64);
 
-  const milkBaby = mkBabyBottle(0.78, 0xFAF1DC, 0.98, 'MILK ONLY: SAFE', 0x228B4E);
+  const milkBaby = mkBabyBottle(0.64, 0xFAF1DC, 0.98, 'MILK ONLY: SAFE', 0x228B4E);
   infantGroup.add(waterBaby, noRing, noSlash, milkBaby);
   root.add(infantGroup);
 
