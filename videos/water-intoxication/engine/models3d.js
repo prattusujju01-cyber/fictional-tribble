@@ -1,1142 +1,1123 @@
-// Modular Pure-Code Sculptural, Live-Morphing & Animated 3D Diorama Factory (v14.0 — Water Intoxication)
-// 22 Bespoke 3D Assemblies: Live-Swelling Brain in Split 7mm Skull, Live-Ballooning Osmosis Cell,
-// 2007 Broadcast Radio Studio, Anatomical Kidney Overflow, Sodium Y-Artery Gauge, Brainstem Switchboard & Hydration Rack!
-import * as THREE from '../vendor/three.module.js';
-import { getMaterials3D } from './materials3d.js';
-import { clamp, lerp, mulberry32 } from './dossier.js';
+// Sovereign v15.0 — Grounded Architectural Rooms, Switchboard & Laboratory Instrument Worlds
+import { THREE } from './core3d.js';
+import {
+  getWoodMat,
+  getOchreBoardMat,
+  getBrassMat,
+  getDarkBrassMat,
+  getBrushedSteelMat,
+  getClearGlassMat,
+  getWaterLiquidMat,
+  getQuiltMat,
+  getSwitchboardSteelMat,
+  makeLabelTex
+} from './materials3d.js';
+import { clamp, lerp, easeOutCubic, easeInOutCubic } from './dossier.js';
 
-function enableShadows(group) {
-  group.traverse((obj) => {
-    if (obj.isMesh) {
-      obj.castShadow = true;
-      obj.receiveShadow = true;
-    }
-  });
-  return group;
-}
-
-export function sculptOrganicGeo(geo, amp = 0.08, freq = 2.6, seed = 11) {
-  const pos = geo.attributes.position;
-  for (let i = 0; i < pos.count; i++) {
-    const x = pos.getX(i), y = pos.getY(i), z = pos.getZ(i);
-    const n1 = Math.sin(x * freq + seed) * Math.cos(y * freq * 1.15 - seed * 0.7) * Math.sin(z * freq * 0.9 + seed * 1.3);
-    const n2 = Math.sin(x * freq * 2.3 - y * freq * 1.9 + seed * 2.1) * 0.45;
-    const d = 1 + (n1 + n2) * amp;
-    pos.setXYZ(i, x * d, y * d, z * d);
-  }
-  geo.computeVertexNormals();
-  geo.userData.basePos = new Float32Array(pos.array);
-  return geo;
-}
-
-// Deterministic real-time radial swelling / compression morph (ZERO frame-to-frame drift!)
-export function morphGeoSwelling(geo, swellFactor = 1.0, clampRadius = 999, wobbleT = 0) {
-  const base = geo.userData.basePos;
-  if (!base) return;
-  const pos = geo.attributes.position;
-  const arr = pos.array;
-  for (let i = 0; i < pos.count; i++) {
-    const bx = base[i * 3], by = base[i * 3 + 1], bz = base[i * 3 + 2];
-    const pulse = 1 + (wobbleT ? Math.sin(bx * 4 + by * 3 + wobbleT * 5) * 0.018 : 0);
-    let nx = bx * swellFactor * pulse;
-    let ny = by * swellFactor * pulse;
-    let nz = bz * swellFactor * pulse;
-    const r = Math.hypot(nx, ny, nz);
-    if (r > clampRadius) {
-      const s = clampRadius / r;
-      nx *= s; ny *= s; nz *= s;
-    }
-    arr[i * 3] = nx;
-    arr[i * 3 + 1] = ny;
-    arr[i * 3 + 2] = nz;
-  }
-  pos.needsUpdate = true;
-  geo.computeVertexNormals();
-}
-
-// 1. Crystal Carafe Pouring Live Stream into Tumbler with Ripples & Micro-Bubbles (S01, S08)
-export function buildPouringGlass3D() {
-  const mats = getMaterials3D();
-  const root = new THREE.Group();
-
-  // Crystal heavy-base drinking tumbler
-  const glassPts = [
-    new THREE.Vector2(0.0, -1.15),
-    new THREE.Vector2(0.66, -1.15),
-    new THREE.Vector2(0.70, -0.96),
-    new THREE.Vector2(0.80, 0.55),
-    new THREE.Vector2(0.75, 0.57),
-    new THREE.Vector2(0.64, -0.88),
-    new THREE.Vector2(0.0, -0.88)
-  ];
-  const tumbler = new THREE.Mesh(new THREE.LatheGeometry(glassPts, 40), mats.glassClear);
-  tumbler.position.set(0.15, -0.25, 0);
-  root.add(tumbler);
-
-  // Rising pure water column inside tumbler
-  const waterCol = new THREE.Mesh(new THREE.CylinderGeometry(0.71, 0.63, 1.26, 36), mats.waterPure);
-  waterCol.position.set(0.15, -0.52, 0);
-  root.add(waterCol);
-
-  // Concentric surface ripple torus rings
-  const ripples = new THREE.Group();
-  ripples.position.set(0.15, 0.12, 0);
-  for (let i = 0; i < 3; i++) {
-    const r = new THREE.Mesh(new THREE.TorusGeometry(0.18 + i * 0.16, 0.015, 8, 28), mats.aquaporinCyan);
-    r.rotation.x = Math.PI / 2;
-    ripples.add(r);
-  }
-  root.add(ripples);
-
-  // Tilted glass carafe pouring from top-left
-  const pitcher = new THREE.Group();
-  pitcher.position.set(-0.92, 1.18, 0);
-  pitcher.rotation.z = -0.92;
-  const pBody = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.46, 1.12, 32), mats.glassClear);
-  const pWater = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.41, 0.68, 28), mats.waterPure);
-  pWater.position.y = -0.14;
-  pitcher.add(pBody); pitcher.add(pWater);
-  root.add(pitcher);
-
-  // Curved 3D pouring water stream + travelling cyan highlight beads
-  const streamCurve = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(-0.46, 0.94, 0),
-    new THREE.Vector3(-0.08, 0.62, 0),
-    new THREE.Vector3(0.12, 0.10, 0),
-    new THREE.Vector3(0.15, -0.35, 0)
-  ]);
-  const stream = new THREE.Mesh(new THREE.TubeGeometry(streamCurve, 24, 0.075, 14, false), mats.waterPure);
-  root.add(stream);
-
-  const bubbles = new THREE.Group();
-  for (let i = 0; i < 14; i++) {
-    const b = new THREE.Mesh(new THREE.SphereGeometry(0.045 + (i % 3) * 0.02, 10, 8), mats.aquaporinCyan);
-    b.userData = { bx: 0.15 + ((i * 29) % 9 - 4) * 0.11, bz: ((i * 17) % 7 - 3) * 0.11, phase: i * 0.55 };
-    bubbles.add(b);
-  }
-  root.add(bubbles);
-
-  root.userData = { waterCol, ripples, bubbles, pitcher, stream };
-  return enableShadows(root);
-}
-
-// 2. 2007 Sacramento FM Radio Studio Desk, ON AIR Lightbox, Boom Mic & 7 Draining Bottles (S02, S04)
-export function buildRadioStudio3D() {
-  const mats = getMaterials3D();
-  const root = new THREE.Group();
-
-  // Acoustic pyramid-foam studio wall
-  const wall = new THREE.Mesh(new THREE.BoxGeometry(9.0, 7.5, 0.25), mats.acousticFoam);
-  wall.position.set(0, 1.6, -2.1);
-  root.add(wall);
-
-  // Glowing crimson backlit "ON AIR" sign box (shifted right of top-left headline!)
-  const signGroup = new THREE.Group();
-  signGroup.position.set(0.68, 1.15, -1.88);
-  const signCase = new THREE.Mesh(new THREE.BoxGeometry(1.62, 0.62, 0.18), mats.castIron);
-  const signFace = new THREE.Mesh(new THREE.PlaneGeometry(1.50, 0.52), mats.onAirSignMat);
-  signFace.position.z = 0.095;
-  const onAirGlow = new THREE.PointLight(0xff2e24, 24, 7, 1.8);
-  onAirGlow.position.set(0, 0, 0.45);
-  signGroup.add(signCase); signGroup.add(signFace); signGroup.add(onAirGlow);
-  root.add(signGroup);
-
-  // Walnut broadcast console desk
-  const desk = new THREE.Mesh(new THREE.BoxGeometry(6.8, 0.30, 3.2), mats.walnut);
-  desk.position.set(0, -1.18, 0);
-  root.add(desk);
-
-  // Vintage chrome broadcast condenser microphone on boom arm
-  const micGroup = new THREE.Group();
-  micGroup.position.set(-1.12, -0.32, 0.35);
-  const standBase = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.32, 0.08, 24), mats.castIron);
-  standBase.position.y = -0.68;
-  const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.92, 12), mats.steel);
-  pole.position.y = -0.22;
-  const micCapsule = new THREE.Mesh(new THREE.CapsuleGeometry(0.15, 0.26, 12, 20), mats.steel);
-  micCapsule.position.set(0.18, 0.28, 0);
-  micCapsule.rotation.z = -0.25;
-  const yoke = new THREE.Mesh(new THREE.TorusGeometry(0.20, 0.022, 8, 20, Math.PI), mats.brass);
-  yoke.position.set(0.18, 0.24, 0);
-  yoke.rotation.z = Math.PI;
-  micGroup.add(standBase); micGroup.add(pole); micGroup.add(micCapsule); micGroup.add(yoke);
-  root.add(micGroup);
-
-  // Row of 7 clear 1-liter contest water bottles that visibly drain one by one!
-  const bottles = [];
-  for (let i = 0; i < 7; i++) {
-    const bg = new THREE.Group();
-    const row = i < 4 ? 0 : 1;
-    const col = row === 0 ? i : (i - 3.5);
-    bg.position.set(-0.28 + col * 0.48, -0.58, row === 0 ? 0.32 : -0.22);
-
-    const shell = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.16, 0.84, 20), mats.glassClear);
-    const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.065, 0.065, 0.08, 14), mats.aquaporinCyan);
-    cap.position.y = 0.46;
-    const fill = new THREE.Mesh(new THREE.CylinderGeometry(0.135, 0.142, 0.74, 18), mats.waterPure);
-    fill.position.y = -0.02;
-    bg.add(shell); bg.add(cap); bg.add(fill);
-    bg.userData = { fill };
-    bottles.push(bg);
-    root.add(bg);
-  }
-
-  root.userData = { bottles, onAirGlow, micGroup };
-  return enableShadows(root);
-}
-
-// 3. 2007 Gaming Console Grand Prize Pedestal (S03)
-export function buildGameConsolePrize3D() {
-  const mats = getMaterials3D();
-  const root = new THREE.Group();
-
-  const plinth = new THREE.Mesh(new THREE.CylinderGeometry(1.28, 1.42, 0.24, 40), mats.walnut);
-  plinth.position.y = -1.18;
-  root.add(plinth);
-  const brassRing = new THREE.Mesh(new THREE.TorusGeometry(1.30, 0.03, 10, 40), mats.brass);
-  brassRing.rotation.x = Math.PI / 2;
-  brassRing.position.y = -1.06;
-  root.add(brassRing);
-
-  // Sleek retail box + white console tower + glowing blue disc slot + remote
-  const box = new THREE.Mesh(new THREE.BoxGeometry(1.38, 1.62, 0.42), mats.consoleBoxMat);
-  box.position.set(-0.28, -0.24, -0.18);
-  box.rotation.y = 0.22;
-  root.add(box);
-
-  const consoleUnit = new THREE.Group();
-  consoleUnit.position.set(0.66, -0.42, 0.32);
-  consoleUnit.rotation.y = -0.35;
-  const tower = new THREE.Mesh(new THREE.BoxGeometry(0.28, 1.18, 0.86), mats.whitePlastic);
-  tower.rotation.z = 0.08;
-  const slotGlow = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.78, 0.04), mats.aquaporinCyan);
-  slotGlow.position.set(-0.14, 0.06, 0.42);
-  const stand = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.36, 0.08, 24), mats.steel);
-  stand.position.y = -0.58;
-  consoleUnit.add(tower); consoleUnit.add(slotGlow); consoleUnit.add(stand);
-  root.add(consoleUnit);
-
-  const remote = new THREE.Mesh(new THREE.BoxGeometry(0.20, 0.09, 0.74), mats.whitePlastic);
-  remote.position.set(0.05, -1.01, 0.62);
-  remote.rotation.y = 0.42;
-  root.add(remote);
-
-  return enableShadows(root);
-}
-
-// 4. Suburban Nightstand, Sweeping Brass Alarm Clock & Console Box (S05, S23)
-export function buildBedroomCollapse3D() {
-  const mats = getMaterials3D();
-  const root = new THREE.Group();
-
-  const wall = new THREE.Mesh(new THREE.BoxGeometry(8.5, 7.5, 0.2), mats.wallpaperDark);
-  wall.position.set(0, 1.6, -2.0);
-  root.add(wall);
-
-  const table = new THREE.Mesh(new THREE.BoxGeometry(5.6, 0.26, 2.8), mats.walnut);
-  table.position.set(0, -1.22, 0);
-  root.add(table);
-
-  const clockGroup = new THREE.Group();
-  clockGroup.position.set(-0.24, -0.24, 0.16);
-  const body = new THREE.Mesh(new THREE.CylinderGeometry(0.74, 0.74, 0.32, 42), mats.brass);
-  body.rotation.x = Math.PI / 2;
-  clockGroup.add(body);
-  const bezel = new THREE.Mesh(new THREE.TorusGeometry(0.74, 0.055, 14, 42), mats.brass);
-  bezel.position.z = 0.16;
-  clockGroup.add(bezel);
-  const dial = new THREE.Mesh(new THREE.CircleGeometry(0.70, 42), mats.alarmDialFace);
-  dial.position.z = 0.17;
-  clockGroup.add(dial);
-
-  for (const s of [-1, 1]) {
-    const bell = new THREE.Mesh(new THREE.SphereGeometry(0.24, 20, 14, 0, Math.PI * 2, 0, Math.PI * 0.56), mats.brass);
-    bell.position.set(s * 0.50, 0.70, 0);
-    bell.rotation.z = -s * 0.52;
-    clockGroup.add(bell);
-    const foot = new THREE.Mesh(new THREE.SphereGeometry(0.10, 12, 10), mats.brass);
-    foot.position.set(s * 0.44, -0.76, 0.04);
-    clockGroup.add(foot);
-  }
-  const handGroup = new THREE.Group();
-  handGroup.position.z = 0.20;
-  const hHand = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.35, 0.02), mats.castIron);
-  hHand.position.y = 0.14;
-  const mHand = new THREE.Mesh(new THREE.BoxGeometry(0.035, 0.50, 0.02), mats.mercuryRed);
-  mHand.position.y = 0.22;
-  handGroup.add(hHand); handGroup.add(mHand);
-  clockGroup.add(handGroup);
-  root.add(clockGroup);
-
-  // Empty tipped water bottle on nightstand
-  const emptyBottle = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 0.88, 22), mats.glassClear);
-  emptyBottle.rotation.z = Math.PI / 2;
-  emptyBottle.rotation.y = 0.38;
-  emptyBottle.position.set(0.95, -0.90, 0.38);
-  root.add(emptyBottle);
-
-  // Warm brass bedside lamp
-  const lampBase = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.32, 0.50, 20), mats.brass);
-  lampBase.position.set(1.32, -0.84, -0.72);
-  root.add(lampBase);
-  const lampShade = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.50, 0.58, 24), new THREE.MeshBasicMaterial({ color: 0xffe0a3 }));
-  lampShade.position.set(1.32, -0.28, -0.72);
-  root.add(lampShade);
-  const lampGlow = new THREE.PointLight(0xffb44c, 20, 7, 1.8);
-  lampGlow.position.set(1.2, -0.15, -0.45);
-  root.add(lampGlow);
-
-  root.userData = { handGroup };
-  return enableShadows(root);
-}
-
-// 5. Autopsy Toxicology Bottle — ZERO TOXINS / ONLY PURE WATER (S06)
-export function buildAutopsyBottle3D() {
-  const mats = getMaterials3D();
-  const root = new THREE.Group();
+// Helper: Contoured Spring-Water Bottle with Printed Label & Dynamic Fill Level
+function createWaterBottle(capacityL = 0.5) {
+  const grp = new THREE.Group();
+  const h = capacityL > 0.7 ? 1.28 : 0.92;
+  const r = capacityL > 0.7 ? 0.20 : 0.145;
 
   const pts = [
-    new THREE.Vector2(0.0, -1.18),
-    new THREE.Vector2(0.76, -1.18),
-    new THREE.Vector2(0.82, -1.04),
-    new THREE.Vector2(0.82, 0.36),
-    new THREE.Vector2(0.58, 0.72),
-    new THREE.Vector2(0.32, 0.88),
-    new THREE.Vector2(0.32, 1.22),
-    new THREE.Vector2(0.37, 1.32),
-    new THREE.Vector2(0.26, 1.32)
+    new THREE.Vector2(0.001, 0),
+    new THREE.Vector2(r * 0.94, 0),
+    new THREE.Vector2(r, h * 0.08),
+    new THREE.Vector2(r * 0.92, h * 0.42),
+    new THREE.Vector2(r * 1.0, h * 0.68),
+    new THREE.Vector2(r * 0.42, h * 0.88),
+    new THREE.Vector2(r * 0.42, h * 0.98),
+    new THREE.Vector2(r * 0.36, h * 0.98)
   ];
-  root.add(new THREE.Mesh(new THREE.LatheGeometry(pts, 44), mats.glassClear));
+  const shell = new THREE.Mesh(new THREE.LatheGeometry(pts, 28), getClearGlassMat(0.30, 0xDDF4FF));
+  shell.castShadow = true;
+  grp.add(shell);
 
-  const water = new THREE.Mesh(new THREE.CylinderGeometry(0.75, 0.75, 1.18, 36), mats.waterPure);
-  water.position.y = -0.50;
-  root.add(water);
-
-  const stopper = new THREE.Mesh(new THREE.CylinderGeometry(0.29, 0.26, 0.28, 26), mats.oakLight);
-  stopper.position.y = 1.42;
-  root.add(stopper);
-  const crimp = new THREE.Mesh(new THREE.CylinderGeometry(0.36, 0.36, 0.14, 26), mats.steel);
-  crimp.position.y = 1.28;
-  root.add(crimp);
-
-  const label = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.845, 0.845, 0.88, 36, 1, true, -0.95, 1.9),
-    mats.autopsyLabelMat
+  // Internal dynamic water column
+  const liquid = new THREE.Mesh(
+    new THREE.CylinderGeometry(r * 0.88, r * 0.88, h * 0.74, 24),
+    getWaterLiquidMat(0x45C8FF, 0.80)
   );
-  label.position.y = -0.34;
-  root.add(label);
+  liquid.position.y = h * 0.39;
+  grp.add(liquid);
 
-  return enableShadows(root);
-}
+  // Printed wrap-around label band
+  const { tex } = makeLabelTex(256, 96, (ctx, w, hh) => {
+    ctx.fillStyle = '#0F4D8A';
+    ctx.fillRect(0, 0, w, hh);
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(0, 6, w, 6);
+    ctx.fillRect(0, hh - 12, w, 6);
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = '700 30px "OswaldBold"';
+    ctx.fillText(capacityL > 0.7 ? 'PURE 1.0L' : 'PURE 0.5L', w / 2, hh / 2 + 2);
+  });
+  const label = new THREE.Mesh(
+    new THREE.CylinderGeometry(r * 0.98, r * 0.98, h * 0.24, 28, 1, true),
+    new THREE.MeshStandardMaterial({ map: tex, roughness: 0.35 })
+  );
+  label.position.y = h * 0.44;
+  grp.add(label);
 
-// 6. Macro 3D H2O Molecules Flooding Sparse Golden Na+ Ions (S07)
-export function buildWaterSodiumCluster3D() {
-  const mats = getMaterials3D();
-  const root = new THREE.Group();
-  const rnd = mulberry32(707);
+  // Blue screw cap
+  const cap = new THREE.Mesh(
+    new THREE.CylinderGeometry(r * 0.45, r * 0.45, h * 0.09, 20),
+    new THREE.MeshStandardMaterial({ color: 0x1668C4, roughness: 0.35 })
+  );
+  cap.position.y = h * 1.01;
+  grp.add(cap);
 
-  const h2oGroup = new THREE.Group();
-  const oxGeo = new THREE.SphereGeometry(0.19, 18, 14);
-  const hyGeo = new THREE.SphereGeometry(0.11, 14, 10);
-  for (let i = 0; i < 18; i++) {
-    const mol = new THREE.Group();
-    mol.add(new THREE.Mesh(oxGeo, mats.waterPure));
-    for (const ang of [-0.91, 0.91]) {
-      const h = new THREE.Mesh(hyGeo, mats.whitePlastic);
-      h.position.set(Math.sin(ang) * 0.22, Math.cos(ang) * 0.22, 0);
-      mol.add(h);
+  return {
+    group: grp,
+    cap,
+    setFill(f) {
+      const cf = clamp(f, 0.02, 1.0);
+      liquid.visible = f > 0.03;
+      liquid.scale.y = cf;
+      liquid.position.y = h * 0.03 + (h * 0.74 * cf) * 0.5;
     }
-    const a = (i / 18) * Math.PI * 2;
-    const rad = 0.55 + rnd() * 0.95;
-    mol.userData = { a, rad, by: (rnd() - 0.5) * 1.6, phase: rnd() * 6.28 };
-    h2oGroup.add(mol);
-  }
-  root.add(h2oGroup);
-
-  const naGroup = new THREE.Group();
-  const naGeo = sculptOrganicGeo(new THREE.IcosahedronGeometry(0.24, 2), 0.08, 4.0, 33);
-  for (let i = 0; i < 4; i++) {
-    const na = new THREE.Mesh(naGeo, mats.sodiumGold);
-    const a = (i / 4) * Math.PI * 2 + 0.4;
-    na.position.set(Math.cos(a) * 0.48, (i % 2 === 0 ? 0.32 : -0.32), Math.sin(a) * 0.35);
-    naGroup.add(na);
-  }
-  root.add(naGroup);
-
-  root.userData = { h2oGroup, naGroup };
-  return enableShadows(root);
-}
-
-// 7. Sculpted Anatomical Kidney Cutaway + 0.8 L/HR Valve & Overflow Stream (S09, S10, S11)
-export function buildKidneyFilter3D() {
-  const mats = getMaterials3D();
-  const root = new THREE.Group();
-
-  // Matte-black museum stand
-  const base = new THREE.Mesh(new THREE.CylinderGeometry(0.56, 0.66, 0.14, 36), mats.museumStand);
-  base.position.y = -1.52;
-  root.add(base);
-  const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.86, 16), mats.brass);
-  pole.position.y = -1.04;
-  root.add(pole);
-
-  // Bean-shaped sculpted kidney body (upper + lower pole + indented hilum)
-  const kidney = new THREE.Group();
-  kidney.position.y = -0.04;
-  const upper = new THREE.Mesh(sculptOrganicGeo(new THREE.SphereGeometry(0.76, 26, 20), 0.07, 3.2, 41), mats.kidneyTissue);
-  upper.position.set(-0.14, 0.38, 0);
-  upper.scale.set(0.92, 0.88, 0.65);
-  const lower = new THREE.Mesh(sculptOrganicGeo(new THREE.SphereGeometry(0.74, 26, 20), 0.07, 3.4, 49), mats.kidneyTissue);
-  lower.position.set(-0.12, -0.36, 0);
-  lower.scale.set(0.90, 0.88, 0.65);
-  kidney.add(upper); kidney.add(lower);
-
-  // 5 pale fan-shaped renal pyramids on front cutaway plane
-  for (let i = 0; i < 5; i++) {
-    const ang = -0.88 + i * 0.44;
-    const pyr = new THREE.Mesh(new THREE.ConeGeometry(0.18, 0.38, 12), mats.arteryTissue);
-    pyr.position.set(-0.22 - Math.cos(ang) * 0.32, Math.sin(ang) * 0.56, 0.38);
-    pyr.rotation.z = -Math.PI / 2 + ang;
-    kidney.add(pyr);
-  }
-
-  // Descending ureter tube (calm controlled 0.8 L/hr drip)
-  const uCurve = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(0.22, -0.05, 0.12),
-    new THREE.Vector3(0.56, -0.45, 0.12),
-    new THREE.Vector3(0.64, -1.28, 0.12)
-  ]);
-  const ureter = new THREE.Mesh(new THREE.TubeGeometry(uCurve, 20, 0.09, 12, false), mats.skullBone);
-  kidney.add(ureter);
-  root.add(kidney);
-
-  // Top clear intake funnel + normal water vs violent blue overflow spill!
-  const funnel = new THREE.Mesh(new THREE.ConeGeometry(0.56, 0.52, 28, 1, true), mats.glassClear);
-  funnel.rotation.x = Math.PI;
-  funnel.position.set(-0.12, 1.18, 0.12);
-  root.add(funnel);
-
-  const overflowGroup = new THREE.Group();
-  for (let i = 0; i < 18; i++) {
-    const drop = new THREE.Mesh(new THREE.SphereGeometry(0.095, 12, 10), mats.waterPure);
-    drop.userData = { dir: i % 2 === 0 ? -1 : 1, phase: i / 18 };
-    overflowGroup.add(drop);
-  }
-  overflowGroup.visible = false;
-  root.add(overflowGroup);
-
-  root.userData = { kidney, overflowGroup };
-  return enableShadows(root);
-}
-
-// 8. Sculpted Crimson Y-Artery + Embedded SODIUM mmol/L Clinical Dial (S12, S14 — R09 S30 Class!)
-export function buildArterySodiumGauge3D() {
-  const mats = getMaterials3D();
-  const root = new THREE.Group();
-
-  const makeBranch = (pts) => {
-    const c = new THREE.CatmullRomCurve3(pts);
-    return new THREE.Mesh(sculptOrganicGeo(new THREE.TubeGeometry(c, 28, 0.46, 18, false), 0.04, 4.2, 61), mats.arteryTissue);
   };
-  root.add(makeBranch([new THREE.Vector3(0, -2.5, -0.12), new THREE.Vector3(0, -0.42, -0.12), new THREE.Vector3(-1.35, 2.05, -0.12)]));
-  root.add(makeBranch([new THREE.Vector3(0, -2.5, -0.12), new THREE.Vector3(0, -0.42, -0.12), new THREE.Vector3(1.35, 2.05, -0.12)]));
-
-  const gaugeGroup = new THREE.Group();
-  gaugeGroup.position.set(0, -0.34, 0.48);
-  gaugeGroup.add(new THREE.Mesh(new THREE.TorusGeometry(0.68, 0.082, 16, 44), mats.brass));
-  const face = new THREE.Mesh(new THREE.CircleGeometry(0.65, 44), mats.sodiumGaugeFace);
-  face.position.z = 0.02;
-  gaugeGroup.add(face);
-
-  const needle = new THREE.Group();
-  needle.position.z = 0.06;
-  const bar = new THREE.Mesh(new THREE.BoxGeometry(0.042, 0.50, 0.025), mats.mercuryRed);
-  bar.position.y = 0.19;
-  const hub = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.075, 0.05, 16), mats.castIron);
-  hub.rotation.x = Math.PI / 2;
-  needle.add(bar); needle.add(hub);
-  gaugeGroup.add(needle);
-  root.add(gaugeGroup);
-
-  // Flowing RBCs + Golden Na+ ions + Optional rushing Blue Water flood spheres
-  const flowGroup = new THREE.Group();
-  const rbcGeo = new THREE.TorusGeometry(0.105, 0.048, 10, 18);
-  const naGeo = new THREE.SphereGeometry(0.085, 12, 10);
-  for (let i = 0; i < 20; i++) {
-    const isNa = i % 2 === 0;
-    const m = new THREE.Mesh(isNa ? naGeo : rbcGeo, isNa ? mats.sodiumGold : mats.rbc);
-    m.userData = { isNa, branch: i % 3 === 0 ? -1 : 1, offset: i / 20 };
-    flowGroup.add(m);
-  }
-  root.add(flowGroup);
-
-  const waterFlood = new THREE.Group();
-  const wGeo = new THREE.SphereGeometry(0.12, 12, 10);
-  for (let i = 0; i < 22; i++) {
-    const w = new THREE.Mesh(wGeo, mats.waterPure);
-    w.userData = { branch: i % 2 === 0 ? -1 : 1, offset: i / 22 };
-    waterFlood.add(w);
-  }
-  waterFlood.visible = false;
-  root.add(waterFlood);
-
-  root.userData = { needle, flowGroup, waterFlood };
-  return enableShadows(root);
 }
 
-// 9. Neural Axon Firing Cyan Electrical Sparks via Golden Na+ Channels (S13, S34)
-export function buildNeuronSpark3D() {
-  const mats = getMaterials3D();
+// ============================================================================
+// WORLD 1: 2007 KDND RADIO BROADCAST STUDIO BOOTH (S01 - S04)
+// ============================================================================
+export function buildRadioStudioWorld() {
   const root = new THREE.Group();
+  const oak = getWoodMat('oak');
+  const walnut = getWoodMat('walnut');
+  const brass = getBrassMat();
+  const steel = getBrushedSteelMat();
 
-  const soma = new THREE.Mesh(sculptOrganicGeo(new THREE.IcosahedronGeometry(0.56, 3), 0.14, 3.8, 72), mats.brainTissue);
-  soma.position.set(-0.78, 0.08, 0);
-  root.add(soma);
+  // Back Acoustic Studio Wall + Control-Room Window
+  const backWall = new THREE.Mesh(
+    new THREE.BoxGeometry(11, 14, 0.3),
+    new THREE.MeshStandardMaterial({ color: 0x22303C, roughness: 0.85 })
+  );
+  backWall.position.set(0, 1.5, -2.6);
+  backWall.receiveShadow = true;
+  root.add(backWall);
 
-  // Dendrite branches
-  for (let i = 0; i < 6; i++) {
-    const a = (i / 6) * Math.PI * 2;
-    const dCurve = new THREE.CatmullRomCurve3([
-      new THREE.Vector3(-0.78, 0.08, 0),
-      new THREE.Vector3(-1.12 + Math.cos(a) * 0.30, 0.08 + Math.sin(a) * 0.48, Math.sin(a * 2) * 0.22)
-    ]);
-    root.add(new THREE.Mesh(new THREE.TubeGeometry(dCurve, 10, 0.05, 8, false), mats.brainTissue));
+  // Studio Window Frame on Back Wall
+  const winGlass = new THREE.Mesh(
+    new THREE.PlaneGeometry(4.4, 2.3),
+    new THREE.MeshStandardMaterial({ color: 0x132230, roughness: 0.18, metalness: 0.55 })
+  );
+  winGlass.position.set(-0.3, 1.35, -2.42);
+  const winFrame = new THREE.Mesh(new THREE.BoxGeometry(4.65, 2.55, 0.14), walnut);
+  winFrame.position.set(-0.3, 1.35, -2.46);
+  root.add(winFrame, winGlass);
+
+  // Glowing "ON AIR — 107.9 FM" Lightbox above Window
+  const onAirTexObj = makeLabelTex(512, 144, (ctx, w, h) => {
+    ctx.fillStyle = '#B81418';
+    ctx.fillRect(0, 0, w, h);
+    ctx.strokeStyle = '#FF7A70';
+    ctx.lineWidth = 8;
+    ctx.strokeRect(8, 8, w - 16, h - 16);
+    ctx.fillStyle = '#FFF7F2';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = '700 66px "OswaldBold"';
+    ctx.fillText('ON AIR • 107.9', w / 2, h / 2 + 4);
+  });
+  const onAirMat = new THREE.MeshStandardMaterial({
+    map: onAirTexObj.tex,
+    emissive: 0xFF2218,
+    emissiveMap: onAirTexObj.tex,
+    emissiveIntensity: 0.95,
+    roughness: 0.25
+  });
+  const onAirBox = new THREE.Mesh(new THREE.BoxGeometry(2.15, 0.58, 0.22), onAirMat);
+  onAirBox.position.set(-0.35, 2.95, -2.35);
+  root.add(onAirBox);
+
+  // Studio Wall Clock on Right (sweeps 3 hours during S03!)
+  const clockGroup = new THREE.Group();
+  clockGroup.position.set(1.85, 2.35, -2.38);
+  const clockRim = new THREE.Mesh(new THREE.CylinderGeometry(0.52, 0.52, 0.10, 36), brass);
+  clockRim.rotation.x = Math.PI / 2;
+  const clockFaceTex = makeLabelTex(256, 256, (ctx, w, h) => {
+    ctx.fillStyle = '#FAF3E3';
+    ctx.beginPath(); ctx.arc(128, 128, 122, 0, Math.PI * 2); ctx.fill();
+    for (let i = 0; i < 12; i++) {
+      const a = (i / 12) * Math.PI * 2;
+      ctx.strokeStyle = '#1E1A16';
+      ctx.lineWidth = i % 3 === 0 ? 6 : 3;
+      ctx.beginPath();
+      ctx.moveTo(128 + Math.cos(a) * 92, 128 + Math.sin(a) * 92);
+      ctx.lineTo(128 + Math.cos(a) * 112, 128 + Math.sin(a) * 112);
+      ctx.stroke();
+    }
+  });
+  const clockFace = new THREE.Mesh(new THREE.CircleGeometry(0.47, 36), new THREE.MeshBasicMaterial({ map: clockFaceTex.tex }));
+  clockFace.position.z = 0.055;
+  const minHand = new THREE.Group(); minHand.position.z = 0.065;
+  const mhBar = new THREE.Mesh(new THREE.BoxGeometry(0.028, 0.36, 0.015), new THREE.MeshBasicMaterial({ color: 0x181512 }));
+  mhBar.position.y = 0.15; minHand.add(mhBar);
+  const hrHand = new THREE.Group(); hrHand.position.z = 0.07;
+  const hhBar = new THREE.Mesh(new THREE.BoxGeometry(0.036, 0.25, 0.015), new THREE.MeshBasicMaterial({ color: 0xB01C18 }));
+  hhBar.position.y = 0.10; hrHand.add(hhBar);
+  clockGroup.add(clockRim, clockFace, minHand, hrHand);
+  root.add(clockGroup);
+
+  // Foreground Quarter-Sawn Oak Broadcast Desk
+  const desk = new THREE.Mesh(new THREE.BoxGeometry(9.2, 0.42, 4.4), oak);
+  desk.position.set(0, -1.32, 0.2);
+  desk.receiveShadow = true;
+  root.add(desk);
+
+  // Analog Broadcast Mixing Console (left-rear of desk)
+  const mixerGroup = new THREE.Group();
+  mixerGroup.position.set(-1.35, -0.94, -0.45);
+  mixerGroup.rotation.y = 0.22;
+  const mixerBody = new THREE.Mesh(
+    new THREE.BoxGeometry(1.75, 0.30, 1.15),
+    new THREE.MeshStandardMaterial({ color: 0x1F242A, roughness: 0.42, metalness: 0.65 })
+  );
+  mixerBody.rotation.x = 0.20;
+  mixerBody.castShadow = true;
+  mixerGroup.add(mixerBody);
+  // 8 fader sliders & dual glowing amber VU windows
+  for (let i = 0; i < 8; i++) {
+    const knob = new THREE.Mesh(
+      new THREE.BoxGeometry(0.06, 0.06, 0.10),
+      new THREE.MeshStandardMaterial({ color: i === 2 ? 0xE53935 : 0xECEFF1, roughness: 0.3 })
+    );
+    knob.position.set(-0.62 + i * 0.18, 0.15, 0.22 + (i % 3) * 0.06);
+    mixerGroup.add(knob);
+  }
+  for (const vx of [-0.36, 0.36]) {
+    const vu = new THREE.Mesh(
+      new THREE.PlaneGeometry(0.48, 0.22),
+      new THREE.MeshBasicMaterial({ color: 0xFFCA62 })
+    );
+    vu.position.set(vx, 0.22, -0.32);
+    vu.rotation.x = -0.55;
+    mixerGroup.add(vu);
+  }
+  root.add(mixerGroup);
+
+  // Broadcast Condenser Microphone on Brass Articulated Boom Arm
+  const micGroup = new THREE.Group();
+  micGroup.position.set(-0.78, -1.10, 0.58);
+  const micBase = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.28, 0.08, 28), steel);
+  const micStem = new THREE.Mesh(new THREE.CylinderGeometry(0.032, 0.032, 1.25, 16), brass);
+  micStem.position.y = 0.62;
+  const micCapsule = new THREE.Mesh(
+    new THREE.CapsuleGeometry(0.13, 0.28, 14, 24),
+    new THREE.MeshStandardMaterial({ color: 0xD8B468, roughness: 0.26, metalness: 0.85, wireframe: false })
+  );
+  micCapsule.position.set(0.10, 1.22, 0);
+  micCapsule.rotation.z = -0.18;
+  const shockRing = new THREE.Mesh(new THREE.TorusGeometry(0.19, 0.02, 12, 28), steel);
+  shockRing.position.set(0.10, 1.18, 0);
+  shockRing.rotation.x = Math.PI / 2;
+  micGroup.add(micBase, micStem, micCapsule, shockRing);
+  root.add(micGroup);
+
+  // Crisp White Gaming Console Prize Box + Wireless Controller (S01 - S02 focal hero!)
+  const consoleGroup = new THREE.Group();
+  consoleGroup.position.set(1.05, -0.56, -0.22);
+  consoleGroup.rotation.y = -0.30;
+
+  const boxTex = makeLabelTex(384, 512, (ctx, w, h) => {
+    ctx.fillStyle = '#F7F9FC';
+    ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = '#009BE5';
+    ctx.fillRect(0, 0, w, 68);
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = '700 32px "OswaldBold"';
+    ctx.textAlign = 'center';
+    ctx.fillText('GRAND PRIZE', w / 2, 46);
+
+    ctx.fillStyle = '#263238';
+    ctx.font = '700 84px "Anton"';
+    ctx.fillText('WII', w / 2, 215);
+    ctx.fillStyle = '#009BE5';
+    ctx.font = '700 30px "SpaceMonoBold"';
+    ctx.fillText('HOME CONSOLE', w / 2, 268);
+
+    ctx.strokeStyle = '#CFD8DC';
+    ctx.lineWidth = 6;
+    ctx.strokeRect(24, 315, w - 48, 145);
+    ctx.fillStyle = '#455A64';
+    ctx.font = '700 26px "OswaldBold"';
+    ctx.fillText('INCLUDES MOTION', w / 2, 375);
+    ctx.fillText('REMOTE CONTROLLER', w / 2, 418);
+  });
+  const prizeBox = new THREE.Mesh(
+    new THREE.BoxGeometry(0.98, 1.48, 0.42),
+    new THREE.MeshStandardMaterial({ map: boxTex.tex, roughness: 0.28 })
+  );
+  prizeBox.castShadow = true;
+  consoleGroup.add(prizeBox);
+
+  // Sleek white wireless motion remote in front of box
+  const remote = new THREE.Mesh(
+    new THREE.BoxGeometry(0.18, 0.09, 0.68),
+    new THREE.MeshStandardMaterial({ color: 0xFFFFFF, roughness: 0.20 })
+  );
+  remote.position.set(-0.22, -0.69, 0.46);
+  remote.rotation.y = 0.35;
+  const ledDot = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.02, 0.04), new THREE.MeshBasicMaterial({ color: 0x00D8FF }));
+  ledDot.position.set(-0.22, -0.64, 0.68);
+  consoleGroup.add(remote, ledDot);
+  root.add(consoleGroup);
+
+  // Row of 8 Spring-Water Bottles + 2 Tall 1L Jugs (= 7.5 Liters Total!) on Foreground Desk
+  const bottles = [];
+  const positions = [
+    [-1.42, -1.11, 0.92, 0.5], [-1.06, -1.11, 1.02, 0.5], [-0.70, -1.11, 1.06, 0.5],
+    [-0.34, -1.11, 1.08, 0.5], [0.02, -1.11, 1.08, 0.5],  [0.38, -1.11, 1.06, 0.5],
+    [0.74, -1.11, 1.00, 0.5],  [1.10, -1.11, 0.92, 0.5],
+    [1.46, -1.11, 0.62, 1.0],  [1.82, -1.11, 0.45, 1.0]
+  ];
+  for (const [bx, by, bz, capL] of positions) {
+    const b = createWaterBottle(capL);
+    b.group.position.set(bx, by, bz);
+    root.add(b.group);
+    bottles.push(b);
   }
 
-  // Myelinated axon extending right
-  const axCurve = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(-0.32, 0.08, 0),
-    new THREE.Vector3(0.48, -0.05, 0.08),
-    new THREE.Vector3(1.26, 0.04, 0)
-  ]);
-  root.add(new THREE.Mesh(new THREE.TubeGeometry(axCurve, 24, 0.11, 14, false), mats.skullBone));
-
-  // Travelling cyan action-potential impulse rings + golden Na+ ions
-  const sparks = new THREE.Group();
-  for (let i = 0; i < 4; i++) {
-    const ring = new THREE.Mesh(new THREE.TorusGeometry(0.24, 0.045, 10, 24), mats.aquaporinCyan);
-    ring.rotation.y = Math.PI / 2;
-    ring.userData = { offset: i / 4 };
-    sparks.add(ring);
-  }
-  root.add(sparks);
-
-  root.userData = { sparks, axCurve, soma };
-  return enableShadows(root);
+  return {
+    root,
+    update(shotId, localSec, p) {
+      if (shotId === 'S01' || shotId === 'S02') {
+        onAirMat.emissiveIntensity = 0.85 + 0.2 * Math.sin(localSec * 4);
+        bottles.forEach(b => { b.setFill(1.0); b.cap.visible = true; b.group.rotation.z = 0; });
+        hrHand.rotation.z = -0.5;
+        minHand.rotation.z = -0.2;
+      } else if (shotId === 'S03') {
+        // Sequential 7.5L draining across 3 hours!
+        const sweep = clamp(localSec / 3.4);
+        hrHand.rotation.z = -0.5 - sweep * (Math.PI * 0.5);
+        minHand.rotation.z = -0.2 - sweep * (Math.PI * 6.0);
+        bottles.forEach((b, idx) => {
+          const localDrain = clamp((sweep * bottles.length) - idx);
+          b.setFill(1.0 - localDrain);
+          b.cap.visible = localDrain < 0.15;
+          b.group.rotation.z = 0;
+        });
+      } else if (shotId === 'S04') {
+        // Blinding head pain on live air: pulsing red ON AIR light + empty uncapped bottles
+        onAirMat.emissiveIntensity = 1.1 + 0.55 * Math.sin(localSec * 12);
+        bottles.forEach((b, idx) => {
+          b.setFill(0.0);
+          b.cap.visible = false;
+          if (idx === 2) { b.group.rotation.z = Math.PI * 0.48; b.group.position.y = -0.98; }
+          else { b.group.rotation.z = 0; b.group.position.y = -1.11; }
+        });
+      }
+    }
+  };
 }
 
-// 10. Glass U-Tube Osmometer with Semi-Permeable Membrane & Shifting Levels (S16)
-export function buildOsmometerTube3D() {
-  const mats = getMaterials3D();
+// ============================================================================
+// WORLD 2A: MOONLIT SUBURBAN BEDROOM DIORAMA (S05 — strip_09.jpg f2475 homage)
+// ============================================================================
+export function buildBedroomNightWorld() {
   const root = new THREE.Group();
+  const walnut = getWoodMat('walnut');
+  const oak = getWoodMat('oak');
 
-  const stand = new THREE.Mesh(new THREE.BoxGeometry(2.8, 0.20, 1.4), mats.walnut);
-  stand.position.y = -1.36;
+  const wall = new THREE.Mesh(
+    new THREE.PlaneGeometry(11, 16),
+    new THREE.MeshStandardMaterial({ color: 0x1A243B, roughness: 0.86 })
+  );
+  wall.position.set(0, 1.2, -2.2);
+  wall.receiveShadow = true;
+  root.add(wall);
+
+  const floor = new THREE.Mesh(new THREE.BoxGeometry(10, 0.3, 5.5), oak);
+  floor.position.set(0, -2.15, 0.2);
+  floor.receiveShadow = true;
+  root.add(floor);
+
+  // Recessed Window with Moonlight Slatted Blinds
+  const winGlow = new THREE.Mesh(
+    new THREE.PlaneGeometry(2.1, 2.5),
+    new THREE.MeshBasicMaterial({ color: 0x5E82C4 })
+  );
+  winGlow.position.set(0.95, 1.45, -2.12);
+  root.add(winGlow);
+  for (let i = 0; i < 11; i++) {
+    const slat = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.08, 0.08), walnut);
+    slat.position.set(0.95, 0.35 + i * 0.22, -2.06);
+    root.add(slat);
+  }
+
+  // Wooden Bed Frame, Headboard, Pillow & Patterned Stitched Crimson Quilt
+  const headboard = new THREE.Mesh(new THREE.BoxGeometry(2.95, 1.55, 0.18), walnut);
+  headboard.position.set(0.35, -0.75, -1.65);
+  root.add(headboard);
+
+  const mattress = new THREE.Mesh(
+    new THREE.BoxGeometry(2.8, 0.55, 3.3),
+    new THREE.MeshStandardMaterial({ color: 0xEDE6D8, roughness: 0.8 })
+  );
+  mattress.position.set(0.35, -1.58, -0.05);
+  root.add(mattress);
+
+  const pillow = new THREE.Mesh(
+    new THREE.BoxGeometry(1.35, 0.26, 0.72),
+    new THREE.MeshStandardMaterial({ color: 0xF5F1E8, roughness: 0.75 })
+  );
+  pillow.position.set(0.35, -1.20, -1.12);
+  root.add(pillow);
+
+  // Still sleeping silhouette under patterned crimson quilt
+  const headSil = new THREE.Mesh(
+    new THREE.SphereGeometry(0.28, 24, 24),
+    new THREE.MeshStandardMaterial({ color: 0x3B2620, roughness: 0.85 })
+  );
+  headSil.position.set(0.35, -1.02, -1.05);
+  root.add(headSil);
+
+  const quilt = new THREE.Mesh(new THREE.BoxGeometry(2.88, 0.62, 2.45), getQuiltMat());
+  quilt.position.set(0.35, -1.42, 0.38);
+  quilt.castShadow = true;
+  quilt.receiveShadow = true;
+  root.add(quilt);
+
+  // Left Nightstand + Warm Glowing Bedside Lamp + Twin-Bell Alarm Clock
+  const stand = new THREE.Mesh(new THREE.BoxGeometry(1.05, 1.15, 0.95), walnut);
+  stand.position.set(-1.55, -1.52, -0.75);
   root.add(stand);
 
-  // Clear U-tube glass outer shell
-  const uCurve = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(-0.82, 1.18, 0),
-    new THREE.Vector3(-0.82, -0.78, 0),
-    new THREE.Vector3(0.0, -1.12, 0),
-    new THREE.Vector3(0.82, -0.78, 0),
-    new THREE.Vector3(0.82, 1.18, 0)
-  ]);
-  root.add(new THREE.Mesh(new THREE.TubeGeometry(uCurve, 44, 0.34, 22, false), mats.glassClear));
-
-  // Central porous brass semi-permeable membrane flange
-  const flange = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.42, 0.09, 28), mats.brass);
-  flange.rotation.z = Math.PI / 2;
-  flange.position.set(0, -1.10, 0);
-  root.add(flange);
-
-  // Left dilute water column (drops) & Right salty golden-emerald column (rises!)
-  const leftCol = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.28, 1.5, 24), mats.waterPure);
-  leftCol.position.set(-0.82, 0.0, 0);
-  root.add(leftCol);
-
-  const rightCol = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.28, 1.5, 24), mats.salineEmerald);
-  rightCol.position.set(0.82, 0.0, 0);
-  root.add(rightCol);
-
-  // Golden Na+ salt spheres trapped on right salty side
-  const saltGroup = new THREE.Group();
-  for (let i = 0; i < 10; i++) {
-    const s = new THREE.Mesh(new THREE.SphereGeometry(0.075, 12, 10), mats.sodiumGold);
-    s.position.set(0.82 + ((i % 3) - 1) * 0.11, -0.55 + i * 0.13, 0.12);
-    saltGroup.add(s);
-  }
-  root.add(saltGroup);
-
-  root.userData = { leftCol, rightCol, saltGroup };
-  return enableShadows(root);
-}
-
-// 11. LIVE VERTEX-MORPHING Osmosis Cell + Aquaporin Channels (S17, S18)
-export function buildOsmosisCell3D() {
-  const mats = getMaterials3D();
-  const root = new THREE.Group();
-
-  const cellGeo = sculptOrganicGeo(new THREE.IcosahedronGeometry(0.82, 4), 0.08, 3.2, 84);
-  const cellMesh = new THREE.Mesh(cellGeo, mats.cellMembrane);
-  root.add(cellMesh);
-
-  // Inner nucleus + intracellular golden salt ions
-  const nucleus = new THREE.Mesh(sculptOrganicGeo(new THREE.SphereGeometry(0.32, 20, 16), 0.08, 4.0, 12), mats.kidneyTissue);
-  root.add(nucleus);
-
-  const innerSalts = new THREE.Group();
-  for (let i = 0; i < 10; i++) {
-    const a = (i / 10) * Math.PI * 2;
-    const s = new THREE.Mesh(new THREE.SphereGeometry(0.075, 12, 10), mats.sodiumGold);
-    s.position.set(Math.cos(a) * 0.48, Math.sin(a) * 0.48, (i % 2 === 0 ? 0.14 : -0.14));
-    innerSalts.add(s);
-  }
-  root.add(innerSalts);
-
-  // 8 Cyan Aquaporin pore rings mounted around membrane perimeter
-  const pores = new THREE.Group();
-  for (let i = 0; i < 8; i++) {
-    const a = (i / 8) * Math.PI * 2;
-    const pore = new THREE.Mesh(new THREE.TorusGeometry(0.11, 0.036, 10, 20), mats.aquaporinCyan);
-    pore.position.set(Math.cos(a) * 0.82, Math.sin(a) * 0.82, 0);
-    pore.rotation.z = a + Math.PI / 2;
-    pore.rotation.y = Math.PI / 2;
-    pores.add(pore);
-  }
-  root.add(pores);
-
-  // 20 Blue water droplets rushing inward through the Aquaporin channels!
-  const waterInflux = new THREE.Group();
-  for (let i = 0; i < 20; i++) {
-    const w = new THREE.Mesh(new THREE.SphereGeometry(0.082, 12, 10), mats.waterPure);
-    w.userData = { ang: (i % 8) * (Math.PI / 4), offset: i / 20 };
-    waterInflux.add(w);
-  }
-  root.add(waterInflux);
-
-  root.userData = { cellGeo, cellMesh, pores, waterInflux, innerSalts };
-  return enableShadows(root);
-}
-
-// 12. Centered Dual Pedestals — Soft Expanding Muscle vs Rigid Locked Bone Box (S19)
-export function buildSoftVsSkullCompare3D() {
-  const mats = getMaterials3D();
-  const root = new THREE.Group();
-
-  for (const x of [-0.92, 0.92]) {
-    const b = new THREE.Mesh(new THREE.CylinderGeometry(0.52, 0.60, 0.14, 32), mats.museumStand);
-    b.position.set(x, -1.42, 0);
-    const p = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.84, 16), mats.brass);
-    p.position.set(x, -0.96, 0);
-    root.add(b); root.add(p);
-  }
-
-  // Left: Soft pink muscle bundle freely expanding
-  const softMuscle = new THREE.Mesh(
-    sculptOrganicGeo(new THREE.CapsuleGeometry(0.36, 0.56, 14, 22), 0.07, 3.6, 51),
-    mats.arteryTissue
+  const lampBase = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.20, 0.42, 20), getBrassMat());
+  lampBase.position.set(-1.62, -0.74, -0.82);
+  const lampShade = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.22, 0.38, 0.48, 28, 1, true),
+    new THREE.MeshStandardMaterial({
+      color: 0xFFE3B3,
+      emissive: 0xFF9636,
+      emissiveIntensity: 0.85,
+      roughness: 0.6,
+      side: THREE.DoubleSide
+    })
   );
-  softMuscle.rotation.z = Math.PI / 2;
-  softMuscle.position.set(-0.92, -0.22, 0);
-  root.add(softMuscle);
+  lampShade.position.set(-1.62, -0.36, -0.82);
+  root.add(lampBase, lampShade);
 
-  // Right: Rigid ivory bone box clamping swelling pink tissue inside
-  const boneCage = new THREE.Group();
-  boneCage.position.set(0.92, -0.22, 0);
-  const frameBars = [
-    [0.92, 0.12, 0.82, 0, 0.42, 0],
-    [0.92, 0.12, 0.82, 0, -0.42, 0],
-    [0.12, 0.84, 0.82, -0.42, 0, 0],
-    [0.12, 0.84, 0.82, 0.42, 0, 0]
-  ];
-  for (const [w, h, d, x, y, z] of frameBars) {
-    const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mats.skullBone);
-    m.position.set(x, y, z);
-    boneCage.add(m);
-  }
-  const trapped = new THREE.Mesh(new THREE.SphereGeometry(0.38, 20, 16), mats.brainEdema);
-  boneCage.add(trapped);
-  root.add(boneCage);
+  // Twin-bell bedside clock
+  const alarmClock = new THREE.Group();
+  alarmClock.position.set(-1.32, -0.76, -0.45);
+  alarmClock.rotation.y = 0.35;
+  const acBody = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, 0.12, 28), getBrushedSteelMat());
+  acBody.rotation.x = Math.PI / 2;
+  const acFace = new THREE.Mesh(new THREE.CircleGeometry(0.19, 28), new THREE.MeshBasicMaterial({ color: 0xFFF8E8 }));
+  acFace.position.z = 0.065;
+  const bellGeo = new THREE.SphereGeometry(0.085, 16, 12, 0, Math.PI * 2, 0, Math.PI * 0.55);
+  const bellL = new THREE.Mesh(bellGeo, getBrassMat()); bellL.position.set(-0.16, 0.20, 0); bellL.rotation.z = 0.55;
+  const bellR = new THREE.Mesh(bellGeo, getBrassMat()); bellR.position.set(0.16, 0.20, 0); bellR.rotation.z = -0.55;
+  const acHand = new THREE.Group(); acHand.position.z = 0.07;
+  const hLine = new THREE.Mesh(new THREE.BoxGeometry(0.018, 0.14, 0.01), new THREE.MeshBasicMaterial({ color: 0x1A1714 }));
+  hLine.position.y = 0.05; acHand.add(hLine);
+  alarmClock.add(acBody, acFace, bellL, bellR, acHand);
+  root.add(alarmClock);
 
-  root.userData = { softMuscle, trapped };
-  return enableShadows(root);
-}
-
-// 13. HERO SHOWPIECE: Split 7mm Solid Skull Vault + Live-Swelling Gyri Brain & Herniating Brainstem (S20, S21, S24)
-export function buildSkullBrain3D() {
-  const mats = getMaterials3D();
-  const root = new THREE.Group();
-
-  // Outer 7mm solid ivory cranial dome cutaway (rear + top-arch shell with machined flat cross-section rim!)
-  const skullGroup = new THREE.Group();
-  const outerDome = new THREE.Mesh(
-    new THREE.SphereGeometry(1.36, 40, 32, Math.PI * 0.88, Math.PI * 1.24, 0.08, Math.PI * 0.76),
-    mats.skullBone
-  );
-  const innerDome = new THREE.Mesh(
-    new THREE.SphereGeometry(1.20, 40, 32, Math.PI * 0.88, Math.PI * 1.24, 0.08, Math.PI * 0.76),
-    mats.skullBone
-  );
-  // Thick 7mm cortical bone cross-section ring showing unyielding solid bone thickness!
-  const cutRim = new THREE.Mesh(new THREE.RingGeometry(1.19, 1.36, 48, 1, 0.18, Math.PI * 1.64), mats.skullBone);
-  cutRim.rotation.z = 0.08;
-  cutRim.position.z = 0.02;
-  skullGroup.add(outerDome); skullGroup.add(innerDome); skullGroup.add(cutRim);
-
-  // Skull base floor with central Foramen Magnum circular opening (y = -0.92)!
-  const baseRing = new THREE.Mesh(new THREE.RingGeometry(0.34, 1.16, 40), mats.skullBone);
-  baseRing.rotation.x = Math.PI / 2;
-  baseRing.position.y = -0.92;
-  skullGroup.add(baseRing);
-  root.add(skullGroup);
-
-  // Sculpted Gyri Left & Right Cerebral Hemispheres (with live morphGeoSwelling!)
-  const brainGroup = new THREE.Group();
-  const hemiGeoL = sculptOrganicGeo(new THREE.IcosahedronGeometry(0.84, 4), 0.09, 3.8, 101);
-  const hemiGeoR = sculptOrganicGeo(new THREE.IcosahedronGeometry(0.84, 4), 0.09, 3.8, 202);
-  const leftHemi = new THREE.Mesh(hemiGeoL, mats.brainTissue);
-  leftHemi.scale.set(0.68, 0.96, 1.08);
-  leftHemi.position.set(-0.36, 0.14, 0);
-  const rightHemi = new THREE.Mesh(hemiGeoR, mats.brainTissue);
-  rightHemi.scale.set(0.68, 0.96, 1.08);
-  rightHemi.position.set(0.36, 0.14, 0);
-  brainGroup.add(leftHemi); brainGroup.add(rightHemi);
-
-  // Cerebellum at lower-back
-  const cerebellum = new THREE.Mesh(
-    sculptOrganicGeo(new THREE.SphereGeometry(0.42, 22, 16), 0.08, 6.0, 303),
-    mats.brainTissue
-  );
-  cerebellum.scale.set(1.3, 0.72, 0.85);
-  cerebellum.position.set(0, -0.58, -0.32);
-  brainGroup.add(cerebellum);
-
-  // Tapered Brainstem descending through the Foramen Magnum (extrudes downward during herniation S24!)
-  const stemPts = [
-    new THREE.Vector3(0, -0.36, 0),
-    new THREE.Vector3(0, -0.88, 0.04),
-    new THREE.Vector3(0, -1.48, 0.02)
-  ];
-  const brainstem = new THREE.Mesh(
-    new THREE.TubeGeometry(new THREE.CatmullRomCurve3(stemPts), 20, 0.22, 16, false),
-    mats.skullBone
-  );
-  brainGroup.add(brainstem);
-  root.add(brainGroup);
-
-  root.userData = { hemiGeoL, hemiGeoR, leftHemi, rightHemi, cerebellum, brainstem, mats };
-  return enableShadows(root);
-}
-
-// 14. Heavy Brass Intracranial Pressure Manometer Dial (S22 — 10 -> 45 mmHg Spike!)
-export function buildSkullPressureGauge3D() {
-  const mats = getMaterials3D();
-  const root = new THREE.Group();
-
-  const pipe = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.30, 1.15, 28), mats.brass);
-  pipe.position.y = -1.08;
-  root.add(pipe);
-
-  const dialGroup = new THREE.Group();
-  dialGroup.position.y = 0.08;
-  const body = new THREE.Mesh(new THREE.CylinderGeometry(1.06, 1.06, 0.28, 48), mats.brass);
-  body.rotation.x = Math.PI / 2;
-  const bezel = new THREE.Mesh(new THREE.TorusGeometry(1.06, 0.072, 16, 48), mats.brass);
-  bezel.position.z = 0.14;
-  const face = new THREE.Mesh(new THREE.CircleGeometry(1.01, 48), mats.icpGaugeFace);
-  face.position.z = 0.15;
-  dialGroup.add(body); dialGroup.add(bezel); dialGroup.add(face);
-
-  const needle = new THREE.Group();
-  needle.position.z = 0.19;
-  const bar = new THREE.Mesh(new THREE.BoxGeometry(0.055, 0.78, 0.025), mats.mercuryRed);
-  bar.position.y = 0.30;
-  const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 0.05, 16), mats.castIron);
-  cap.rotation.x = Math.PI / 2;
-  needle.add(bar); needle.add(cap);
-  dialGroup.add(needle);
-  root.add(dialGroup);
-
-  root.userData = { needle };
-  return enableShadows(root);
-}
-
-// 15. Brainstem Vital Control Switchboard — LUNGS & HEART Switched OFF (S25 — R08 S24 Homage!)
-export function buildVitalSwitchboard3D() {
-  const mats = getMaterials3D();
-  const root = new THREE.Group();
-
-  const panel = new THREE.Mesh(new THREE.BoxGeometry(2.68, 2.24, 0.24), mats.museumStand);
-  root.add(panel);
-  const brassBorder = new THREE.Mesh(new THREE.BoxGeometry(2.80, 2.36, 0.18), mats.brass);
-  brassBorder.position.z = -0.04;
-  root.add(brassBorder);
-
-  const switches = [];
-  const bulbs = [];
-  for (const s of [-0.66, 0.66]) {
-    const plate = new THREE.Mesh(new THREE.BoxGeometry(0.76, 0.22, 0.04), mats.brass);
-    plate.position.set(s, 0.96, 0.13);
-    root.add(plate);
-
-    const slot = new THREE.Mesh(new THREE.BoxGeometry(0.44, 1.04, 0.12), mats.steel);
-    slot.position.set(s, -0.18, 0.12);
-    root.add(slot);
-
-    // Indicator bulb above each lever (green -> dead dark red!)
-    const bulbMat = new THREE.MeshBasicMaterial({ color: 0x34d399 });
-    const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.15, 18, 14), bulbMat);
-    bulb.position.set(s, 0.58, 0.18);
-    root.add(bulb);
-    bulbs.push(bulbMat);
-
-    // Pivoting brass & crimson bakelite lever
-    const pivot = new THREE.Group();
-    pivot.position.set(s, -0.14, 0.18);
-    const arm = new THREE.Mesh(new THREE.CylinderGeometry(0.042, 0.042, 0.62, 12), mats.brass);
-    arm.position.y = 0.28;
-    const grip = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.11, 0.34, 16), mats.mercuryRed);
-    grip.rotation.z = Math.PI / 2;
-    grip.position.set(0, 0.58, 0.08);
-    pivot.add(arm); pivot.add(grip);
-    root.add(pivot);
-    switches.push(pivot);
-  }
-
-  root.userData = { switches, bulbs };
-  return enableShadows(root);
-}
-
-// 16. Miniature Sunlit Asphalt Marathon Hydration Station (S26)
-export function buildMarathonDiorama3D() {
-  const mats = getMaterials3D();
-  const root = new THREE.Group();
-
-  const road = new THREE.Mesh(new THREE.BoxGeometry(5.6, 0.24, 3.2), mats.asphalt);
-  road.position.y = -1.16;
-  root.add(road);
-
-  // Wooden folding hydration station table + 10 paper water cups
-  const tableTop = new THREE.Mesh(new THREE.BoxGeometry(2.65, 0.12, 1.05), mats.oakLight);
-  tableTop.position.set(0, -0.34, -0.12);
-  root.add(tableTop);
-  for (const lx of [-1.15, 1.15]) {
-    for (const lz of [-0.42, 0.18]) {
-      const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.038, 0.038, 0.82, 10), mats.steel);
-      leg.position.set(lx, -0.75, lz);
-      root.add(leg);
+  return {
+    root,
+    update(shotId, localSec, p) {
+      acHand.rotation.z = -0.8 - localSec * 0.45;
+      lampShade.material.emissiveIntensity = 0.80 + 0.06 * Math.sin(localSec * 3.0);
     }
-  }
-
-  const cups = new THREE.Group();
-  for (let i = 0; i < 10; i++) {
-    const r = i < 5 ? 0 : 1;
-    const c = i % 5;
-    const cup = new THREE.Group();
-    cup.position.set(-0.88 + c * 0.44, -0.10, r === 0 ? 0.12 : -0.28);
-    cup.add(new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.085, 0.34, 18), mats.whitePlastic));
-    const w = new THREE.Mesh(new THREE.CylinderGeometry(0.108, 0.108, 0.05, 16), mats.waterPure);
-    w.position.y = 0.14;
-    cup.add(w);
-    cups.add(cup);
-  }
-  root.add(cups);
-
-  // Orange race cone on foreground asphalt
-  const cone = new THREE.Mesh(new THREE.ConeGeometry(0.24, 0.62, 20), mats.mercuryRed);
-  cone.position.set(-1.35, -0.74, 0.72);
-  root.add(cone);
-  const coneBase = new THREE.Mesh(new THREE.BoxGeometry(0.56, 0.06, 0.56), mats.castIron);
-  coneBase.position.set(-1.35, -1.02, 0.72);
-  root.add(coneBase);
-
-  return enableShadows(root);
+  };
 }
 
-// 17. Sweat Water + Salt Loss vs Plain Water Dilution Dual Pedestals (S27)
-export function buildSweatElectrolyte3D() {
-  const mats = getMaterials3D();
+// ============================================================================
+// WORLD 2B: OCHRE EVIDENCE & INFANT COMPARISON TABLETOP (S06, S07, S26, S32)
+// ============================================================================
+export function buildEvidenceBoardWorld() {
   const root = new THREE.Group();
+  const ochreBg = new THREE.Mesh(new THREE.PlaneGeometry(11, 18), getOchreBoardMat());
+  ochreBg.position.z = -1.05;
+  ochreBg.receiveShadow = true;
+  root.add(ochreBg);
 
-  for (const x of [-0.92, 0.92]) {
-    const b = new THREE.Mesh(new THREE.CylinderGeometry(0.52, 0.60, 0.14, 32), mats.museumStand);
-    b.position.set(x, -1.42, 0);
-    const p = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.84, 16), mats.brass);
-    p.position.set(x, -0.96, 0);
-    root.add(b); root.add(p);
-  }
+  const deskLedge = new THREE.Mesh(new THREE.BoxGeometry(10, 0.55, 3.2), getWoodMat('walnut'));
+  deskLedge.position.set(0, -2.62, 0);
+  deskLedge.receiveShadow = true;
+  root.add(deskLedge);
 
-  // Left: Glistening blue sweat droplet surrounded by escaping golden salt cubes
-  const dropPts = [];
-  for (let i = 0; i <= 14; i++) {
-    const u = i / 14;
-    const r = Math.sin(u * Math.PI) * (1 - u * 0.45) * 0.48;
-    dropPts.push(new THREE.Vector2(Math.max(0.002, r), (u - 0.45) * 0.96));
-  }
-  const sweatDrop = new THREE.Mesh(new THREE.LatheGeometry(dropPts, 28), mats.waterPure);
-  sweatDrop.position.set(-0.92, -0.18, 0);
-  root.add(sweatDrop);
-
-  const saltCubes = new THREE.Group();
-  saltCubes.position.set(-0.92, -0.18, 0);
-  for (let i = 0; i < 6; i++) {
-    const a = (i / 6) * Math.PI * 2;
-    const cube = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.15, 0.15), mats.sodiumGold);
-    cube.position.set(Math.cos(a) * 0.56, Math.sin(a) * 0.46, 0.18);
-    cube.rotation.set(i, i * 0.7, 0);
-    saltCubes.add(cube);
-  }
-  root.add(saltCubes);
-
-  // Right: Large plain water pitcher with ZERO golden salt ions
-  const jug = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.48, 1.04, 28), mats.glassClear);
-  jug.position.set(0.92, -0.14, 0);
-  const jugFill = new THREE.Mesh(new THREE.CylinderGeometry(0.38, 0.43, 0.86, 24), mats.waterPure);
-  jugFill.position.set(0.92, -0.18, 0);
-  root.add(jug); root.add(jugFill);
-
-  root.userData = { saltCubes, sweatDrop };
-  return enableShadows(root);
-}
-
-// 18. Infant Feeding Bottle Warning < 6 Months (S28)
-export function buildBabyBottleWarning3D() {
-  const mats = getMaterials3D();
-  const root = new THREE.Group();
-
-  const body = new THREE.Mesh(new THREE.CylinderGeometry(0.56, 0.58, 1.56, 36), mats.glassClear);
-  body.position.y = -0.26;
-  root.add(body);
-
-  const water = new THREE.Mesh(new THREE.CylinderGeometry(0.51, 0.53, 1.15, 32), mats.waterPure);
-  water.position.y = -0.42;
-  root.add(water);
-
-  const collar = new THREE.Mesh(new THREE.CylinderGeometry(0.60, 0.60, 0.24, 32), mats.whitePlastic);
-  collar.position.y = 0.62;
-  root.add(collar);
-
-  const nipple = new THREE.Mesh(
-    new THREE.CapsuleGeometry(0.18, 0.32, 12, 20),
-    new THREE.MeshPhysicalMaterial({ color: 0xf6c97a, roughness: 0.28, clearcoat: 0.6, transparent: true, opacity: 0.85 })
-  );
-  nipple.position.y = 0.92;
-  root.add(nipple);
-
-  const label = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.595, 0.595, 0.76, 36, 1, true, -0.95, 1.9),
-    mats.babyLabelMat
-  );
-  label.position.y = -0.28;
-  root.add(label);
-
-  return enableShadows(root);
-}
-
-// 19. Hospital ICU 3% Hypertonic Saline IV Bag Rescue (S29)
-export function buildSalineIVRescue3D() {
-  const mats = getMaterials3D();
-  const root = new THREE.Group();
-
-  // Chrome IV stand pole
-  const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 3.6, 16), mats.steel);
-  pole.position.set(-0.98, 0.0, -0.2);
-  root.add(pole);
-  const hook = new THREE.Mesh(new THREE.TorusGeometry(0.48, 0.032, 10, 24, Math.PI), mats.steel);
-  hook.position.set(-0.50, 1.52, -0.2);
-  root.add(hook);
-
-  // Translucent IV fluid pouch + 3% SALINE label
-  const bagGroup = new THREE.Group();
-  bagGroup.position.set(0.0, 0.46, 0);
-  const pouch = new THREE.Mesh(new THREE.BoxGeometry(1.18, 1.54, 0.34), mats.glassClear);
-  const fluid = new THREE.Mesh(new THREE.BoxGeometry(1.06, 1.18, 0.26), mats.salineEmerald);
-  fluid.position.y = -0.10;
-  const label = new THREE.Mesh(new THREE.PlaneGeometry(0.98, 0.52), mats.salineLabelMat);
-  label.position.set(0, 0.08, 0.18);
-  bagGroup.add(pouch); bagGroup.add(fluid); bagGroup.add(label);
-  root.add(bagGroup);
-
-  // Drip chamber + falling concentrated golden-emerald saline drops
-  const chamber = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.14, 0.52, 20), mats.glassClear);
-  chamber.position.set(0, -0.62, 0);
-  root.add(chamber);
-
-  const dripDrops = new THREE.Group();
-  for (let i = 0; i < 4; i++) {
-    const d = new THREE.Mesh(new THREE.SphereGeometry(0.068, 12, 10), mats.sodiumGold);
-    d.userData = { offset: i / 4 };
-    dripDrops.add(d);
-  }
-  root.add(dripDrops);
-
-  const lineCurve = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(0, -0.88, 0),
-    new THREE.Vector3(0.18, -1.35, 0.12),
-    new THREE.Vector3(0.68, -1.68, 0.22)
-  ]);
-  root.add(new THREE.Mesh(new THREE.TubeGeometry(lineCurve, 18, 0.035, 10, false), mats.salineEmerald));
-
-  root.userData = { dripDrops, bagGroup };
-  return enableShadows(root);
-}
-
-// 20. Graduated Borosilicate 1000mL Cylinder Filling to 800mL Safe Ceiling (S31)
-export function buildMeasuringCylinder3D() {
-  const mats = getMaterials3D();
-  const root = new THREE.Group();
-
-  const base = new THREE.Mesh(new THREE.CylinderGeometry(0.76, 0.86, 0.16, 6), mats.brass);
-  base.position.y = -1.42;
-  root.add(base);
-
-  const cyl = new THREE.Mesh(new THREE.CylinderGeometry(0.52, 0.52, 2.68, 36, 1, true), mats.glassClear);
-  cyl.position.y = -0.02;
-  root.add(cyl);
-
-  // Graduation rings + glowing emerald 800 mL safe ceiling ring
-  for (let i = 1; i <= 5; i++) {
-    const y = -1.24 + i * 0.44;
-    const is800 = i === 4;
-    const ring = new THREE.Mesh(
-      new THREE.TorusGeometry(0.53, is800 ? 0.028 : 0.012, 8, 36),
-      is800 ? mats.salineEmerald : mats.whitePlastic
+  // S26 Infant Feeding Bottle Comparison Group (Plain Water < 6 Mo Crossed Out vs. Milk Formula)
+  const infantGroup = new THREE.Group();
+  const mkBabyBottle = (x, liquidHex, liquidAlpha, labelTxt, badgeHex) => {
+    const g = new THREE.Group();
+    g.position.set(x, -0.65, 0.1);
+    const body = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.44, 1.55, 32), getClearGlassMat(0.32));
+    body.castShadow = true;
+    const fill = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.38, 0.40, 1.18, 28),
+      liquidAlpha > 0.92
+        ? new THREE.MeshStandardMaterial({ color: liquidHex, roughness: 0.35 })
+        : getWaterLiquidMat(liquidHex, liquidAlpha)
     );
-    ring.rotation.x = Math.PI / 2;
-    ring.position.y = y;
-    root.add(ring);
-  }
-
-  const waterFill = new THREE.Mesh(new THREE.CylinderGeometry(0.48, 0.48, 2.2, 32), mats.waterPure);
-  waterFill.position.y = -0.22;
-  root.add(waterFill);
-
-  root.userData = { waterFill };
-  return enableShadows(root);
-}
-
-// 21. Effervescent Electrolyte / ORS Tablet Fizzing in Crystal Glass (S32)
-export function buildElectrolyteFizzGlass3D() {
-  const mats = getMaterials3D();
-  const root = new THREE.Group();
-
-  const glass = new THREE.Mesh(new THREE.CylinderGeometry(0.78, 0.64, 1.88, 36, 1, true), mats.glassClear);
-  glass.position.y = -0.18;
-  root.add(glass);
-  const bottom = new THREE.Mesh(new THREE.CylinderGeometry(0.64, 0.64, 0.16, 36), mats.glassClear);
-  bottom.position.y = -1.08;
-  root.add(bottom);
-
-  const liquid = new THREE.Mesh(new THREE.CylinderGeometry(0.72, 0.60, 1.42, 32), mats.waterPure);
-  liquid.position.y = -0.32;
-  root.add(liquid);
-
-  // Plunging golden-orange ORS effervescent disc
-  const tablet = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.32, 0.14, 28), mats.sodiumGold);
-  tablet.rotation.x = 0.45;
-  root.add(tablet);
-
-  const fizz = new THREE.Group();
-  for (let i = 0; i < 26; i++) {
-    const isGold = i % 2 === 0;
-    const b = new THREE.Mesh(
-      new THREE.SphereGeometry(0.052 + (i % 3) * 0.02, 10, 8),
-      isGold ? mats.sodiumGold : mats.aquaporinCyan
+    fill.position.y = -0.14;
+    const collar = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.45, 0.45, 0.22, 28),
+      new THREE.MeshStandardMaterial({ color: badgeHex, roughness: 0.35 })
     );
-    b.userData = { bx: ((i * 31) % 13 - 6) * 0.085, bz: ((i * 19) % 11 - 5) * 0.08, phase: i * 0.42 };
-    fizz.add(b);
-  }
-  root.add(fizz);
+    collar.position.y = 0.86;
+    const nipple = new THREE.Mesh(
+      new THREE.CapsuleGeometry(0.16, 0.28, 12, 20),
+      new THREE.MeshStandardMaterial({ color: 0xF3D7AC, roughness: 0.45, transparent: true, opacity: 0.85 })
+    );
+    nipple.position.y = 1.15;
 
-  root.userData = { tablet, fizz };
-  return enableShadows(root);
-}
-
-// 22. Walnut Laboratory Rack with 5 Clinical Hydration Spectrum Test Tubes + Paracelsus Scale (S33, S35, S36)
-export function buildUrineChartRack3D() {
-  const mats = getMaterials3D();
-  const root = new THREE.Group();
-
-  // Walnut test-tube rack
-  const botPlank = new THREE.Mesh(new THREE.BoxGeometry(2.88, 0.16, 0.78), mats.walnut);
-  botPlank.position.y = -1.08;
-  const topPlank = new THREE.Mesh(new THREE.BoxGeometry(2.88, 0.12, 0.78), mats.walnut);
-  topPlank.position.y = 0.22;
-  root.add(botPlank); root.add(topPlank);
-  for (const sx of [-1.34, 1.34]) {
-    const post = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 1.32, 14), mats.brass);
-    post.position.set(sx, -0.43, 0);
-    root.add(post);
-  }
-
-  // 5 Hydration Spectrum colors: [0] Water-clear (Overhydrated!), [1-2] Pale Straw (Ideal!), [3-4] Dark Amber (Dehydrated)
-  const tubeHexes = [0xdcf4ff, 0xf7eb9c, 0xf2d56b, 0xd9871e, 0x8f3908];
-  const tubes = [];
-  for (let i = 0; i < 5; i++) {
-    const x = -1.0 + i * 0.50;
-    const tg = new THREE.Group();
-    tg.position.set(x, -0.18, 0);
-
-    const glass = new THREE.Mesh(new THREE.CapsuleGeometry(0.16, 1.38, 12, 22), mats.glassClear);
-    const rim = new THREE.Mesh(new THREE.TorusGeometry(0.17, 0.022, 8, 22), mats.glassClear);
-    rim.rotation.x = Math.PI / 2;
-    rim.position.y = 0.72;
-
-    const liqMat = new THREE.MeshPhysicalMaterial({
-      color: tubeHexes[i], roughness: 0.10, clearcoat: 0.95, transparent: true, opacity: i === 0 ? 0.36 : 0.84
+    const plaqueTex = makeLabelTex(340, 96, (ctx, w, h) => {
+      ctx.fillStyle = '#241B12'; ctx.fillRect(0, 0, w, h);
+      ctx.strokeStyle = '#D8A94B'; ctx.lineWidth = 6; ctx.strokeRect(4, 4, w - 8, h - 8);
+      ctx.fillStyle = '#FFF5DE'; ctx.font = '700 30px "OswaldBold"';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(labelTxt, w / 2, h / 2 + 2);
     });
-    const liq = new THREE.Mesh(new THREE.CapsuleGeometry(0.135, 0.96, 10, 18), liqMat);
-    liq.position.y = -0.16;
+    const plaque = new THREE.Mesh(new THREE.BoxGeometry(1.45, 0.40, 0.08), new THREE.MeshStandardMaterial({ map: plaqueTex.tex }));
+    plaque.position.set(0, -1.28, 0.25);
 
-    tg.add(glass); tg.add(rim); tg.add(liq);
-    tubes.push(tg);
-    root.add(tg);
-  }
+    g.add(body, fill, collar, nipple, plaque);
+    return g;
+  };
 
-  root.userData = { tubes };
-  return enableShadows(root);
+  const waterBaby = mkBabyBottle(-1.05, 0x5AD2FF, 0.78, 'PLAIN WATER: NO!', 0xD62824);
+  // Bold 3D Red Prohibition Ring + Slash over Plain Water Infant Bottle
+  const noRing = new THREE.Mesh(
+    new THREE.TorusGeometry(0.68, 0.085, 18, 44),
+    new THREE.MeshStandardMaterial({ color: 0xDC221E, roughness: 0.3 })
+  );
+  noRing.position.set(-1.05, -0.52, 0.62);
+  const noSlash = new THREE.Mesh(
+    new THREE.BoxGeometry(1.32, 0.14, 0.08),
+    new THREE.MeshStandardMaterial({ color: 0xDC221E, roughness: 0.3 })
+  );
+  noSlash.rotation.z = -Math.PI / 4;
+  noSlash.position.set(-1.05, -0.52, 0.64);
+
+  const milkBaby = mkBabyBottle(1.05, 0xFAF1DC, 0.98, 'MILK ONLY: SAFE', 0x228B4E);
+  infantGroup.add(waterBaby, noRing, noSlash, milkBaby);
+  root.add(infantGroup);
+
+  return {
+    root,
+    update(shotId, localSec, p) {
+      infantGroup.visible = shotId === 'S26';
+      deskLedge.visible = shotId === 'S26';
+      if (shotId === 'S26') {
+        const pop = easeOutCubic(clamp(localSec / 0.5));
+        noRing.scale.setScalar(pop);
+        noSlash.scale.setScalar(pop);
+      }
+    }
+  };
 }
 
-export function buildParacelsusScale3D() {
-  const mats = getMaterials3D();
+// ============================================================================
+// WORLD 6B: INDUSTRIAL GREEN BRAINSTEM SWITCHBOARD & ICU MONITOR (S23 - S24)
+// (Direct homage to strip_08.jpg f2250..2325 & f2925..3000)
+// ============================================================================
+export function buildSwitchboardIcuWorld() {
   const root = new THREE.Group();
+  const brass = getBrassMat();
+  const darkBrass = getDarkBrassMat();
 
-  const base = new THREE.Mesh(new THREE.CylinderGeometry(0.68, 0.78, 0.18, 36), mats.walnut);
-  base.position.y = -1.36;
-  root.add(base);
-  const pillar = new THREE.Mesh(new THREE.CylinderGeometry(0.068, 0.09, 2.25, 20), mats.brass);
-  pillar.position.y = -0.20;
-  root.add(pillar);
+  // --- S23: Riveted Green Steel Brainstem Switchboard ---
+  const boardGroup = new THREE.Group();
+  const steelWall = new THREE.Mesh(new THREE.PlaneGeometry(10, 16), getSwitchboardSteelMat());
+  steelWall.position.z = -0.55;
+  steelWall.receiveShadow = true;
+  boardGroup.add(steelWall);
 
-  const beamGroup = new THREE.Group();
-  beamGroup.position.y = 0.88;
-  const beam = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 2.28, 16), mats.brass);
-  beam.rotation.z = Math.PI / 2;
-  beamGroup.add(beam);
+  const channels = [
+    { x: -1.32, name: 'BREATHING', delay: 0.45 },
+    { x: 0.0,   name: 'HEARTBEAT', delay: 0.85 },
+    { x: 1.32,  name: 'WAKE',      delay: 1.25 }
+  ];
+  const switches = [];
 
-  for (const s of [-1, 1]) {
-    const panGroup = new THREE.Group();
-    panGroup.position.set(s * 1.06, 0, 0);
-    const rod = new THREE.Mesh(new THREE.CylinderGeometry(0.016, 0.016, 0.96, 8), mats.brass);
-    rod.position.y = -0.48;
-    const dish = new THREE.Mesh(new THREE.SphereGeometry(0.42, 24, 14, 0, Math.PI * 2, Math.PI * 0.62, Math.PI * 0.38), mats.brass);
-    dish.position.y = -0.64;
-    panGroup.add(rod); panGroup.add(dish);
+  for (const ch of channels) {
+    const unit = new THREE.Group();
+    unit.position.set(ch.x, 0.15, 0);
 
-    if (s === -1) {
-      const drop = new THREE.Mesh(new THREE.SphereGeometry(0.24, 20, 16), mats.waterPure);
-      drop.position.y = -0.78;
-      panGroup.add(drop);
-    } else {
-      const salt = new THREE.Mesh(new THREE.OctahedronGeometry(0.24, 0), mats.sodiumGold);
-      salt.position.y = -0.78;
-      panGroup.add(salt);
+    // Recessed glass relay window with copper coils inside (strip_08.jpg f2250!)
+    const boxFrame = new THREE.Mesh(new THREE.BoxGeometry(1.08, 1.35, 0.24), darkBrass);
+    boxFrame.position.y = 0.55;
+    boxFrame.castShadow = true;
+    const recess = new THREE.Mesh(
+      new THREE.PlaneGeometry(0.88, 1.14),
+      new THREE.MeshStandardMaterial({ color: 0x0C1E17, roughness: 0.7 })
+    );
+    recess.position.set(0, 0.55, 0.13);
+    const coil = new THREE.Mesh(
+      new THREE.TorusGeometry(0.24, 0.065, 14, 32),
+      new THREE.MeshStandardMaterial({ color: 0xC86D32, roughness: 0.28, metalness: 0.85 })
+    );
+    coil.position.set(0, 0.62, 0.15);
+    const glassPane = new THREE.Mesh(new THREE.PlaneGeometry(0.90, 1.16), getClearGlassMat(0.24));
+    glassPane.position.set(0, 0.55, 0.18);
+    unit.add(boxFrame, recess, coil, glassPane);
+
+    // Bolted White/Brass Nameplate ("BREATHING" | "HEARTBEAT" | "WAKE")
+    const plateTex = makeLabelTex(280, 88, (ctx, w, h) => {
+      ctx.fillStyle = '#F5EFE0'; ctx.fillRect(0, 0, w, h);
+      ctx.strokeStyle = '#1B1815'; ctx.lineWidth = 8; ctx.strokeRect(6, 6, w - 12, h - 12);
+      ctx.fillStyle = '#141210'; ctx.font = '700 42px "OswaldBold"';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(ch.name, w / 2, h / 2 + 2);
+    });
+    const nameplate = new THREE.Mesh(new THREE.BoxGeometry(1.06, 0.34, 0.10), new THREE.MeshStandardMaterial({ map: plateTex.tex }));
+    nameplate.position.set(0, -0.36, 0.12);
+    unit.add(nameplate);
+
+    // Heavy Copper Knife-Switch Lever Pivot (rotates around X from UP = ON to DOWN = OFF!)
+    const leverPivot = new THREE.Group();
+    leverPivot.position.set(0, 0.18, 0.24);
+    const blade = new THREE.Mesh(
+      new THREE.BoxGeometry(0.14, 0.92, 0.05),
+      new THREE.MeshStandardMaterial({ color: 0xD9823B, roughness: 0.25, metalness: 0.88 })
+    );
+    blade.position.y = 0.42;
+    const handle = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.11, 0.11, 0.38, 20),
+      new THREE.MeshStandardMaterial({ color: 0x191919, roughness: 0.45 })
+    );
+    handle.rotation.z = Math.PI / 2;
+    handle.position.set(0, 0.88, 0.08);
+    leverPivot.add(blade, handle);
+    unit.add(leverPivot);
+
+    // Spark flash sphere
+    const spark = new THREE.Mesh(
+      new THREE.SphereGeometry(0.18, 16, 16),
+      new THREE.MeshBasicMaterial({ color: 0xFFB838, transparent: true, opacity: 0 })
+    );
+    spark.position.set(0, 0.22, 0.32);
+    unit.add(spark);
+
+    // 5 Thick Colored Insulated Cables Hanging Downward (strip_08.jpg f2250!)
+    const cableColors = [0xD92B2B, 0x246BCE, 0xE89B25, 0x209C7A, 0xC8382E];
+    for (let c = 0; c < 5; c++) {
+      const cx = (c - 2) * 0.19;
+      const curve = new THREE.CatmullRomCurve3([
+        new THREE.Vector3(cx, -0.56, 0.05),
+        new THREE.Vector3(cx * 1.08, -1.65, 0.12 + (c % 2) * 0.06),
+        new THREE.Vector3(cx * 0.96, -3.20, 0.08)
+      ]);
+      const cable = new THREE.Mesh(
+        new THREE.TubeGeometry(curve, 24, 0.055, 12, false),
+        new THREE.MeshStandardMaterial({ color: cableColors[c], roughness: 0.42 })
+      );
+      cable.castShadow = true;
+      unit.add(cable);
     }
-    beamGroup.add(panGroup);
-  }
-  root.add(beamGroup);
 
-  root.userData = { beamGroup };
-  return enableShadows(root);
+    boardGroup.add(unit);
+    switches.push({ leverPivot, spark, delay: ch.delay });
+  }
+  root.add(boardGroup);
+
+  // --- S24: ICU Bedside Cardiac Monitor Flatlining ---
+  const icuGroup = new THREE.Group();
+  const wardWall = new THREE.Mesh(
+    new THREE.PlaneGeometry(11, 16),
+    new THREE.MeshStandardMaterial({ color: 0x192C38, roughness: 0.82 })
+  );
+  wardWall.position.z = -1.4;
+  icuGroup.add(wardWall);
+
+  const monChassis = new THREE.Mesh(
+    new THREE.BoxGeometry(3.45, 2.35, 0.45),
+    new THREE.MeshStandardMaterial({ color: 0xD7DFE4, roughness: 0.38, metalness: 0.25 })
+  );
+  monChassis.position.set(0, 0.15, 0);
+  monChassis.castShadow = true;
+  icuGroup.add(monChassis);
+
+  const ecgTexObj = makeLabelTex(640, 420, () => {});
+  const monScreen = new THREE.Mesh(
+    new THREE.PlaneGeometry(3.05, 1.95),
+    new THREE.MeshBasicMaterial({ map: ecgTexObj.tex })
+  );
+  monScreen.position.set(0, 0.15, 0.24);
+  icuGroup.add(monScreen);
+
+  // Lower hospital bed rail & teal sheet hint
+  const bedSheet = new THREE.Mesh(
+    new THREE.BoxGeometry(6.0, 0.9, 2.2),
+    new THREE.MeshStandardMaterial({ color: 0x1E6E76, roughness: 0.78 })
+  );
+  bedSheet.position.set(0, -2.25, 0.35);
+  icuGroup.add(bedSheet);
+
+  root.add(icuGroup);
+
+  function renderEcgScreen(localSec) {
+    const { ctx, canvas, tex } = ecgTexObj;
+    const w = canvas.width, h = canvas.height;
+    ctx.fillStyle = '#071014';
+    ctx.fillRect(0, 0, w, h);
+
+    // Subtle clinical grid
+    ctx.strokeStyle = 'rgba(56, 128, 112, 0.20)';
+    ctx.lineWidth = 1;
+    for (let x = 0; x < w; x += 32) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+    for (let y = 0; y < h; y += 32) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+
+    const flatProg = clamp((localSec - 1.05) / 0.85);
+    const hrVal = flatProg > 0.75 ? '00' : String(Math.round(lerp(52, 0, flatProg))).padStart(2, '0');
+
+    // ECG Green Waveform (top half)
+    ctx.strokeStyle = flatProg > 0.75 ? '#FF3B36' : '#39FF88';
+    ctx.shadowColor = ctx.strokeStyle;
+    ctx.shadowBlur = 12;
+    ctx.lineWidth = 5;
+    ctx.beginPath();
+    const sweepX = ((localSec * 240) % w);
+    for (let x = 0; x < w; x += 3) {
+      let amp = 0;
+      if (x < w * 0.42 && flatProg < 0.85) {
+        const ph = (x % 150) / 150;
+        if (ph > 0.42 && ph < 0.46) amp = -68 * (1 - flatProg);
+        else if (ph >= 0.46 && ph < 0.50) amp = 32 * (1 - flatProg);
+        else if (ph > 0.62 && ph < 0.72) amp = -18 * Math.sin(((ph - 0.62) / 0.10) * Math.PI) * (1 - flatProg);
+      }
+      const y = 135 + amp;
+      if (x === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    // Respiration Cyan Waveform (bottom half) -> Flatline
+    ctx.strokeStyle = '#45D4FF';
+    ctx.shadowColor = '#45D4FF';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    for (let x = 0; x < w; x += 4) {
+      const respAmp = x < w * 0.38 ? Math.sin(x * 0.04) * 28 * (1 - flatProg) : 0;
+      const y = 305 + respAmp;
+      if (x === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    ctx.shadowBlur = 0;
+    ctx.textAlign = 'right';
+    ctx.fillStyle = flatProg > 0.75 ? '#FF443E' : '#39FF88';
+    ctx.font = '700 66px "SpaceMonoBold"';
+    ctx.fillText(hrVal, w - 26, 95);
+    ctx.font = '700 24px "OswaldBold"';
+    ctx.fillText('HR BPM', w - 28, 36);
+
+    ctx.fillStyle = '#45D4FF';
+    ctx.font = '700 54px "SpaceMonoBold"';
+    ctx.fillText(flatProg > 0.75 ? '00' : '04', w - 26, 285);
+    ctx.font = '700 24px "OswaldBold"';
+    ctx.fillText('RESP', w - 28, 232);
+
+    // Cursor dot
+    ctx.fillStyle = '#FFFFFF';
+    ctx.beginPath(); ctx.arc(Math.min(w - 10, sweepX), 135, 6, 0, Math.PI * 2); ctx.fill();
+    tex.needsUpdate = true;
+  }
+
+  return {
+    root,
+    update(shotId, localSec, p) {
+      boardGroup.visible = shotId === 'S23';
+      icuGroup.visible = shotId === 'S24';
+
+      if (shotId === 'S23') {
+        for (const sw of switches) {
+          const trip = easeOutCubic(clamp((localSec - sw.delay) / 0.28));
+          // 0.15 rad (UP = ON) -> 2.65 rad (DOWN = OFF toward viewer!)
+          sw.leverPivot.rotation.x = lerp(0.15, 2.55, trip);
+          const sp = localSec >= sw.delay && localSec <= sw.delay + 0.26 ? Math.sin(((localSec - sw.delay) / 0.26) * Math.PI) : 0;
+          sw.spark.material.opacity = sp;
+          sw.spark.scale.setScalar(0.6 + sp * 1.4);
+        }
+      } else if (shotId === 'S24') {
+        renderEcgScreen(localSec);
+      }
+    }
+  };
+}
+
+// ============================================================================
+// WORLD 7: MARATHON HYDRATION TABLE & ICU 3% HYPERTONIC SALINE DRIP (S25, S27)
+// ============================================================================
+export function buildRealCasesIcuWorld() {
+  const root = new THREE.Group();
+  const steel = getBrushedSteelMat();
+
+  // --- S25: Marathon Road Hydration Station ---
+  const marathonGroup = new THREE.Group();
+  const asphalt = new THREE.Mesh(
+    new THREE.BoxGeometry(10, 0.4, 6.0),
+    new THREE.MeshStandardMaterial({ color: 0x262B31, roughness: 0.88 })
+  );
+  asphalt.position.set(0, -1.35, 0);
+  asphalt.receiveShadow = true;
+  const stripe = new THREE.Mesh(new THREE.PlaneGeometry(8.5, 0.18), new THREE.MeshBasicMaterial({ color: 0xF5D042 }));
+  stripe.rotation.x = -Math.PI / 2;
+  stripe.position.set(0, -1.14, 1.35);
+  marathonGroup.add(asphalt, stripe);
+
+  const raceTable = new THREE.Mesh(
+    new THREE.BoxGeometry(3.85, 0.14, 1.45),
+    new THREE.MeshStandardMaterial({ color: 0x165B9E, roughness: 0.55 })
+  );
+  raceTable.position.set(0, -0.05, 0.15);
+  raceTable.castShadow = true;
+  marathonGroup.add(raceTable);
+
+  // 12 Paper Race Cups with Blue Band & Water Meniscus
+  const cupTex = makeLabelTex(128, 128, (ctx, w, h) => {
+    ctx.fillStyle = '#F7F9FB'; ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = '#1877D2'; ctx.fillRect(0, 38, w, 34);
+  });
+  const cupMat = new THREE.MeshStandardMaterial({ map: cupTex.tex, roughness: 0.65 });
+  const cups = [];
+  for (let i = 0; i < 12; i++) {
+    const cg = new THREE.Group();
+    const row = Math.floor(i / 6);
+    const col = i % 6;
+    const body = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.115, 0.42, 24), cupMat);
+    body.castShadow = true;
+    const wTop = new THREE.Mesh(new THREE.CircleGeometry(0.145, 20), getWaterLiquidMat(0x47CBFF, 0.85));
+    wTop.rotation.x = -Math.PI / 2;
+    wTop.position.y = 0.16;
+    cg.add(body, wTop);
+    cg.position.set(-1.35 + col * 0.54 + row * 0.12, 0.23, -0.15 + row * 0.46);
+    if (i === 5 || i === 10) {
+      cg.rotation.z = Math.PI * 0.46;
+      cg.position.y = 0.14;
+      wTop.visible = false;
+    }
+    marathonGroup.add(cg);
+    cups.push(cg);
+  }
+  root.add(marathonGroup);
+
+  // --- S27: Hospital ICU 3% Hypertonic Saline IV Bag & Drip Chamber ---
+  const ivGroup = new THREE.Group();
+  const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 5.5, 20), steel);
+  pole.position.set(-1.15, 0, -0.25);
+  const hookBar = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 1.35, 16), steel);
+  hookBar.rotation.z = Math.PI / 2;
+  hookBar.position.set(-0.52, 2.05, -0.1);
+  ivGroup.add(pole, hookBar);
+
+  // Sculpted Clear IV Bag + Printed Medical Label ("3% NaCl HYPERTONIC SALINE")
+  const bagShell = new THREE.Mesh(
+    new THREE.CapsuleGeometry(0.68, 0.95, 18, 32),
+    getClearGlassMat(0.36, 0xE6F7FF)
+  );
+  bagShell.scale.set(1.05, 1.0, 0.36);
+  bagShell.position.set(0.08, 0.82, 0.1);
+  ivGroup.add(bagShell);
+
+  const bagLiquid = new THREE.Mesh(
+    new THREE.CapsuleGeometry(0.62, 0.72, 16, 28),
+    getWaterLiquidMat(0xF5C249, 0.72)
+  );
+  bagLiquid.scale.set(1.02, 0.92, 0.32);
+  bagLiquid.position.set(0.08, 0.72, 0.1);
+  ivGroup.add(bagLiquid);
+
+  const ivLabel = makeLabelTex(384, 448, (ctx, w, h) => {
+    ctx.fillStyle = 'rgba(250, 252, 255, 0.94)';
+    ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = '#D32F2F';
+    ctx.fillRect(0, 0, w, 68);
+    ctx.fillStyle = '#FFFFFF';
+    ctx.textAlign = 'center';
+    ctx.font = '700 30px "OswaldBold"';
+    ctx.fillText('ICU EMERGENCY BOLUS', w / 2, 45);
+
+    ctx.fillStyle = '#102027';
+    ctx.font = '700 92px "Anton"';
+    ctx.fillText('3% NaCl', w / 2, 185);
+
+    ctx.fillStyle = '#0277BD';
+    ctx.font = '700 34px "OswaldBold"';
+    ctx.fillText('HYPERTONIC SALINE', w / 2, 248);
+
+    ctx.fillStyle = '#37474F';
+    ctx.font = '700 24px "SpaceMonoBold"';
+    ctx.fillText('513 mmol/L SODIUM', w / 2, 315);
+    ctx.fillText('100 mL IV INFUSION', w / 2, 355);
+    ctx.fillStyle = '#1B5E20';
+    ctx.fillText('PULLS BRAIN FLUID OUT', w / 2, 410);
+  });
+  const labelPlane = new THREE.Mesh(
+    new THREE.PlaneGeometry(1.08, 1.26),
+    new THREE.MeshStandardMaterial({ map: ivLabel.tex, roughness: 0.35 })
+  );
+  labelPlane.position.set(0.08, 0.82, 0.36);
+  ivGroup.add(labelPlane);
+
+  // Drip Chamber + Falling Saline Drop + IV Tubing
+  const chamber = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.13, 0.62, 24), getClearGlassMat(0.38));
+  chamber.position.set(0.08, -0.58, 0.1);
+  const fallingDrop = new THREE.Mesh(new THREE.SphereGeometry(0.055, 16, 16), getWaterLiquidMat(0xFFCA4B, 0.95));
+  ivGroup.add(chamber, fallingDrop);
+
+  const ivTube = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.032, 0.032, 1.85, 14),
+    getClearGlassMat(0.48, 0xFFF2C8)
+  );
+  ivTube.position.set(0.08, -1.75, 0.1);
+  ivGroup.add(ivTube);
+
+  root.add(ivGroup);
+
+  return {
+    root,
+    update(shotId, localSec, p) {
+      marathonGroup.visible = shotId === 'S25';
+      ivGroup.visible = shotId === 'S27';
+      if (shotId === 'S27') {
+        const dy = ((localSec * 1.8) % 1.0);
+        fallingDrop.position.set(0.08, lerp(-0.32, -0.82, dy), 0.1);
+      }
+    }
+  };
+}
+
+// ============================================================================
+// WORLD 8: THE 3 GOLDEN HYDRATION RULES & BRASS BALANCE SCALE (S28 - S31)
+// ============================================================================
+export function buildHydrationRulesWorld() {
+  const root = new THREE.Group();
+  const walnut = getWoodMat('walnut');
+  const oak = getWoodMat('oak');
+  const brass = getBrassMat();
+  const glass = getClearGlassMat(0.34);
+
+  const bench = new THREE.Mesh(new THREE.BoxGeometry(10, 0.55, 4.2), walnut);
+  bench.position.set(0, -1.95, 0);
+  bench.receiveShadow = true;
+  root.add(bench);
+
+  // --- S28: 1000 mL Etched Graduated Cylinder Stopping at "MAX 800 mL / HR" + Brass Stopwatch ---
+  const rule1Group = new THREE.Group();
+  const cylBase = new THREE.Mesh(new THREE.CylinderGeometry(0.68, 0.74, 0.14, 36), glass);
+  cylBase.position.set(-0.38, -1.60, 0.1);
+  const cylBody = new THREE.Mesh(new THREE.CylinderGeometry(0.46, 0.46, 2.75, 36, 1, true), glass);
+  cylBody.position.set(-0.38, -0.18, 0.1);
+
+  const scaleTex = makeLabelTex(256, 512, (ctx, w, h) => {
+    ctx.clearRect(0, 0, w, h);
+    ctx.strokeStyle = 'rgba(255,255,255,0.88)';
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = '700 26px "SpaceMonoBold"';
+    ctx.textAlign = 'left';
+    for (let ml = 200; ml <= 1000; ml += 100) {
+      const y = h - (ml / 1100) * h;
+      ctx.lineWidth = ml % 200 === 0 ? 4 : 2;
+      ctx.beginPath(); ctx.moveTo(40, y); ctx.lineTo(ml % 200 === 0 ? 105 : 78, y); ctx.stroke();
+      if (ml % 200 === 0) ctx.fillText(`${ml}`, 114, y + 8);
+    }
+    // Glowing green MAX 800 mL line
+    const y800 = h - (800 / 1100) * h;
+    ctx.strokeStyle = '#35FF96';
+    ctx.lineWidth = 7;
+    ctx.beginPath(); ctx.moveTo(15, y800); ctx.lineTo(240, y800); ctx.stroke();
+  });
+  const scaleWrap = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.47, 0.47, 2.55, 32, 1, true, -0.7, 1.4),
+    new THREE.MeshBasicMaterial({ map: scaleTex.tex, transparent: true, depthWrite: false })
+  );
+  scaleWrap.position.set(-0.38, -0.18, 0.1);
+
+  const cylWater = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.42, 1.0, 28), getWaterLiquidMat(0x46CBFF, 0.82));
+  const ring800 = new THREE.Mesh(
+    new THREE.TorusGeometry(0.49, 0.032, 14, 36),
+    new THREE.MeshStandardMaterial({ color: 0x2CE68B, emissive: 0x109955, emissiveIntensity: 0.65 })
+  );
+  ring800.rotation.x = Math.PI / 2;
+  ring800.position.set(-0.38, 0.36, 0.1);
+
+  // Brass Pocket Stopwatch beside Cylinder
+  const watch = buildBrassDialGauge({ radius: 0.54, title: '1 HOUR', subLeft: 'SAFE', subRight: '60m' });
+  watch.group.position.set(0.96, -1.05, 0.25);
+  rule1Group.add(cylBase, cylBody, scaleWrap, cylWater, ring800, watch.group);
+  root.add(rule1Group);
+
+  // --- S29: Crystal Tumbler + Dropping Effervescent ORS Tablet + Fizz Bubbles ---
+  const rule2Group = new THREE.Group();
+  const tumbler = new THREE.Mesh(new THREE.CylinderGeometry(0.62, 0.50, 1.75, 32, 1, true), glass);
+  tumbler.position.set(-0.25, -0.78, 0.15);
+  const tumblerWater = new THREE.Mesh(new THREE.CylinderGeometry(0.56, 0.47, 1.38, 28), getWaterLiquidMat(0x5BD4FF, 0.76));
+  tumblerWater.position.set(-0.25, -0.92, 0.15);
+
+  const orsTab = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.24, 0.24, 0.11, 28),
+    new THREE.MeshStandardMaterial({ color: 0xFFA726, emissive: 0xAA5500, emissiveIntensity: 0.35, roughness: 0.4 })
+  );
+  orsTab.rotation.x = 0.5;
+
+  const fizzBubbles = [];
+  const fizzGeo = new THREE.SphereGeometry(0.042, 12, 12);
+  const fizzMat = new THREE.MeshStandardMaterial({ color: 0xFFE58F, emissive: 0xFFAA22, emissiveIntensity: 0.45 });
+  for (let i = 0; i < 26; i++) {
+    const b = new THREE.Mesh(fizzGeo, fizzMat);
+    rule2Group.add(b);
+    fizzBubbles.push({ mesh: b, off: i / 26, ang: i * 1.7, r: 0.08 + (i % 5) * 0.07 });
+  }
+
+  // Printed ORS Electrolyte Packet beside glass
+  const pktTex = makeLabelTex(256, 340, (ctx, w, h) => {
+    ctx.fillStyle = '#F57C00'; ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = '#FFFFFF'; ctx.fillRect(14, 14, w - 28, h - 28);
+    ctx.fillStyle = '#E65100'; ctx.textAlign = 'center';
+    ctx.font = '700 68px "Anton"'; ctx.fillText('ORS', w / 2, 125);
+    ctx.fillStyle = '#1E272C'; ctx.font = '700 28px "OswaldBold"';
+    ctx.fillText('SODIUM +', w / 2, 195);
+    ctx.fillText('POTASSIUM', w / 2, 235);
+    ctx.fillStyle = '#1565C0'; ctx.font = '700 24px "SpaceMonoBold"';
+    ctx.fillText('ELECTROLYTES', w / 2, 292);
+  });
+  const orsPacket = new THREE.Mesh(
+    new THREE.BoxGeometry(0.88, 1.18, 0.12),
+    new THREE.MeshStandardMaterial({ map: pktTex.tex, roughness: 0.35 })
+  );
+  orsPacket.position.set(1.02, -1.05, 0.25);
+  orsPacket.rotation.y = -0.28;
+  orsPacket.rotation.z = -0.08;
+  rule2Group.add(tumbler, tumblerWater, orsTab, orsPacket);
+  root.add(rule2Group);
+
+  // --- S30: Walnut 5-Test-Tube Clinical Hydration Spectrum Rack ---
+  const rule3Group = new THREE.Group();
+  const rackBottom = new THREE.Mesh(new THREE.BoxGeometry(3.45, 0.18, 0.72), oak);
+  rackBottom.position.set(0, -1.58, 0.15);
+  const rackMid = new THREE.Mesh(new THREE.BoxGeometry(3.45, 0.12, 0.72), oak);
+  rackMid.position.set(0, -0.35, 0.15);
+  const postL = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 1.35, 16), brass);
+  postL.position.set(-1.58, -0.96, 0.15);
+  const postR = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 1.35, 16), brass);
+  postR.position.set(1.58, -0.96, 0.15);
+  rule3Group.add(rackBottom, rackMid, postL, postR);
+
+  const tubeSpecs = [
+    { x: -1.16, hex: 0xE6F9FF, alpha: 0.45, tag: 'CLEAR' },
+    { x: -0.58, hex: 0xF7EEA6, alpha: 0.82, tag: 'IDEAL' },
+    { x:  0.00, hex: 0xF2DC74, alpha: 0.86, tag: 'IDEAL' },
+    { x:  0.58, hex: 0xD99424, alpha: 0.90, tag: 'LOW' },
+    { x:  1.16, hex: 0x9C4F0E, alpha: 0.94, tag: 'DRY' }
+  ];
+  for (const sp of tubeSpecs) {
+    const tGlass = new THREE.Mesh(new THREE.CylinderGeometry(0.19, 0.19, 1.75, 24), glass);
+    tGlass.position.set(sp.x, -0.62, 0.15);
+    const tLiq = new THREE.Mesh(new THREE.CylinderGeometry(0.165, 0.165, 1.32, 20), getWaterLiquidMat(sp.hex, sp.alpha));
+    tLiq.position.set(sp.x, -0.80, 0.15);
+    rule3Group.add(tGlass, tLiq);
+  }
+
+  // Brass "IDEAL PALE STRAW" Bracket framing Tubes 2 & 3!
+  const idealBracket = new THREE.Mesh(
+    new THREE.BoxGeometry(1.16, 1.98, 0.06),
+    new THREE.MeshStandardMaterial({ color: 0x35E88A, emissive: 0x128848, emissiveIntensity: 0.55, wireframe: true })
+  );
+  idealBracket.position.set(-0.29, -0.60, 0.42);
+  rule3Group.add(idealBracket);
+  root.add(rule3Group);
+
+  // --- S31: Turned Brass Apothecaries' Balance Scale (Water Carafe == Salt Crystals) ---
+  const scaleGroup = new THREE.Group();
+  const ochreBack = new THREE.Mesh(new THREE.PlaneGeometry(11, 18), getOchreBoardMat());
+  ochreBack.position.z = -1.1;
+  scaleGroup.add(ochreBack);
+
+  const scaleBase = new THREE.Mesh(new THREE.CylinderGeometry(0.95, 1.08, 0.22, 40), brass);
+  scaleBase.position.set(0, -1.56, 0.1);
+  const pillar = new THREE.Mesh(new THREE.CylinderGeometry(0.085, 0.11, 2.35, 24), brass);
+  pillar.position.set(0, -0.35, 0.1);
+  scaleGroup.add(scaleBase, pillar);
+
+  const beamPivot = new THREE.Group();
+  beamPivot.position.set(0, 0.82, 0.1);
+  const beamBar = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 2.75, 20), brass);
+  beamBar.rotation.z = Math.PI / 2;
+  beamPivot.add(beamBar);
+
+  // Left Pan (Water Vessel) & Right Pan (White Salt Crystals)
+  const makePan = (x, isWater) => {
+    const pg = new THREE.Group();
+    pg.position.set(x, 0, 0);
+    const cord = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, 1.15, 10), brass);
+    cord.position.y = -0.58;
+    const dish = new THREE.Mesh(new THREE.CylinderGeometry(0.54, 0.40, 0.10, 32), brass);
+    dish.position.y = -1.16;
+    pg.add(cord, dish);
+
+    if (isWater) {
+      const carafe = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.30, 0.65, 24), glass);
+      carafe.position.y = -0.78;
+      const cw = new THREE.Mesh(new THREE.CylinderGeometry(0.21, 0.26, 0.50, 20), getWaterLiquidMat(0x45C9FF, 0.85));
+      cw.position.y = -0.84;
+      pg.add(carafe, cw);
+    } else {
+      const saltMat = new THREE.MeshStandardMaterial({ color: 0xFAF8F2, roughness: 0.22, metalness: 0.1 });
+      for (const [sx, sy, sz, sr] of [[0, -0.96, 0, 0.22], [-0.18, -1.02, 0.1, 0.16], [0.18, -1.01, -0.06, 0.17], [0.04, -0.80, 0.04, 0.15]]) {
+        const cube = new THREE.Mesh(new THREE.BoxGeometry(sr, sr, sr), saltMat);
+        cube.position.set(sx, sy, sz);
+        cube.rotation.set(0.3, 0.5, 0.2);
+        pg.add(cube);
+      }
+    }
+    return pg;
+  };
+  const leftPan = makePan(-1.26, true);
+  const rightPan = makePan(1.26, false);
+  beamPivot.add(leftPan, rightPan);
+  scaleGroup.add(beamPivot);
+  root.add(scaleGroup);
+
+  return {
+    root,
+    update(shotId, localSec, p) {
+      bench.visible = shotId !== 'S32';
+      rule1Group.visible = shotId === 'S28';
+      rule2Group.visible = shotId === 'S29';
+      rule3Group.visible = shotId === 'S30';
+      scaleGroup.visible = shotId === 'S31';
+
+      if (shotId === 'S28') {
+        // Rises smoothly to 800 mL green ring and stops cleanly!
+        const k = easeOutCubic(clamp(localSec / 1.8));
+        const hVal = lerp(0.45, 1.90, k);
+        cylWater.scale.y = hVal;
+        cylWater.position.set(-0.38, -1.52 + hVal * 0.5, 0.1);
+        watch.needlePivot.rotation.z = -localSec * 1.1;
+      } else if (shotId === 'S29') {
+        const drop = clamp(localSec / 0.65);
+        orsTab.position.set(-0.25, lerp(0.55, -1.42, easeOutCubic(drop)), 0.15);
+        const s = clamp(1.0 - Math.max(0, localSec - 0.65) * 0.22, 0.35, 1.0);
+        orsTab.scale.setScalar(s);
+        tumblerWater.material.color.setHex(localSec > 0.7 ? 0x62DEEE : 0x5BD4FF);
+
+        for (const fb of fizzBubbles) {
+          fb.mesh.visible = localSec > 0.55;
+          const u = ((localSec - 0.55) * 0.85 + fb.off) % 1.0;
+          fb.mesh.position.set(
+            -0.25 + Math.cos(fb.ang + u * 5) * fb.r,
+            lerp(-1.45, -0.28, u),
+            0.15 + Math.sin(fb.ang + u * 5) * fb.r
+          );
+        }
+      } else if (shotId === 'S30') {
+        idealBracket.position.y = -0.60 + Math.sin(localSec * 5) * 0.025;
+      } else if (shotId === 'S31') {
+        // Damped harmonic oscillation settling into dead-level 0.0 equilibrium!
+        const tilt = Math.exp(-localSec * 1.45) * Math.sin(localSec * 4.2) * 0.24;
+        beamPivot.rotation.z = tilt;
+        leftPan.rotation.z = -tilt;
+        rightPan.rotation.z = -tilt;
+      }
+    }
+  };
 }

@@ -1,56 +1,45 @@
-# WATER INTOXICATION / ACUTE HYPONATREMIA — WORD-TO-WORD VOICEOVER & CAPTION SCRIPT (`v14.0` Era-2 Cinema Edition)
+# 7.5 Liters of Water in 3 Hours — Acute Water Intoxication (`v15.0` Master Production Script)
 
-- **Topic**: Why Drinking Too Much Water Can Kill You in 3 Hours — The Hidden Science of Water Intoxication (*Acute Dilutional Hyponatremia*)
-- **Format**: `1080 × 1920` (`9:16` Vertical Reel) @ `30.00 FPS` (`648×1152` Supersampled WebGL2 + Native `1080×1920` Era-2 Kinetic Layer)
-- **Total Duration**: `120.00 seconds` (`3,600 frames`)
-- **Editing Architecture**: `36` Bespoke Pure-Code 3D Shots (`S01`–`S36`, `72` Dual-Beat Visual Clauses with Mid-Shot Shutter Swaps + Choreographed `whip_left` / `whip_right` / `zoom_dive` / `film_flash` / `paper_wipe` Transitions)
-- **Spoken Cadence**: `396 Words` (`3.30 Words/Second` = `198 WPM` Conversational Hinglish)
+- **Format**: `1080 × 1920` Vertical `9:16` @ `30.00 FPS` (`3,600` frames / `120.00s`)
+- **Engine**: Sovereign `v15.0` Native `1080×1920` WebGL2 + `1024×1024` Procedural Illustrated Relief Diorama Theatre
+- **Caption Architecture**: Left-Aligned (`x = 72px`) Progressive 2-Line Cumulative Reveal (`Line 1` @ `0.18s`, `Line 2` flush-left underneath @ `0.58s`, held rock-steady; zero mid-shot swaps; zero bottom pill-tag spam)
+- **Audio Master**: `-14.2 LUFS` / `<= -1.2 dBTP` EBU R128 Stereo (`48,000 Hz` AAC)
 
 ---
 
-## PART 1: CLEAN COPY-PASTE VOICEOVER SCRIPT (FOR ELEVENLABS / STUDIO RECORDING)
+## 8 Continuous Spatial World Sequences (`32` Shots)
 
-```text
-Saaf thanda paani zindagi hai — bina iske insaan kuch din bhi zinda nahi reh sakta. [0.2s]
-Par January 2007 mein California ke ek live FM radio station par... [0.2s]
-ek ajeeb contest rakha gaya — "Hold Your Wee for a Wii", jisme bina washroom jaaye sabse zyada paani peene wale ko ek free gaming console milna tha! [0.25s]
-28-saal ki Jennifer Strange ne apne bacchon ke liye sirf 3 ghante mein lagbhag 7 liter paani pee liya. [0.25s]
-Ghar lautne ke 5 ghante baad woh behosh ho gayi... aur phir kabhi nahi uthi. [0.3s]
-
-Autopsy mein na koi zeher mila, na koi drug — sirf saaf paani! [0.2s]
-Medical science mein is silent killer ko kehte hain — Acute Hyponatremia, yaani Water Intoxication! [0.25s]
-Bachpan se hum sunte aaye hain — jitna zyada paani piyoge, body utni detox hogi? [0.15s] Yeh adhoora sach jaanleva ho sakta hai! [0.25s]
-
-Samajhne ke liye apne body ke smart filter — Kidneys ko dekho. [0.2s]
-Healthy kidneys ek ghante mein maximum sirf 0.8 se 1 liter paani hi filter karke bahar nikal sakti hain. [0.25s]
-Jab aap ek saath 2 ya 3 liter paani gatak jaate ho, toh kidneys overflow ho jaati hain — aur bacha hua paani seedha khoon mein jama hone lagta hai! [0.25s]
-Aapke khoon mein Sodium ions ka exact balance hona zaroori hai — 135 se 145 millimoles per liter. [0.25s]
-Yahi sodium khoon ka fluid balance sambhalta hai aur nerves ke electric signals chalata hai. [0.2s]
-Par jab khoon mein achanak paani ki baadh aati hai, toh sodium ghul kar patla ho jaata hai! [0.25s]
-135 se neeche khatra shuru hota hai — aur 120 se neeche aate hi emergency! [0.25s]
-
-Ab yahan physics ka ek kathor niyam kaam karta hai — Osmosis. [0.2s]
-Paani hamesha kam namak wali jagah se zyada namak wali jagah ki taraf bhaagta hai — aur ab aapke cells ke andar khoon se zyada namak hai! [0.25s]
-Nateeja? Khoon ka extra paani cells ke Aquaporin channels cheer kar andar ghusne lagta hai, aur cells gubbare ki tarah phoolne lagte hain! [0.25s]
-
-Haath-pair aur skin ki soft muscles mein phailne ki jagah hoti hai, toh woh sujan jhel leti hain. [0.2s]
-Par aapka dimaag band hai 7 millimeter moti thos haddi ke pinjre — Skull ke andar, jahan phailne ki ek inch bhi jagah nahi! [0.25s]
-Jab brain ke Astrocytes paani sokh kar sujte hain, toh dimaag khud apni hi khopdi ki deewar se kuchalne lagta hai! [0.25s]
-Skull ke andar pressure chaar guna badh jaata hai aur khoon ki supply rukne lagti hai. [0.2s]
-Shuruat hoti hai tez sir-dard, ulti aur ajeeb confusion se — jo aksar heatstroke samajh liya jaata hai. [0.25s]
-Dimaag ko nikalne ka koi raasta nahi milta, toh woh neeche Foramen Magnum ke chhed mein dhasne lagta hai! [0.25s]
-Isse Brainstem dab jaata hai — saans aur dhadkan ka switch band, aur insaan coma mein chala jaata hai! [0.3s]
-
-Aur yeh sirf kisi contest mein nahi — marathon runners ke har aath mein se ek finisher mein mild hyponatremia dekha gaya hai! [0.25s]
-Kyunki paseene mein paani ke saath namak bhi nikalta hai — upar se sirf sada paani peena sodium ko aur gira deta hai. [0.25s]
-6 mahine se chhote bacchon ko toh kabhi alag se sada paani nahi dena chahiye — unki chhoti kidneys ise jhel nahi paati. [0.25s]
-Hospital mein doctors turant 3% Hypertonic Saline IV dete hain — jo khoon mein namak badha kar dimaag se extra paani wapas kheench leta hai! [0.25s]
-
-Khud ko safe rakhne ke sirf 3 simple hydration rules hain. [0.2s]
-Pehla: paani ek saath gatakne ke bajaye aaram se piyo — ek ghante mein 800 ml se zyada nahi. [0.2s]
-Doosra: kadi dhoop, gym ya running mein paseena aaye, toh paani mein Electrolytes ya ORS zaroor milao. [0.2s]
-Teesra: sabse aasaan test — urine bilkul paani jaisa safed nahi, halka pale-straw hona chahiye! [0.25s]
-Apni body ke natural Thirst signal par bharosa rakho — woh laakhon saal ke evolution ka meter hai. [0.2s]
-Kyunki science mein zeher koi cheez nahi, uski matra hoti hai — saaf paani ki bhi! [0.2s]
-Yeh reel apne gym aur runner doston ke saath abhi share karo!
-```
+| Shot | Time (`s`) | World | Left-Aligned Progressive 2-Line Headline | Visual Diorama Action | Hinglish Voiceover |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **S01** | `0.0–3.6` | 1. Radio Studio | `JANUARY 2007` / `LIVE ON RADIO` | Wide broadcast booth: glowing red `ON AIR 107.9` lightbox, dual-VU analog console, brass condenser mic, white Wii box & 8 full `0.5L` bottles on oak desk. | January 2007, California ke ek live FM radio show mein ek ajeeb contest rakha gaya. |
+| **S02** | `3.6–7.4` | 1. Radio Studio | `THE CONTEST RULE:` / `DON'T PEE TO WIN` | Medium push-in onto the white Wii console box & wireless controller beside the live broadcast mic and studio tally light. | Apne bachon ke liye gaming console jeetne ka rule simple tha — bina washroom gaye sabse zyada paani peena. |
+| **S03** | `7.4–11.4` | 1. Radio Studio | `JENNIFER DRANK` / `7.5 LITERS IN 3 HOURS` | Tracking glide across 8 labeled bottles + tall `1L` jugs draining sequentially with rising bubbles as the studio wall clock sweeps 3 hours. | 28 saal ki Jennifer Strange ne mahez teen ghante mein saadhe saat liter paani pee liya. |
+| **S04** | `11.4–15.0` | 1. Radio Studio | `ON LIVE AIR` / `BLINDING HEAD PAIN` | Tight close-up on the condenser mic & empty uncapped bottles under pulsing crimson `ON AIR` light. | Studio se nikalte waqt live mic par usne kaha — mera sar dard se phat raha hai. |
+| **S05** | `15.0–19.0` | 2. Bedroom & Evidence | `FIVE HOURS LATER` / `FOUND UNCONSCIOUS` | Moonlit suburban bedroom: slatted blinds, patterned quilt over still pillow silhouette, warm bedside lamp & twin-bell clock past `2:00 AM`. | Aur sirf paanch ghante baad, apne hi kamre mein woh hamesha ke liye khamosh mili. |
+| **S06** | `19.0–22.8` | 2. Bedroom & Evidence | `CAUSE OF DEATH:` / `PURE DRINKING WATER` | Warm ochre tabletop: mechanical split-flap date `12 | JANUARY | 2007` + *Sacramento County Coroner* newspaper clipping (`ACUTE WATER INTOXICATION`). | Postmortem report mein na koi zeher tha, na koi chot — maut ki wajah thi sirf saaf peene ka paani. |
+| **S07** | `22.8–26.5` | 2. Bedroom & Evidence | `"MORE WATER = SAFE"` / `A DEADLY MYTH` | Ochre studio board: twin pinned cream sticky notes (`PAANI = 100% SAFE`, `ZYADA PIYO = DETOX`) slashed cleanly in red ink. | Humein bachpan se lagta hai jitna zyada paani piyoge body utni detox hogi — par yeh ek khatarnaak myth hai. |
+| **S08** | `26.5–30.2` | 3. Kidney Stand | `YOUR TWO KIDNEYS` / `HAVE A SPEED LIMIT` | Beveled `1024×1024` illustrated 3D Sagittal Kidney Cross-Section (cortex, 7 striated renal pyramids, calyces, pelvis, vessels & ureter) on brass museum stand. | Kyunki aapki dono kidneys ke paas paani filter karne ki ek strict biological speed limit hoti hai. |
+| **S09** | `30.2–34.0` | 3. Kidney Stand | `MAXIMUM OUTPUT:` / `0.8 LITERS PER HOUR` | Medium zoom onto the inline brass ureter flowmeter (`MAX 0.8 L/HR`) hitting the red mechanical stop pin. | Healthy kidneys ek ghante mein maximum sirf zero point eight se ek liter paani hi bahar nikaal sakti hain. |
+| **S10** | `34.0–37.8` | 3. Kidney Stand | `SHE DRANK WATER` / `3X FASTER THAN EXIT` | Massive `2.5 L/HR` intake funnel flooding the renal pelvis from above while only a thin `0.8 L/HR` trickle exits below. | Jennifer har ghante dhai liter paani andar bhej rahi thi — yaani exit speed se teen guna tez! |
+| **S11** | `37.8–41.5` | 3. Kidney Stand | `TRAPPED WATER` / `FLOODS THE BLOOD` | Tight macro on the engorged renal vein shunting excess clear water droplets straight back into systemic crimson blood. | Jo extra paani bahar nahi nikal paaya, woh seedha khoon ki nason mein bharne laga. |
+| **S12** | `41.5–45.4` | 4. Artery & Sodium | `SODIUM IN BLOOD` / `SPARKS EVERY NERVE` | Deep crimson bloodstream lumen: biconcave RBCs gliding past golden `Na+` ions firing crisp cyan nerve sparks. | Hamare khoon mein maujood sodium har ek nerve signal aur fluid balance ko control karta hai. |
+| **S13** | `45.4–49.4` | 4. Artery & Sodium | `HEALTHY BLOOD HOLDS` / `140 MMOL/L SODIUM` | Bifurcating Y-shaped artery cutaway on warm ochre board with vertical brass stem gauge locked in green at `140 mmol/L`. | Normal insaan ke blood mein sodium bilkul ek sau chaalis millimoles per liter par lock rehta hai. |
+| **S14** | `49.4–53.2` | 4. Artery & Sodium | `GALLONS OF WATER` / `WASH SODIUM AWAY` | Pale cyan water floods both branches of the Y-artery, diluting crimson plasma pale pink as the brass gauge needle plunges into `LOW Na+`. | Jab achanak kai liter paani khoon mein milta hai, toh khoon patla hokar sodium ko dilute kar deta hai. |
+| **S15** | `53.2–57.0` | 4. Artery & Sodium | `AT 118 MMOL/L:` / `SODIUM TURNS CRITICAL` | Brushed stainless hospital electrolyte analyzer counting down `140 -> 118 mmol/L` on red 7-segment LED above millimeter pathology chart. | Jab yeh level gir kar ek sau athaarah ke neeche jaata hai, doctors isse Acute Hyponatremia kehte hain. |
+| **S16** | `57.0–61.0` | 5. Osmosis & Pores | `NATURE'S IRON RULE:` / `WATER CHASES SALT` | Borosilicate glass U-tube osmometer on oak bench: dilute left arm drops while salty right arm rises steeply across brass membrane. | Yahan physics ka ek simple niyam kaam karta hai, Osmosis — paani hamesha zyada namak ki taraf bhaagta hai. |
+| **S17** | `61.0–65.0` | 5. Osmosis & Pores | `MILLIONS OF PORES` / `PULL WATER INSIDE` | Phospholipid bilayer wall with 3 hourglass cyan Aquaporin-4 channels pulling glowing `H2O` spheres into salty cytoplasm. | Khoon mein namak kam aur cells ke andar zyada hone se, paani tezi se cells ke andar ghusne lagta hai. |
+| **S18** | `65.0–69.0` | 5. Osmosis & Pores | `MUSCLES CAN STRETCH` / `YOUR SKULL CANNOT` | Side-by-side comparison on ochre board: flexible muscle fibers expanding freely vs. rigid ivory skull bone vault. | Haath aur pair ke cells phool jayein toh jagah mil jaati hai — par aapka dimaag kahan phailaga? |
+| **S19** | `69.0–73.0` | 6. Skull & Brain | `YOUR BRAIN SITS IN` / `7MM OF SOLID BONE` | Museum-grade Sagittal Human Head & `7mm` Ivory Cortical Skull Cutaway on brass rod showing folded cerebral gyri, cerebellum & brainstem. | Hamara dimaag charon taraf se saat millimeter moti thos haddi ki khopdi mein band hota hai. |
+| **S20** | `73.0–76.8` | 6. Skull & Brain | `BRAIN CELLS SWELL` / `WITH ZERO EXIT ROOM` | Medium push-in on folded cerebral cortex inside the 7mm skull vault as gyri engorge and flatten dark sulci against bone. | Jaise hi paani brain cells ke andar bharta hai, dimaag phoolne lagta hai par bahar nikalne ki koi jagah nahi hoti. |
+| **S21** | `76.8–80.6` | 6. Skull & Brain | `RISING PRESSURE` / `CHOKES BLOOD FLOW` | Intracranial brass manometer spikes past `40 mmHg` (`CRITICAL ICP`) as swollen cortex compresses surface arteries against the cranium. | Badhta hua pressure khopdi ke andar ki khoon ki nason ko daba kar oxygen supply rok deta hai. |
+| **S22** | `80.6–84.6` | 6. Skull & Brain | `SWOLLEN TISSUE` / `PLUGS THE SKULL BASE` | Extreme macro on the skull base & Foramen Magnum as swollen cerebellar tonsils herniate downward, compressing the brainstem. | Aakhir mein phoola hua dimaag neeche ke iklaute chhed, Foramen Magnum mein dhas jaata hai. |
+| **S23** | `84.6–88.5` | 6. Switchboard & ICU | `VITAL CONTROLS` / `SWITCHED OFF` | Industrial dark-green riveted steel switchboard with glass relay windows, brass plates (`BREATHING`, `HEARTBEAT`, `WAKE`) & cables as knife levers slam OFF. | Wahin par brainstem hota hai — jo aapki saans aur dil ki dhadkan ka main switchboard hai. |
+| **S24** | `88.5–92.5` | 6. Switchboard & ICU | `LUNGS AND HEART` / `STOP TOGETHER` | ICU bedside cardiac monitor flatlining (`HR: 00 | RESP: 00`) above darkened hospital bed and slatted blinds. | Brainstem dabte hi saans aur dhadkan dono ke switches ek saath band ho jaate hain. |
+| **S25** | `92.5–96.2` | 7. Real Cases & ICU | `13% OF MARATHONERS` / `OVER-DRINK ON RACE DAY` | Asphalt marathon hydration station table with paper cups + *NEJM* Boston Marathon excerpt (`13% HYPONATREMIC`). | Yeh sirf radio contest mein nahi hota — Boston Marathon study mein terah percent runners mein yahi condition mili. |
+| **S26** | `96.2–99.8` | 7. Real Cases & ICU | `BABIES UNDER 6 MONTHS` / `NEED ZERO PLAIN WATER` | Ochre tabletop comparison: crossed-out `120 mL` plain water infant bottle (`TINY KIDNEYS`) next to balanced milk bottle. | Aur chheh mahine se chhote bachon ki kidneys chhoti hone ki wajah se unhein saadha paani bilkul nahi diya jaata. |
+| **S27** | `99.8–103.5` | 7. Real Cases & ICU | `ICU DOCTORS INFUSE` / `3% HYPERTONIC SALT` | Hospital IV pole & clear drip bag (`3% NaCl HYPERTONIC SALINE`) dripping concentrated saline through roller-clamp chamber. | Emergency ICU mein doctors mareez ko saadha paani nahi, balki three percent gaadha salt solution chadhate hain. |
+| **S28** | `103.5–107.0` | 8. Hydration Rules | `RULE 1: NEVER CHUG` / `OVER 800 ML PER HOUR` | Etched `1000 mL` borosilicate graduated cylinder settling cleanly at glowing green `MAX 800 mL/HR` ring next to brass stopwatch. | Apne aap ko safe rakhne ke teen rules yaad rakhiye — Rule one: ek ghante mein aath sau ML se zyada paani mat pijiye. |
+| **S29** | `107.0–110.5` | 8. Hydration Rules | `RULE 2: HEAVY SWEAT?` / `ADD ELECTROLYTES` | Crystal tumbler on oak bench as an effervescent ORS electrolyte tablet drops in with golden `Na+ / K+` fizz bubbles. | Rule two: bhaari workout ya garmi mein paseena bahaane par paani ke saath electrolytes ya ORS zaroor lein. |
+| **S30** | `110.5–114.0` | 8. Hydration Rules | `RULE 3: PALE YELLOW` / `MEANS IDEAL BALANCE` | Walnut 5-tube clinical hydration rack: crystal-clear (`STOP`) vs. bracketed pale-straw (`IDEAL`) vs. dark amber (`DRINK`). | Rule three: halka peela rang perfect hydration ki nishani hai — bilkul paani jaisa transparent hona rukne ka signal hai. |
+| **S31** | `114.0–117.2` | 8. Hydration Rules | `EVEN PURE WATER` / `HAS A LETHAL DOSE` | Turned brass apothecaries' balance scale balancing a crystal water carafe and white salt crystals in equilibrium (`PARACELSUS`). | Zeher aur amrit mein farq sirf maatra ka hota hai — sahi matra mein hi paani jeevan hai. |
+| **S32** | `117.2–120.0` | 8. Hydration Rules | `SEND THIS TO` / `YOUR GYM PARTNER` | Pinned 3-Rule Hydration Pocket Card on warm ochre board beside a crisp glass of water. | Yeh reel apne har runner aur gym partner ke saath abhi share kijiye. |

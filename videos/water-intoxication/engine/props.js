@@ -1,499 +1,426 @@
-// Spring-Animated Physical Archival 2D Props + Hand-Drawn Red Circles & Live Clinical Curve Charts (v14.0)
-import { clamp, lerp, easeOutCubic, easeOutExpo, easeOutBack, mulberry32 } from './dossier.js';
+// Sovereign v15.0 — Tactile Archival Evidence Props (Used ONLY on the 6 Specific Archival Beats)
+// Direct homage to strip_09.jpg (f450 date flip + Tribune clipping, f1275..1350 twin myth sticky notes)
+// & strip_08.jpg (f1875..2025 CDC clinical excerpt under digital analyzer).
+// ZERO generic bottom pill tags!
 
-export function roundRectPath(ctx, x, y, w, h, r) {
-  const rr = Math.min(r, w / 2, h / 2);
+import { clamp, easeOutCubic, easeOutBack } from './dossier.js';
+
+function roundRect(ctx, x, y, w, h, r) {
   ctx.beginPath();
-  ctx.moveTo(x + rr, y);
-  ctx.lineTo(x + w - rr, y);
-  ctx.quadraticCurveTo(x + w, y, x + w, y + rr);
-  ctx.lineTo(x + w, y + h - rr);
-  ctx.quadraticCurveTo(x + w, y + h, x + w - rr, y + h);
-  ctx.lineTo(x + rr, y + h);
-  ctx.quadraticCurveTo(x, y + h, x, y + h - rr);
-  ctx.lineTo(x, y + rr);
-  ctx.quadraticCurveTo(x, y, x + rr, y);
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
   ctx.closePath();
 }
 
-export function drawSplitFlapBoard(ctx, cx, cy, cellsFrom, cellsTo, flipProgress, subLabel = '', tileW = 86, tileH = 110, gap = 10, enterP = 1) {
-  const ep = clamp(enterP);
-  if (ep <= 0.01) return;
-  const sp = easeOutBack(ep, 1.35);
-
-  const n = Math.max(cellsFrom.length, cellsTo.length);
-  const totalW = n * tileW + (n - 1) * gap;
-  const x0 = -totalW / 2;
-  const y0 = -tileH / 2;
+// S06: Mechanical Split-Flap Date Counter + Sacramento Coroner Newspaper Clipping (strip_09.jpg f450 homage)
+export function drawCoronerArchivalSet(ctx, localSec) {
+  const enter = easeOutCubic(localSec / 0.45);
+  const hiProg = clamp((localSec - 0.95) / 0.55);
 
   ctx.save();
-  ctx.globalAlpha = clamp(ep * 2.2);
-  ctx.translate(cx, cy + lerp(32, 0, easeOutCubic(ep)));
-  ctx.scale(lerp(0.86, 1.0, sp), lerp(0.86, 1.0, sp));
+  ctx.translate(0, (1 - enter) * 26);
+  ctx.globalAlpha = enter;
 
+  // 1. Mechanical Split-Flap Date Tiles: [1][2] [JANUARY] [2][0][0][7]
+  const groups = [
+    { x: 146, w: 62, txt: '1' },
+    { x: 214, w: 62, txt: '2' },
+    { x: 300, w: 336, txt: 'JANUARY' },
+    { x: 660, w: 62, txt: '2' },
+    { x: 728, w: 62, txt: '0' },
+    { x: 796, w: 62, txt: '0' },
+    { x: 864, w: 62, txt: '7' }
+  ];
+  const fy = 470;
+  const fh = 86;
+
+  // Brass frame backing
   ctx.save();
-  ctx.shadowColor = 'rgba(0,0,0,0.44)';
-  ctx.shadowBlur = 26;
-  ctx.shadowOffsetY = 12;
-  ctx.fillStyle = '#1B1712';
-  roundRectPath(ctx, x0 - 16, y0 - 14, totalW + 32, tileH + (subLabel ? 56 : 28), 12);
-  ctx.fill();
-  ctx.restore();
-
-  ctx.strokeStyle = 'rgba(255,244,210,0.20)';
-  ctx.lineWidth = 2;
-  roundRectPath(ctx, x0 - 16, y0 - 14, totalW + 32, tileH + (subLabel ? 56 : 28), 12);
-  ctx.stroke();
-
-  const p = clamp(flipProgress);
-  for (let i = 0; i < n; i++) {
-    const chA = (cellsFrom[i] ?? ' ').toUpperCase();
-    const chB = (cellsTo[i] ?? chA).toUpperCase();
-    const changed = chA !== chB;
-    const cellP = changed ? clamp((p - i * 0.04) / (1 - Math.min(0.36, (n - 1) * 0.04))) : 0;
-    const tx = x0 + i * (tileW + gap);
-    drawSingleFlap(ctx, tx, y0, tileW, tileH, chA, chB, cellP);
-  }
-  if (subLabel) {
-    ctx.font = '700 20px "SpaceMonoBold", monospace';
-    ctx.fillStyle = '#F2C14E';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(subLabel.toUpperCase(), 0, y0 + tileH + 22);
-  }
-  ctx.restore();
-}
-
-function drawSingleFlap(ctx, x, y, w, h, chFrom, chTo, p) {
-  const half = h / 2;
-  const drawHalf = (ch, topSide) => {
-    ctx.save();
-    ctx.beginPath();
-    ctx.rect(x, topSide ? y : y + half + 1.5, w, half - 1.5);
-    ctx.clip();
-    const g = ctx.createLinearGradient(x, y, x, y + h);
-    g.addColorStop(0, '#332C24');
-    g.addColorStop(0.5, '#201B16');
-    g.addColorStop(1, '#120F0C');
-    ctx.fillStyle = g;
-    roundRectPath(ctx, x, y, w, h, 7);
-    ctx.fill();
-    ctx.font = `700 ${Math.round(h * 0.62)}px "Anton", "OswaldBold", sans-serif`;
-    ctx.fillStyle = '#F7EFE0';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(ch, x + w / 2, y + h / 2 + 2);
-    ctx.restore();
-  };
-  if (p <= 0 || chFrom === chTo) {
-    drawHalf(chFrom, true); drawHalf(chFrom, false);
-  } else if (p < 0.5) {
-    drawHalf(chTo, true); drawHalf(chFrom, false);
-    ctx.save();
-    ctx.translate(x + w / 2, y + half);
-    ctx.scale(1, Math.max(0.02, Math.cos(p * Math.PI)));
-    ctx.translate(-(x + w / 2), -(y + half));
-    drawHalf(chFrom, true);
-    ctx.restore();
-  } else {
-    drawHalf(chTo, true); drawHalf(chFrom, false);
-    ctx.save();
-    ctx.translate(x + w / 2, y + half);
-    ctx.scale(1, Math.max(0.02, -Math.cos(p * Math.PI)));
-    ctx.translate(-(x + w / 2), -(y + half));
-    drawHalf(chTo, false);
-    ctx.restore();
-  }
-  ctx.fillStyle = '#080706';
-  ctx.fillRect(x, y + half - 1.5, w, 3);
-  ctx.fillStyle = '#B89242';
-  ctx.fillRect(x - 2, y + half - 5, 4, 10);
-  ctx.fillRect(x + w - 2, y + half - 5, 4, 10);
-}
-
-// Hand-drawn organic double-loop crimson marker circle (@meanwhilemayank R09/R10 signature!)
-export function drawHandCircle(ctx, cx, cy, rx, ry, drawP = 1, color = '#D92418') {
-  const p = clamp(drawP);
-  if (p <= 0.02) return;
-  ctx.save();
-  ctx.strokeStyle = color;
-  ctx.lineWidth = 7.5;
-  ctx.lineCap = 'round';
-  ctx.shadowColor = 'rgba(0,0,0,0.28)';
-  ctx.shadowBlur = 8;
-  ctx.beginPath();
-  const maxSteps = Math.floor(64 * easeOutCubic(p));
-  for (let i = 0; i <= maxSteps; i++) {
-    const u = (i / 64) * Math.PI * 2.25 - 0.5;
-    const wobble = 1 + Math.sin(u * 3.1) * 0.045 + Math.cos(u * 2.2) * 0.03;
-    const px = cx + Math.cos(u) * rx * wobble;
-    const py = cy + Math.sin(u) * ry * wobble;
-    if (i === 0) ctx.moveTo(px, py);
-    else ctx.lineTo(px, py);
-  }
-  ctx.stroke();
-  ctx.restore();
-}
-
-// Live Ink-Drawn Archival Clinical Chart Card (Blood Na+ Crash vs Skull Pressure Spike!)
-export function drawLiveChartCard(ctx, cx, cy, w, h, title, yTopLabel, yBotLabel, pointsNorm, drawP = 1, enterP = 1) {
-  const ep = clamp(enterP);
-  if (ep <= 0.02) return;
-  const sp = easeOutBack(ep, 1.3);
-
-  ctx.save();
-  ctx.globalAlpha = clamp(ep * 2);
-  ctx.translate(cx, cy + lerp(28, 0, easeOutCubic(ep)));
-  ctx.scale(lerp(0.88, 1.0, sp), lerp(0.88, 1.0, sp));
-
-  ctx.shadowColor = 'rgba(0,0,0,0.38)';
-  ctx.shadowBlur = 26;
-  ctx.shadowOffsetY = 14;
-  ctx.fillStyle = '#F5EAD0';
-  roundRectPath(ctx, -w / 2, -h / 2, w, h, 10);
-  ctx.fill();
-  ctx.shadowBlur = 0;
-
-  // Millimeter graph grid lines
-  const gx0 = -w / 2 + 88, gy0 = -h / 2 + 84;
-  const gw = w - 130, gh = h - 140;
-  ctx.strokeStyle = 'rgba(180, 145, 95, 0.28)';
-  ctx.lineWidth = 1.5;
-  for (let i = 0; i <= 6; i++) {
-    const x = gx0 + (i / 6) * gw;
-    ctx.beginPath(); ctx.moveTo(x, gy0); ctx.lineTo(x, gy0 + gh); ctx.stroke();
-  }
-  for (let j = 0; j <= 4; j++) {
-    const y = gy0 + (j / 4) * gh;
-    ctx.beginPath(); ctx.moveTo(gx0, y); ctx.lineTo(gx0 + gw, y); ctx.stroke();
-  }
-
-  // Crimson danger zone band at bottom half
-  ctx.fillStyle = 'rgba(216, 36, 24, 0.15)';
-  ctx.fillRect(gx0, gy0 + gh * 0.52, gw, gh * 0.48);
-
-  // Title & Y-axis labels
-  ctx.fillStyle = '#1E160E';
-  ctx.font = '700 22px "SpaceMonoBold", monospace';
-  ctx.textAlign = 'left';
-  ctx.fillText(title.toUpperCase(), gx0, -h / 2 + 48);
-
-  ctx.font = '700 18px "SpaceMonoBold", monospace';
-  ctx.textAlign = 'right';
-  ctx.fillStyle = '#186A42';
-  ctx.fillText(yTopLabel, gx0 - 12, gy0 + 14);
-  ctx.fillStyle = '#C82216';
-  ctx.fillText(yBotLabel, gx0 - 12, gy0 + gh - 4);
-
-  // Animated curve stroke
-  const cp = easeOutCubic(clamp(drawP));
-  const totalSegs = pointsNorm.length - 1;
-  const maxFloat = cp * totalSegs;
-  ctx.strokeStyle = '#C82216';
-  ctx.lineWidth = 7;
-  ctx.lineCap = 'round';
-  ctx.lineJoin = 'round';
-  ctx.beginPath();
-  let tipX = gx0, tipY = gy0;
-  for (let i = 0; i <= Math.floor(maxFloat); i++) {
-    const [ux, uy] = pointsNorm[i];
-    const px = gx0 + ux * gw;
-    const py = gy0 + (1 - uy) * gh;
-    if (i === 0) ctx.moveTo(px, py);
-    else ctx.lineTo(px, py);
-    tipX = px; tipY = py;
-  }
-  const idx = Math.floor(maxFloat);
-  if (idx < totalSegs) {
-    const frac = maxFloat - idx;
-    const [xA, yA] = pointsNorm[idx];
-    const [xB, yB] = pointsNorm[idx + 1];
-    tipX = gx0 + lerp(xA, xB, frac) * gw;
-    tipY = gy0 + (1 - lerp(yA, yB, frac)) * gh;
-    ctx.lineTo(tipX, tipY);
-  }
-  ctx.stroke();
-
-  // Pulsing live marker dot at curve tip
-  ctx.fillStyle = '#C82216';
-  ctx.beginPath();
-  ctx.arc(tipX, tipY, 10, 0, Math.PI * 2);
-  ctx.fill();
-
-  ctx.restore();
-}
-
-export function drawTornNote(ctx, cx, cy, w, h, rotDeg, textLines, opts = {}) {
-  const rnd = mulberry32((opts.seed || 771) + Math.round(w));
-  const pts = [];
-  const hw = w / 2, hh = h / 2;
-  for (let x = -hw; x <= hw; x += 14) pts.push([x, -hh + (rnd() - 0.5) * 6]);
-  for (let y = -hh; y <= hh; y += 16) pts.push([hw + (rnd() - 0.5) * 4, y]);
-  for (let x = hw; x >= -hw; x -= 14) pts.push([x, hh + (rnd() - 0.5) * 7]);
-  for (let y = hh; y >= -hh; y -= 16) pts.push([-hw + (rnd() - 0.5) * 4, y]);
-
-  const ep = clamp(opts.enterP ?? 1);
-  const sp = easeOutBack(ep, 1.35);
-
-  ctx.save();
-  ctx.globalAlpha = clamp(ep * 2);
-  ctx.translate(cx, cy + lerp(26, 0, easeOutCubic(ep)));
-  ctx.rotate((rotDeg || 0) * Math.PI / 180);
-  ctx.scale(lerp(0.85, 1.0, sp), lerp(0.85, 1.0, sp));
-
-  ctx.save();
-  ctx.shadowColor = 'rgba(0,0,0,0.38)';
+  ctx.shadowColor = 'rgba(0,0,0,0.45)';
   ctx.shadowBlur = 22;
   ctx.shadowOffsetY = 12;
-  ctx.beginPath();
-  pts.forEach(([px, py], i) => (i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py)));
-  ctx.closePath();
-  ctx.fillStyle = opts.bg || '#F5E7B8';
+  roundRect(ctx, 126, fy - 16, 822, fh + 32, 10);
+  ctx.fillStyle = '#3B2814';
   ctx.fill();
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = '#9C7336';
+  ctx.stroke();
   ctx.restore();
 
-  ctx.fillStyle = 'rgba(245,232,190,0.55)';
-  ctx.fillRect(-38, -hh - 10, 76, 22);
-
-  ctx.font = opts.font || '700 38px "CaveatBold", "OswaldBold", sans-serif';
-  ctx.fillStyle = opts.ink || '#1E1710';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  const lineH = opts.lineH || 46;
-  const startY = -(textLines.length - 1) * lineH * 0.5;
-  textLines.forEach((ln, idx) => ctx.fillText(ln, 0, startY + idx * lineH));
-
-  if (opts.strikeP > 0.01) {
-    const s = clamp(opts.strikeP);
-    ctx.strokeStyle = '#C82216';
-    ctx.lineWidth = 12;
-    ctx.lineCap = 'round';
-    ctx.beginPath();
-    ctx.moveTo(-hw * 0.78, -hh * 0.25);
-    ctx.lineTo(lerp(-hw * 0.78, hw * 0.78, s), lerp(-hh * 0.25, hh * 0.25, s));
+  for (const g of groups) {
+    roundRect(ctx, g.x, fy, g.w, fh, 6);
+    const tg = ctx.createLinearGradient(0, fy, 0, fy + fh);
+    tg.addColorStop(0, '#262320');
+    tg.addColorStop(0.49, '#171513');
+    tg.addColorStop(0.51, '#2D2926');
+    tg.addColorStop(1, '#181614');
+    ctx.fillStyle = tg;
+    ctx.fill();
+    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = '#5C4B37';
     ctx.stroke();
-  }
-  ctx.restore();
-}
 
-export function drawRubberStamp(ctx, cx, cy, label, rotDeg = -6, progress = 1, color = '#D12618') {
-  if (progress <= 0) return;
-  const p = easeOutExpo(progress);
-  const sc = lerp(1.55, 1.0, p);
+    ctx.fillStyle = '#F7EFE0';
+    ctx.font = '700 48px "OswaldBold"';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(g.txt, g.x + g.w / 2, fy + fh / 2 + 2);
+
+    // Split-flap center hinge line
+    ctx.fillStyle = 'rgba(0,0,0,0.75)';
+    ctx.fillRect(g.x + 2, fy + fh / 2 - 1, g.w - 4, 2.5);
+  }
+
+  // 2. Torn Newsprint Coroner Report Card below
   ctx.save();
-  ctx.translate(cx, cy);
-  ctx.rotate(rotDeg * Math.PI / 180);
-  ctx.scale(sc, sc);
-  ctx.globalAlpha = clamp(p * 1.4, 0, 0.95);
+  ctx.translate(540, 1015);
+  ctx.rotate(-0.018);
 
-  let fontSize = 56;
-  ctx.font = `700 ${fontSize}px "Anton", "OswaldBold", sans-serif`;
-  let tw = ctx.measureText(label).width;
-  if (tw + 64 > 800) {
-    fontSize = Math.max(28, Math.floor(fontSize * 736 / Math.max(1, tw)));
-    ctx.font = `700 ${fontSize}px "Anton", "OswaldBold", sans-serif`;
-    tw = ctx.measureText(label).width;
+  ctx.shadowColor = 'rgba(0,0,0,0.46)';
+  ctx.shadowBlur = 34;
+  ctx.shadowOffsetY = 20;
+
+  ctx.beginPath();
+  ctx.moveTo(-400, -330);
+  ctx.lineTo(400, -330);
+  ctx.lineTo(400, 320);
+  for (let x = 400; x >= -400; x -= 32) {
+    const jag = ((Math.abs(x) * 13) % 14) - 6;
+    ctx.lineTo(x, 326 + jag);
   }
-  const bw = tw + 60;
-  const bh = Math.round(fontSize * 1.52);
-
-  ctx.fillStyle = 'rgba(18,12,6,0.18)';
-  roundRectPath(ctx, -bw / 2, -bh / 2, bw, bh, 8);
+  ctx.closePath();
+  ctx.fillStyle = '#EFE6D2';
   ctx.fill();
-  ctx.strokeStyle = color;
-  ctx.lineWidth = 7;
-  roundRectPath(ctx, -bw / 2, -bh / 2, bw, bh, 8);
+  ctx.shadowColor = 'transparent';
+  ctx.lineWidth = 1.5;
+  ctx.strokeStyle = '#C5B698';
   ctx.stroke();
-  ctx.lineWidth = 2.5;
-  roundRectPath(ctx, -bw / 2 + 10, -bh / 2 + 10, bw - 20, bh - 20, 4);
-  ctx.stroke();
-  ctx.fillStyle = color;
+
+  // Masthead
+  ctx.fillStyle = '#1C1915';
   ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText(label, 0, 2);
+  ctx.font = '700 42px "LibreBaskerville"';
+  ctx.fillText('The Sacramento Chronicle', 0, -258);
+
+  ctx.fillStyle = '#2B2620';
+  ctx.fillRect(-355, -226, 710, 3);
+  ctx.fillRect(-355, -218, 710, 1);
+
+  ctx.font = '700 19px "SpaceMonoBold"';
+  ctx.fillStyle = '#5A5043';
+  ctx.fillText('SACRAMENTO COUNTY CORONER  •  AUTOPSY CASE #07-00419', 0, -192);
+  ctx.fillRect(-355, -174, 710, 1.2);
+
+  // Headline
+  ctx.textAlign = 'left';
+  ctx.fillStyle = '#181512';
+  ctx.font = '700 40px "LibreBaskerville"';
+  ctx.fillText('Mother of 3 Dies Hours After', -350, -116);
+  ctx.fillText('Radio Water-Drinking Contest', -350, -64);
+
+  // Yellow highlighter sweep over coroner finding
+  if (hiProg > 0) {
+    ctx.fillStyle = 'rgba(255, 214, 38, 0.56)';
+    ctx.fillRect(-356, -8, 712 * hiProg, 94);
+  }
+
+  ctx.fillStyle = '#B01C18';
+  ctx.font = '700 26px "SpaceMonoBold"';
+  ctx.fillText('CORONER FINDING: ZERO TOXINS OR TRAUMA', -346, 26);
+  ctx.fillStyle = '#171411';
+  ctx.font = '700 28px "SpaceMonoBold"';
+  ctx.fillText('CAUSE: ACUTE WATER INTOXICATION', -346, 68);
+
+  // Two-column newsprint body lines
+  ctx.fillStyle = '#4B4338';
+  ctx.font = '400 21px "LibreBaskerville"';
+  const leftCol = [
+    'Autopsy confirmed fatal',
+    'cerebral edema triggered',
+    'by rapid consumption of',
+    'approximately 7.5 liters',
+    'of plain drinking water.'
+  ];
+  const rightCol = [
+    'Toxicology screens came',
+    'back 100% negative for',
+    'alcohol, medication, or',
+    'foul play, stunning both',
+    'listeners and physicians.'
+  ];
+  leftCol.forEach((ln, i) => ctx.fillText(ln, -348, 134 + i * 32));
+  rightCol.forEach((ln, i) => ctx.fillText(ln, 24, 134 + i * 32));
+  ctx.fillStyle = '#BFB196';
+  ctx.fillRect(-2, 112, 1.5, 165);
+
+  // Red stamped seal
+  const stampP = easeOutBack((localSec - 1.35) / 0.35, 1.6);
+  if (stampP > 0.01) {
+    ctx.save();
+    ctx.translate(230, 225);
+    ctx.rotate(-0.16);
+    ctx.scale(1.3 - 0.3 * stampP, 1.3 - 0.3 * stampP);
+    ctx.globalAlpha = clamp(stampP) * 0.88;
+    roundRect(ctx, -118, -34, 236, 68, 8);
+    ctx.lineWidth = 4.5;
+    ctx.strokeStyle = '#C6221E';
+    ctx.stroke();
+    ctx.fillStyle = '#C6221E';
+    ctx.textAlign = 'center';
+    ctx.font = '700 27px "OswaldBold"';
+    ctx.fillText('VERIFIED CASE', 0, 10);
+    ctx.restore();
+  }
+
+  ctx.restore();
   ctx.restore();
 }
 
-export function drawJournalCard(ctx, cx, cy, w, h, rotDeg, masthead, headline, bodyLines, hlIdx = 1, hlProgress = 1, enterP = 1) {
-  const ep = clamp(enterP);
-  if (ep <= 0.02) return;
-  const sp = easeOutBack(ep, 1.3);
+// S07: Twin Pinned Cream Sticky Notes with Red Ink Slash (strip_09.jpg f1275..1350 direct homage)
+export function drawMythStickyNotes(ctx, localSec) {
+  const n1 = easeOutBack(localSec / 0.38, 1.25);
+  const n2 = easeOutBack((localSec - 0.25) / 0.38, 1.25);
+  const slash1 = clamp((localSec - 1.05) / 0.35);
+  const slash2 = clamp((localSec - 1.45) / 0.35);
+
+  const drawNote = (cx, cy, rot, prog, lineA, lineB, sub, slashProg) => {
+    if (prog <= 0.01) return;
+    ctx.save();
+    ctx.translate(cx, cy + (1 - prog) * 40);
+    ctx.rotate(rot);
+    ctx.globalAlpha = clamp(prog);
+
+    ctx.shadowColor = 'rgba(0,0,0,0.42)';
+    ctx.shadowBlur = 30;
+    ctx.shadowOffsetY = 18;
+    roundRect(ctx, -350, -175, 700, 350, 8);
+    ctx.fillStyle = '#F7EFC9';
+    ctx.fill();
+    ctx.shadowColor = 'transparent';
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = '#DFCFA0';
+    ctx.stroke();
+
+    // Top adhesive darker strip
+    ctx.fillStyle = 'rgba(210, 190, 132, 0.38)';
+    ctx.fillRect(-348, -173, 696, 46);
+
+    // Brass push-pin
+    const pg = ctx.createRadialGradient(-4, -142, 2, 0, -138, 16);
+    pg.addColorStop(0, '#FFF2B8');
+    pg.addColorStop(0.5, '#C88D2A');
+    pg.addColorStop(1, '#5E3B08');
+    ctx.beginPath();
+    ctx.arc(0, -138, 15, 0, Math.PI * 2);
+    ctx.fillStyle = pg;
+    ctx.fill();
+
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#241F19';
+    ctx.font = '700 62px "CaveatBold"';
+    ctx.fillText(lineA, 0, -34);
+    ctx.fillStyle = '#1B5E3A';
+    ctx.font = '700 68px "CaveatBold"';
+    ctx.fillText(lineB, 0, 44);
+    ctx.fillStyle = '#6A5E49';
+    ctx.font = '700 22px "SpaceMonoBold"';
+    ctx.fillText(sub, 0, 118);
+
+    // Hand-drawn red marker X slash
+    if (slashProg > 0) {
+      ctx.lineCap = 'round';
+      ctx.lineWidth = 14;
+      ctx.strokeStyle = 'rgba(214, 30, 26, 0.90)';
+      const pA = clamp(slashProg * 1.8);
+      ctx.beginPath();
+      ctx.moveTo(-270, -85);
+      ctx.lineTo(-270 + 540 * pA, -85 + 185 * pA);
+      ctx.stroke();
+
+      const pB = clamp((slashProg - 0.35) * 1.8);
+      if (pB > 0) {
+        ctx.beginPath();
+        ctx.moveTo(270, -85);
+        ctx.lineTo(270 - 540 * pB, -85 + 185 * pB);
+        ctx.stroke();
+      }
+    }
+    ctx.restore();
+  };
+
+  drawNote(515, 760, -0.045, n1, 'PAANI = 100% SAFE', 'KOI OVERDOSE NAHI?', 'COMMON BELIEF #1', slash1);
+  drawNote(565, 1295, 0.038, n2, 'ZYADA PAANI PIYO', '= FAST BODY DETOX!', 'COMMON BELIEF #2', slash2);
+}
+
+// S15: Clinical Pathology Excerpt Card Below the 3D Digital Electrolyte Analyzer (strip_08.jpg f1950 homage)
+export function drawElectrolytePathologyCard(ctx, localSec) {
+  const p = easeOutCubic((localSec - 0.20) / 0.45);
+  if (p <= 0.01) return;
+  const hi = clamp((localSec - 0.95) / 0.55);
 
   ctx.save();
-  ctx.globalAlpha = clamp(ep * 2);
-  ctx.translate(cx, cy + lerp(28, 0, easeOutCubic(ep)));
-  ctx.rotate((rotDeg || 0) * Math.PI / 180);
-  ctx.scale(lerp(0.88, 1.0, sp), lerp(0.88, 1.0, sp));
+  ctx.globalAlpha = p;
+  ctx.translate(540, 1465 + (1 - p) * 24);
 
-  ctx.save();
-  ctx.shadowColor = 'rgba(0,0,0,0.38)';
+  ctx.shadowColor = 'rgba(0,0,0,0.45)';
   ctx.shadowBlur = 26;
   ctx.shadowOffsetY = 14;
-  ctx.fillStyle = '#F2E7CC';
-  ctx.fillRect(-w / 2, -h / 2, w, h);
-  ctx.restore();
-
-  const pad = 34;
-  const topY = -h / 2 + 34;
-  ctx.fillStyle = '#241D14';
-  ctx.font = '700 18px "SpaceMonoBold", monospace';
-  ctx.textAlign = 'left';
-  ctx.fillText(masthead.toUpperCase(), -w / 2 + pad, topY);
-  ctx.strokeStyle = '#241D14';
+  roundRect(ctx, -400, -195, 800, 390, 10);
+  ctx.fillStyle = '#F2EAD7';
+  ctx.fill();
+  ctx.shadowColor = 'transparent';
   ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.moveTo(-w / 2 + pad, topY + 14);
-  ctx.lineTo(w / 2 - pad, topY + 14);
+  ctx.strokeStyle = '#C5B79B';
   ctx.stroke();
 
-  ctx.font = '700 31px "LibreBaskerville", Georgia, serif';
-  ctx.fillStyle = '#18130E';
-  ctx.fillText(headline, -w / 2 + pad, topY + 54);
-
-  const bodyStartY = topY + 108;
-  const lineSpacing = 38;
-  if (hlIdx >= 0 && hlIdx < bodyLines.length && hlProgress > 0.01) {
-    const hy = bodyStartY + hlIdx * lineSpacing;
-    ctx.font = '400 22px "LibreBaskerville", Georgia, serif';
-    const mw = ctx.measureText(bodyLines[hlIdx]).width + 18;
-    const sweepW = mw * easeOutCubic(hlProgress);
-    ctx.fillStyle = 'rgba(255, 214, 48, 0.82)';
-    ctx.fillRect(-w / 2 + pad - 6, hy - 14, sweepW, 30);
-  }
-  ctx.font = '400 22px "LibreBaskerville", Georgia, serif';
-  ctx.fillStyle = '#261F17';
-  bodyLines.forEach((ln, i) => ctx.fillText(ln, -w / 2 + pad, bodyStartY + i * lineSpacing));
-  ctx.restore();
-}
-
-export function drawChecklistBoard(ctx, cx, cy, w, h, title, items, p = 0) {
-  const ep = clamp(p * 4);
-  const sp = easeOutBack(ep, 1.25);
-
-  ctx.save();
-  ctx.translate(cx, cy + lerp(28, 0, easeOutCubic(ep)));
-  ctx.scale(lerp(0.88, 1.0, sp), lerp(0.88, 1.0, sp));
-
-  ctx.shadowColor = 'rgba(0,0,0,0.42)';
-  ctx.shadowBlur = 28;
-  ctx.shadowOffsetY = 14;
-  ctx.fillStyle = '#F4EAD0';
-  ctx.strokeStyle = '#3A2814';
-  ctx.lineWidth = 4;
-  roundRectPath(ctx, -w / 2, -h / 2, w, h, 12);
-  ctx.fill();
-  ctx.shadowBlur = 0;
-  ctx.stroke();
-
-  ctx.fillStyle = '#B88C34';
-  roundRectPath(ctx, -95, -h / 2 - 22, 190, 44, 10);
-  ctx.fill();
-  ctx.strokeStyle = '#4A320C';
-  ctx.lineWidth = 3;
-  ctx.stroke();
-
-  ctx.font = '700 22px "SpaceMonoBold", monospace';
-  ctx.fillStyle = '#755B38';
-  ctx.textAlign = 'left';
-  ctx.fillText(title.toUpperCase(), -w / 2 + 38, -h / 2 + 54);
-
-  const startY = -h / 2 + 124;
-  const rowH = (h - 150) / Math.max(1, items.length);
-  items.forEach((it, idx) => {
-    const ry = startY + idx * rowH;
-    const bx = -w / 2 + 44;
-    const ap = clamp((p - (it.appearAt ?? 0)) / 0.16);
-    if (ap <= 0) return;
-    ctx.save();
-    ctx.globalAlpha = ap;
-    ctx.strokeStyle = '#221A12';
-    ctx.lineWidth = 3.5;
-    ctx.strokeRect(bx, ry - 20, 38, 38);
-    if (it.checked) {
-      ctx.strokeStyle = '#1B7346';
-      ctx.lineWidth = 5.5;
-      ctx.lineCap = 'round';
-      ctx.beginPath();
-      ctx.moveTo(bx + 7, ry - 1); ctx.lineTo(bx + 16, ry + 11); ctx.lineTo(bx + 34, ry - 13);
-      ctx.stroke();
-    }
-    ctx.font = '700 36px "OswaldBold", "Anton", sans-serif';
-    ctx.fillStyle = '#1C1610';
-    ctx.textAlign = 'left';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(it.text.toUpperCase(), bx + 60, ry);
-    ctx.restore();
-  });
-  ctx.restore();
-}
-
-export function drawSharePhoneCard(ctx, cx, cy, p = 1) {
-  ctx.save();
-  ctx.translate(cx, cy);
-  const sc = lerp(0.88, 1.0, easeOutBack(clamp(p * 2.2), 1.35));
-  ctx.scale(sc, sc);
-
-  ctx.shadowColor = 'rgba(0,0,0,0.48)';
-  ctx.shadowBlur = 36;
-  ctx.shadowOffsetY = 18;
-  ctx.fillStyle = '#13171D';
-  ctx.strokeStyle = '#4B5563';
-  ctx.lineWidth = 5;
-  roundRectPath(ctx, -230, -340, 460, 680, 42);
-  ctx.fill(); ctx.stroke();
-  ctx.shadowBlur = 0;
-
-  ctx.fillStyle = '#1D242C';
-  roundRectPath(ctx, -208, -304, 416, 608, 26);
-  ctx.fill();
-
-  ctx.fillStyle = '#0D1014';
-  roundRectPath(ctx, -54, -326, 108, 14, 7);
-  ctx.fill();
-
-  ctx.font = '700 22px "SpaceMonoBold", monospace';
-  ctx.fillStyle = '#52D1F0';
-  ctx.textAlign = 'center';
-  ctx.fillText('GYM & RUNNERS SQUAD', 0, -252);
-
-  ctx.fillStyle = '#165E46';
-  roundRectPath(ctx, -172, -198, 344, 154, 18);
-  ctx.fill();
-  ctx.font = '700 29px "OswaldBold", sans-serif';
+  // Clinical header badge
+  ctx.fillStyle = '#183C5E';
+  ctx.fillRect(-400, -195, 800, 54);
   ctx.fillStyle = '#FFFFFF';
   ctx.textAlign = 'left';
-  ctx.fillText('EK SAATH 3 LITER PAANI', -148, -148);
-  ctx.fillText('KABHI MAT PEENA!', -148, -110);
-  ctx.font = '700 19px "SpaceMonoBold", monospace';
-  ctx.fillStyle = '#A7F3D0';
-  ctx.fillText('MAX 800 ML/HR + ELECTROLYTES', -148, -70);
+  ctx.font = '700 23px "SpaceMonoBold"';
+  ctx.fillText('CLINICAL SERUM SODIUM REFERENCE  (mmol/L)', -368, -160);
 
-  const replies = [
-    { who: 'ROHAN (MARATHON)', msg: 'Bhai main toh 2L gatak jaata tha!' },
-    { who: 'PRIYA', msg: 'Aaj se gym bottle mein ORS zaroor!' }
+  const rows = [
+    { range: '135 – 145 mmol/L', status: 'NORMAL HOMEOSTASIS', col: '#1D6F42', bg: null },
+    { range: '125 – 134 mmol/L', status: 'NAUSEA & HEADACHE', col: '#B86B11', bg: null },
+    { range: '< 120 mmol/L', status: 'SEVERE CEREBRAL EDEMA & SEIZURES', col: '#B81D18', bg: 'rgba(255, 208, 46, 0.55)' }
   ];
-  replies.forEach((r, idx) => {
-    const ry = -12 + idx * 104;
-    ctx.fillStyle = '#26303B';
-    roundRectPath(ctx, -172, ry, 344, 84, 14);
-    ctx.fill();
-    ctx.font = '700 15px "SpaceMonoBold", monospace';
-    ctx.fillStyle = '#F7C137';
-    ctx.fillText(r.who, -148, ry + 26);
-    ctx.font = '400 19px "LibreBaskerville", serif';
-    ctx.fillStyle = '#F4EFE4';
-    ctx.fillText(r.msg, -148, ry + 58);
+
+  rows.forEach((r, idx) => {
+    const ry = -95 + idx * 92;
+    if (r.bg && hi > 0) {
+      ctx.fillStyle = r.bg;
+      ctx.fillRect(-372, ry - 26, 744 * hi, 68);
+    }
+    ctx.fillStyle = '#1E1B18';
+    ctx.font = '700 28px "OswaldBold"';
+    ctx.fillText(r.range, -358, ry + 16);
+
+    ctx.fillStyle = r.col;
+    ctx.font = '700 24px "SpaceMonoBold"';
+    ctx.fillText(r.status, -92, ry + 15);
+
+    if (idx < 2) {
+      ctx.fillStyle = '#D8CCB4';
+      ctx.fillRect(-368, ry + 48, 736, 1.5);
+    }
   });
 
-  ctx.fillStyle = '#10151A';
-  ctx.strokeStyle = '#52D1F0';
+  ctx.restore();
+}
+
+// S25: New England Journal of Medicine Boston Marathon Excerpt Card
+export function drawMarathonExcerptCard(ctx, localSec) {
+  const p = easeOutCubic((localSec - 0.25) / 0.45);
+  if (p <= 0.01) return;
+  const hi = clamp((localSec - 0.90) / 0.55);
+
+  ctx.save();
+  ctx.globalAlpha = p;
+  ctx.translate(540, 1515 + (1 - p) * 22);
+
+  ctx.shadowColor = 'rgba(0,0,0,0.48)';
+  ctx.shadowBlur = 24;
+  ctx.shadowOffsetY = 14;
+  roundRect(ctx, -405, -155, 810, 310, 8);
+  ctx.fillStyle = '#F4ECD9';
+  ctx.fill();
+  ctx.shadowColor = 'transparent';
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = '#C8BA9E';
+  ctx.stroke();
+
+  ctx.fillStyle = '#7A1C1C';
+  ctx.fillRect(-405, -155, 810, 48);
+  ctx.fillStyle = '#FFF9EE';
+  ctx.textAlign = 'left';
+  ctx.font = '700 21px "SpaceMonoBold"';
+  ctx.fillText('NEW ENGLAND JOURNAL OF MEDICINE  •  BOSTON MARATHON', -376, -124);
+
+  if (hi > 0) {
+    ctx.fillStyle = 'rgba(255, 212, 52, 0.54)';
+    ctx.fillRect(-376, -74, 752 * hi, 62);
+  }
+
+  ctx.fillStyle = '#1A1714';
+  ctx.font = '700 33px "LibreBaskerville"';
+  ctx.fillText('62 of 488 Runners (13%) Tested Hyponatremic', -366, -32);
+
+  ctx.fillStyle = '#4B4338';
+  ctx.font = '400 23px "LibreBaskerville"';
+  ctx.fillText('Primary cause: drinking fluids at every mile station faster', -366, 30);
+  ctx.fillText('than sweat and kidney excretion could clear excess water.', -366, 66);
+
+  ctx.fillStyle = '#8B201D';
+  ctx.font = '700 21px "SpaceMonoBold"';
+  ctx.fillText('ALMOND ET AL., NEJM 352:1550-1556', -366, 118);
+  ctx.restore();
+}
+
+// S32: Final Pinned 3-Rule Hydration Pocket Reference Card
+export function drawPocketSummaryCard(ctx, localSec) {
+  const p = easeOutCubic(localSec / 0.42);
+  ctx.save();
+  ctx.globalAlpha = p;
+  ctx.translate(540, 1085 + (1 - p) * 26);
+
+  ctx.shadowColor = 'rgba(0,0,0,0.46)';
+  ctx.shadowBlur = 32;
+  ctx.shadowOffsetY = 18;
+  roundRect(ctx, -415, -365, 830, 730, 14);
+  ctx.fillStyle = '#F6EFE0';
+  ctx.fill();
+  ctx.shadowColor = 'transparent';
   ctx.lineWidth = 3;
-  roundRectPath(ctx, -172, 206, 344, 68, 34);
-  ctx.fill(); ctx.stroke();
-  const fullTxt = 'Sharing with family now...';
-  const shown = fullTxt.slice(0, Math.floor(clamp((p - 0.08) * 1.45) * fullTxt.length));
-  ctx.font = '700 20px "SpaceMonoBold", monospace';
-  ctx.fillStyle = '#F7C137';
-  ctx.fillText(shown + (Math.floor(p * 14) % 2 === 0 ? '|' : ''), -144, 246);
+  ctx.strokeStyle = '#C6B38E';
+  ctx.stroke();
+
+  // Top brass clipboard clip
+  roundRect(ctx, -135, -395, 270, 56, 10);
+  const cg = ctx.createLinearGradient(0, -395, 0, -339);
+  cg.addColorStop(0, '#E8C067');
+  cg.addColorStop(0.5, '#B6822A');
+  cg.addColorStop(1, '#6E4A10');
+  ctx.fillStyle = cg;
+  ctx.fill();
+
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#1E1A16';
+  ctx.font = '700 40px "OswaldBold"';
+  ctx.fillText('SAFE HYDRATION FIELD CARD', 0, -280);
+  ctx.fillStyle = '#C9B896';
+  ctx.fillRect(-355, -252, 710, 2);
+
+  const items = [
+    { num: '01', title: 'PACE YOUR INTAKE', desc: 'Stay at or below 800 mL of water per hour', col: '#18648C' },
+    { num: '02', title: 'MATCH SWEAT WITH SALT', desc: 'Add electrolytes / ORS during intense heat or runs', col: '#B86614' },
+    { num: '03', title: 'CHECK PALE STRAW TONE', desc: 'Crystal-clear urine = pause chugging immediately', col: '#1B6B45' }
+  ];
+
+  items.forEach((it, idx) => {
+    const y = -165 + idx * 175;
+    roundRect(ctx, -360, y - 48, 92, 92, 12);
+    ctx.fillStyle = it.col;
+    ctx.fill();
+
+    ctx.fillStyle = '#FFFDF8';
+    ctx.textAlign = 'center';
+    ctx.font = '700 42px "Anton"';
+    ctx.fillText(it.num, -314, y + 14);
+
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#1A1714';
+    ctx.font = '700 34px "OswaldBold"';
+    ctx.fillText(it.title, -242, y - 6);
+
+    ctx.fillStyle = '#51483C';
+    ctx.font = '400 24px "LibreBaskerville"';
+    ctx.fillText(it.desc, -242, y + 34);
+  });
+
   ctx.restore();
 }

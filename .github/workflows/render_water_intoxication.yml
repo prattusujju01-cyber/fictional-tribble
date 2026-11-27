@@ -1,10 +1,10 @@
-name: Render Water Intoxication v14.0
+name: Render Water Intoxication v15.0
 
 on:
   workflow_dispatch:
     inputs:
       mode:
-        description: 'probe (36 shots) or full (3600 frames 6-shard parallel)'
+        description: 'probe (32 shots + micro_strip) or full (3600 frames 6-shard parallel)'
         required: true
         default: 'probe'
         type: choice
@@ -45,17 +45,19 @@ jobs:
           curl -fsSL "https://raw.githubusercontent.com/google/fonts/main/ofl/spacemono/SpaceMono-Bold.ttf" -o "$FDIR/SpaceMono-Bold.ttf"
           curl -fsSL "https://raw.githubusercontent.com/google/fonts/main/ofl/caveat/Caveat%5Bwght%5D.ttf" -o "$FDIR/Caveat-Bold.ttf"
           curl -fsSL "https://raw.githubusercontent.com/google/fonts/main/ofl/librebaskerville/LibreBaskerville%5Bwght%5D.ttf" -o "$FDIR/LibreBaskerville-Regular.ttf"
-      - name: Render 36-Shot v14.0 Probe
+      - name: Render 32-Shot v15.0 Probe & Micro-Transition Strip
         env:
           NODE_PATH: /tmp/pw_runtime/node_modules
           PROJECT_ROOT: ${{ github.workspace }}/videos/water-intoxication
         run: |
           node videos/water-intoxication/tools/probe_render.mjs
-      - name: Upload Probe Sheet
+      - name: Upload Probe & Micro Strip
         uses: actions/upload-artifact@v4
         with:
-          name: water-intox-probe
-          path: videos/water-intoxication/out/probe_36.jpg
+          name: water-intox-probe-v15
+          path: |
+            videos/water-intoxication/out/probe_32.jpg
+            videos/water-intoxication/out/micro_strip.jpg
           retention-days: 7
 
   render-shards:
@@ -140,7 +142,7 @@ jobs:
       - name: Upload Final MP4 & Audit Contact Sheet
         uses: actions/upload-artifact@v4
         with:
-          name: water-intox-final
+          name: water-intox-final-v15
           path: |
             videos/water-intoxication/out/water_intoxication_final.mp4
             videos/water-intoxication/out/audit_36.jpg

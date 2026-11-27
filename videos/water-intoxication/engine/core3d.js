@@ -1,337 +1,199 @@
-// Pure-Code Era-2 Supersampled 648x1152 WebGL2 Studio, Volumetric Beam, Crisis Pulse & Camera Rig (v14.0)
+// Sovereign v15.0 — Native 1080x1920 Full-HD Three.js WebGL2 Studio (ZERO Low-Res Upscaling)
 import * as THREE from '../vendor/three.module.js';
-import { W, H, clamp, lerp, mulberry32 } from './dossier.js';
-import { getMaterials3D } from './materials3d.js';
 
-let _engine = null;
-const WEBGL_W = 648;
-const WEBGL_H = 1152;
+export { THREE };
 
-export function smoothstep5(x) {
-  const t = clamp(x, 0, 1);
-  return t * t * t * (t * (t * 6 - 15) + 10);
-}
+export const WEBGL_W = 1080;
+export const WEBGL_H = 1920;
 
-function makeRadialBackdropTex(centerHex, midHex, edgeHex) {
-  const c = document.createElement('canvas');
-  c.width = 256; c.height = 512;
-  const ctx = c.getContext('2d');
-  const g = ctx.createRadialGradient(128, 248, 18, 128, 256, 316);
-  g.addColorStop(0.0, centerHex);
-  g.addColorStop(0.58, midHex);
-  g.addColorStop(1.0, edgeHex);
-  ctx.fillStyle = g;
-  ctx.fillRect(0, 0, 256, 512);
-  const tex = new THREE.CanvasTexture(c);
-  tex.colorSpace = THREE.SRGBColorSpace;
-  return tex;
-}
+let _studio = null;
 
-function bakeSoftboxEnv(renderer, pmrem, bgHex, keyHex, rimHex, fillHex) {
+function buildStudioEnvMap(renderer) {
+  const pmrem = new THREE.PMREMGenerator(renderer);
   const envScene = new THREE.Scene();
-  envScene.background = new THREE.Color(bgHex);
-  const panels = [
-    { pos: [6, 11, 7], size: [14, 14], col: keyHex },
-    { pos: [-10, 4, -5], size: [6, 18], col: rimHex },
-    { pos: [9, -2, 5], size: [10, 10], col: fillHex }
-  ];
-  for (const p of panels) {
+  envScene.background = new THREE.Color(0x161412);
+
+  const mkPanel = (w, h, color, intensity, pos, look) => {
     const m = new THREE.Mesh(
-      new THREE.PlaneGeometry(p.size[0], p.size[1]),
-      new THREE.MeshBasicMaterial({ color: p.col, side: THREE.DoubleSide })
+      new THREE.PlaneGeometry(w, h),
+      new THREE.MeshBasicMaterial({
+        color: new THREE.Color(color).multiplyScalar(intensity),
+        side: THREE.DoubleSide
+      })
     );
-    m.position.set(p.pos[0], p.pos[1], p.pos[2]);
-    m.lookAt(0, 0, 0);
+    m.position.set(...pos);
+    m.lookAt(...look);
     envScene.add(m);
-  }
-  return pmrem.fromScene(envScene, 0.04).texture;
+  };
+
+  // 3-softbox museum & laboratory reflection setup
+  mkPanel(14, 14, 0xFFF2DC, 2.35, [-7, 9, 8], [0, 0, 0]);
+  mkPanel(12, 10, 0xB8E0FF, 1.45, [9, 4, 6], [0, 0, 0]);
+  mkPanel(16, 6, 0xFFB86B, 1.65, [0, 7, -9], [0, 0, 0]);
+  mkPanel(20, 20, 0x261F18, 0.55, [0, -10, 0], [0, 0, 0]);
+
+  const rt = pmrem.fromScene(envScene, 0.04);
+  pmrem.dispose();
+  return rt.texture;
 }
 
-export function getCore3D() {
-  if (_engine) return _engine;
+export function getStudio() {
+  if (_studio) return _studio;
 
-  const webglCanvas = document.createElement('canvas');
-  webglCanvas.width = WEBGL_W;
-  webglCanvas.height = WEBGL_H;
+  const glCanvas = document.createElement('canvas');
+  glCanvas.width = WEBGL_W;
+  glCanvas.height = WEBGL_H;
 
   const renderer = new THREE.WebGLRenderer({
-    canvas: webglCanvas,
-    antialias: false,
+    canvas: glCanvas,
+    antialias: true,
+    alpha: true,
     powerPreference: 'high-performance',
-    preserveDrawingBuffer: true,
-    alpha: false
+    preserveDrawingBuffer: true
   });
   renderer.setSize(WEBGL_W, WEBGL_H, false);
   renderer.setPixelRatio(1);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.AgXToneMapping;
-  renderer.toneMappingExposure = 1.06;
+  renderer.toneMappingExposure = 1.08;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFShadowMap;
 
-  const pmrem = new THREE.PMREMGenerator(renderer);
-  pmrem.compileEquirectangularShader();
-
-  const envs = {
-    goldenOchre:    bakeSoftboxEnv(renderer, pmrem, 0xb87614, 0xfff8e4, 0xffc642, 0xd49222),
-    warmKraft:      bakeSoftboxEnv(renderer, pmrem, 0x8e7248, 0xfff6e5, 0xe8b96a, 0xa88a5e),
-    velvetCrimson:  bakeSoftboxEnv(renderer, pmrem, 0x260509, 0xffece6, 0xff4b32, 0xf7b838),
-    midnightIndigo: bakeSoftboxEnv(renderer, pmrem, 0x0b1224, 0xdbeafe, 0x48b8ff, 0xf59e0b),
-    volcanicAmber:  bakeSoftboxEnv(renderer, pmrem, 0x240a03, 0xfff0d4, 0xff6b24, 0xfbbf24),
-    emeraldLab:     bakeSoftboxEnv(renderer, pmrem, 0x061b18, 0xe6fff8, 0x34d399, 0x38bdf8)
-  };
-
-  const backdrops = {
-    goldenOchre:    makeRadialBackdropTex('#E8AE30', '#C98718', '#7D4A08'),
-    warmKraft:      makeRadialBackdropTex('#D2BA8F', '#B39667', '#6E5532'),
-    velvetCrimson:  makeRadialBackdropTex('#841B27', '#4B0C14', '#180306'),
-    midnightIndigo: makeRadialBackdropTex('#213562', '#121E3A', '#070C18'),
-    volcanicAmber:  makeRadialBackdropTex('#7C2D12', '#431407', '#160602'),
-    emeraldLab:     makeRadialBackdropTex('#17584E', '#0C332E', '#051513')
-  };
-
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(38, W / H, 0.1, 100);
-  const mats = getMaterials3D();
+  const envTex = buildStudioEnvMap(renderer);
+  scene.environment = envTex;
 
-  const shadowCatcher = new THREE.Mesh(new THREE.PlaneGeometry(18, 18), mats.shadowFloor);
-  shadowCatcher.rotation.x = -Math.PI / 2;
-  shadowCatcher.position.y = -1.75;
-  shadowCatcher.receiveShadow = true;
-  scene.add(shadowCatcher);
+  const camera = new THREE.PerspectiveCamera(34, WEBGL_W / WEBGL_H, 0.1, 120);
+  camera.position.set(0, 0.2, 8.5);
+  camera.lookAt(0, 0, 0);
 
-  const hemiLight = new THREE.HemisphereLight(0xfff5e0, 0x241608, 0.56);
+  const hemiLight = new THREE.HemisphereLight(0xFFF3DF, 0x241B14, 0.58);
   scene.add(hemiLight);
 
-  const keyLight = new THREE.DirectionalLight(0xfff3dc, 2.75);
-  keyLight.position.set(4.6, 7.6, 5.4);
+  const keyLight = new THREE.DirectionalLight(0xFFF3E0, 2.45);
+  keyLight.position.set(-4.2, 6.8, 6.4);
   keyLight.castShadow = true;
-  keyLight.shadow.mapSize.set(768, 768);
+  keyLight.shadow.mapSize.set(1024, 1024);
+  keyLight.shadow.camera.near = 1.0;
+  keyLight.shadow.camera.far = 26.0;
   keyLight.shadow.camera.left = -5.5;
   keyLight.shadow.camera.right = 5.5;
-  keyLight.shadow.camera.top = 5.5;
-  keyLight.shadow.camera.bottom = -5.5;
-  keyLight.shadow.camera.near = 1.0;
-  keyLight.shadow.camera.far = 22.0;
-  keyLight.shadow.normalBias = 0.02;
-  keyLight.shadow.bias = -0.0002;
+  keyLight.shadow.camera.top = 7.5;
+  keyLight.shadow.camera.bottom = -7.5;
+  keyLight.shadow.bias = -0.0004;
+  keyLight.shadow.normalBias = 0.018;
   scene.add(keyLight);
+  scene.add(keyLight.target);
 
-  const rimLight = new THREE.SpotLight(0xffb848, 185, 24, Math.PI * 0.30, 0.6, 1.8);
-  rimLight.position.set(-5.2, 3.6, -3.2);
-  scene.add(rimLight);
-
-  const fillLight = new THREE.PointLight(0x60a5fa, 55, 20, 1.8);
-  fillLight.position.set(4.2, -0.8, 4.0);
+  const fillLight = new THREE.DirectionalLight(0xC9E2FF, 0.72);
+  fillLight.position.set(5.2, 2.2, 5.0);
   scene.add(fillLight);
 
-  // v14.0 Dynamic Practical Crisis/Rescue Pulse Light
-  const crisisLight = new THREE.PointLight(0xff3824, 0, 9, 1.8);
-  crisisLight.position.set(0, 0.8, 2.2);
-  scene.add(crisisLight);
+  const rimLight = new THREE.DirectionalLight(0xFFC278, 1.35);
+  rimLight.position.set(2.5, 4.8, -5.5);
+  scene.add(rimLight);
 
-  // v14.0 Subtle Additive Volumetric Studio Light Shaft
-  const volBeamMat = new THREE.MeshBasicMaterial({
-    color: 0xfff0c8,
-    transparent: true,
-    opacity: 0.048,
-    blending: THREE.AdditiveBlending,
-    depthWrite: false,
-    side: THREE.DoubleSide
-  });
-  const volBeam = new THREE.Mesh(new THREE.ConeGeometry(3.6, 10.5, 28, 1, true), volBeamMat);
-  volBeam.position.set(1.1, 2.8, -0.8);
-  volBeam.rotation.z = 0.28;
-  scene.add(volBeam);
+  const practicalLight = new THREE.PointLight(0xFF5533, 0.0, 9.0, 1.8);
+  practicalLight.position.set(0, 2.0, 2.0);
+  scene.add(practicalLight);
 
-  // Floating atmospheric bokeh motes
-  const rnd = mulberry32(77312);
-  const dustCount = 150;
-  const dustBase = new Float32Array(dustCount * 3);
-  const dustPos = new Float32Array(dustCount * 3);
-  for (let i = 0; i < dustCount; i++) {
-    dustBase[i * 3] = (rnd() - 0.5) * 7.6;
-    dustBase[i * 3 + 1] = -1.6 + rnd() * 4.8;
-    dustBase[i * 3 + 2] = -2.2 + rnd() * 4.6;
-  }
-  const dustGeo = new THREE.BufferGeometry();
-  dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPos, 3));
-  const dustMat = new THREE.PointsMaterial({
-    color: 0xffe8b0, size: 0.048, transparent: true, opacity: 0.38, depthWrite: false
-  });
-  const dustPoints = new THREE.Points(dustGeo, dustMat);
-  scene.add(dustPoints);
+  const worldRoot = new THREE.Group();
+  scene.add(worldRoot);
 
-  const stageGroup = new THREE.Group();
-  scene.add(stageGroup);
-
-  _engine = {
-    webglCanvas, renderer, scene, camera, stageGroup, shadowCatcher,
-    hemiLight, keyLight, rimLight, fillLight, crisisLight, volBeam,
-    dustPoints, dustBase, dustPos, envs, backdrops, mats, lastPal: null
+  _studio = {
+    glCanvas,
+    renderer,
+    scene,
+    camera,
+    hemiLight,
+    keyLight,
+    fillLight,
+    rimLight,
+    practicalLight,
+    worldRoot
   };
-  return _engine;
+  return _studio;
 }
 
-export function configureStageMood(palKey, globalT, showShadowFloor = true, crisisPulse = 0, crisisHex = 0xff3020) {
-  const eng = getCore3D();
-  const {
-    scene, shadowCatcher, hemiLight, keyLight, rimLight, fillLight,
-    crisisLight, volBeam, dustPoints, dustBase, dustPos, envs, backdrops
-  } = eng;
-  shadowCatcher.visible = showShadowFloor;
+export function applyLightingPreset(studio, mode = 'warm_museum') {
+  const { hemiLight, keyLight, fillLight, rimLight, practicalLight, renderer } = studio;
+  practicalLight.intensity = 0;
 
-  crisisLight.color.setHex(crisisHex);
-  crisisLight.intensity = crisisPulse * 48;
-
-  if (eng.lastPal !== palKey) {
-    eng.lastPal = palKey;
-    scene.environment = envs[palKey] || envs.goldenOchre;
-    scene.background = backdrops[palKey] || backdrops.goldenOchre;
-
-    if (palKey === 'goldenOchre' || palKey === 'warmKraft') {
-      hemiLight.color.setHex(0xfff5dc);
-      hemiLight.groundColor.setHex(0x4a2c0a);
-      hemiLight.intensity = 0.56;
-      keyLight.color.setHex(0xfff4dd);
-      keyLight.intensity = 2.65;
-      rimLight.color.setHex(0xffc048);
-      rimLight.intensity = 155;
-      fillLight.color.setHex(0xffdfa8);
-      fillLight.intensity = 42;
-      volBeam.material.color.setHex(0xfff4d2);
-      volBeam.material.opacity = 0.038;
-      dustPoints.material.color.setHex(0xfff0b8);
-      dustPoints.material.opacity = 0.30;
-    } else if (palKey === 'velvetCrimson') {
-      hemiLight.color.setHex(0xffc8c0);
-      hemiLight.groundColor.setHex(0x280408);
-      hemiLight.intensity = 0.48;
-      keyLight.color.setHex(0xffece4);
-      keyLight.intensity = 2.85;
-      rimLight.color.setHex(0xff5838);
-      rimLight.intensity = 220;
-      fillLight.color.setHex(0xffbe42);
-      fillLight.intensity = 60;
-      volBeam.material.color.setHex(0xff7858);
-      volBeam.material.opacity = 0.052;
-      dustPoints.material.color.setHex(0xffaa68);
-      dustPoints.material.opacity = 0.46;
-    } else if (palKey === 'volcanicAmber') {
-      hemiLight.color.setHex(0xffddb8);
-      hemiLight.groundColor.setHex(0x280c02);
-      hemiLight.intensity = 0.50;
-      keyLight.color.setHex(0xfff2dc);
-      keyLight.intensity = 2.90;
-      rimLight.color.setHex(0xff7224);
-      rimLight.intensity = 225;
-      fillLight.color.setHex(0xfbbf24);
-      fillLight.intensity = 65;
-      volBeam.material.color.setHex(0xffa84c);
-      volBeam.material.opacity = 0.055;
-      dustPoints.material.color.setHex(0xffc852);
-      dustPoints.material.opacity = 0.50;
-    } else if (palKey === 'emeraldLab') {
-      hemiLight.color.setHex(0xd4fff2);
-      hemiLight.groundColor.setHex(0x041e1a);
-      hemiLight.intensity = 0.54;
-      keyLight.color.setHex(0xf0fffa);
-      keyLight.intensity = 2.75;
-      rimLight.color.setHex(0x34d399);
-      rimLight.intensity = 195;
-      fillLight.color.setHex(0x38bdf8);
-      fillLight.intensity = 55;
-      volBeam.material.color.setHex(0x7ef7d4);
-      volBeam.material.opacity = 0.050;
-      dustPoints.material.color.setHex(0x7ef7d4);
-      dustPoints.material.opacity = 0.42;
-    } else {
-      // midnightIndigo
-      hemiLight.color.setHex(0xc8deff);
-      hemiLight.groundColor.setHex(0x0a1020);
-      hemiLight.intensity = 0.48;
-      keyLight.color.setHex(0xe8f2ff);
-      keyLight.intensity = 2.45;
-      rimLight.color.setHex(0x38bdf8);
-      rimLight.intensity = 185;
-      fillLight.color.setHex(0xffb44c);
-      fillLight.intensity = 64;
-      volBeam.material.color.setHex(0x93c5fd);
-      volBeam.material.opacity = 0.054;
-      dustPoints.material.color.setHex(0xbae6fd);
-      dustPoints.material.opacity = 0.40;
-    }
+  if (mode === 'radio_booth') {
+    hemiLight.color.setHex(0xFFEBD2);
+    hemiLight.groundColor.setHex(0x231A13);
+    hemiLight.intensity = 0.56;
+    keyLight.color.setHex(0xFFF0D6);
+    keyLight.intensity = 2.40;
+    keyLight.position.set(-3.8, 6.2, 6.2);
+    fillLight.color.setHex(0xB8DCFF);
+    fillLight.intensity = 0.68;
+    rimLight.color.setHex(0xFF9E52);
+    rimLight.intensity = 1.25;
+    renderer.toneMappingExposure = 1.08;
+  } else if (mode === 'night_bedroom') {
+    hemiLight.color.setHex(0x8FB2FF);
+    hemiLight.groundColor.setHex(0x121524);
+    hemiLight.intensity = 0.44;
+    keyLight.color.setHex(0x9BC0FF);
+    keyLight.intensity = 1.55;
+    keyLight.position.set(4.2, 5.5, 5.4);
+    fillLight.color.setHex(0xFFE0B2);
+    fillLight.intensity = 0.45;
+    rimLight.color.setHex(0x7DA6FF);
+    rimLight.intensity = 1.05;
+    practicalLight.color.setHex(0xFFA84C);
+    practicalLight.position.set(-1.55, 0.35, 1.65);
+    practicalLight.intensity = 3.2;
+    renderer.toneMappingExposure = 1.06;
+  } else if (mode === 'crimson_bio') {
+    hemiLight.color.setHex(0xFFD6D6);
+    hemiLight.groundColor.setHex(0x2B080C);
+    hemiLight.intensity = 0.52;
+    keyLight.color.setHex(0xFFF0E8);
+    keyLight.intensity = 2.35;
+    keyLight.position.set(-3.4, 5.6, 6.0);
+    fillLight.color.setHex(0x78D6FF);
+    fillLight.intensity = 0.72;
+    rimLight.color.setHex(0xFF6B6B);
+    rimLight.intensity = 1.55;
+    renderer.toneMappingExposure = 1.10;
+  } else if (mode === 'anatomy_dramatic') {
+    hemiLight.color.setHex(0xF6EDE2);
+    hemiLight.groundColor.setHex(0x18141A);
+    hemiLight.intensity = 0.52;
+    keyLight.color.setHex(0xFFF3E4);
+    keyLight.intensity = 2.55;
+    keyLight.position.set(-3.6, 5.8, 6.5);
+    fillLight.color.setHex(0xB8DAFF);
+    fillLight.intensity = 0.66;
+    rimLight.color.setHex(0xFF9F7A);
+    rimLight.intensity = 1.35;
+    renderer.toneMappingExposure = 1.09;
+  } else if (mode === 'switchboard') {
+    hemiLight.color.setHex(0xD8FFF0);
+    hemiLight.groundColor.setHex(0x0B2119);
+    hemiLight.intensity = 0.55;
+    keyLight.color.setHex(0xFFF2D8);
+    keyLight.intensity = 2.45;
+    keyLight.position.set(-3.2, 5.8, 6.4);
+    fillLight.color.setHex(0x9CE8D2);
+    fillLight.intensity = 0.70;
+    rimLight.color.setHex(0xFFB347);
+    rimLight.intensity = 1.25;
+    renderer.toneMappingExposure = 1.08;
+  } else {
+    // warm_museum / lab default
+    hemiLight.color.setHex(0xFFF4E2);
+    hemiLight.groundColor.setHex(0x2E2012);
+    hemiLight.intensity = 0.60;
+    keyLight.color.setHex(0xFFF4E4);
+    keyLight.intensity = 2.45;
+    keyLight.position.set(-4.0, 6.5, 6.4);
+    fillLight.color.setHex(0xCAE4FF);
+    fillLight.intensity = 0.74;
+    rimLight.color.setHex(0xFFCA80);
+    rimLight.intensity = 1.25;
+    renderer.toneMappingExposure = 1.08;
   }
-
-  volBeam.position.x = 1.0 + Math.sin(globalT * 0.45) * 0.35;
-  const count = dustBase.length / 3;
-  for (let i = 0; i < count; i++) {
-    dustPos[i * 3] = dustBase[i * 3] + Math.sin(globalT * 0.75 + i * 1.3) * 0.24;
-    dustPos[i * 3 + 1] = -1.6 + (((dustBase[i * 3 + 1] + 1.6 + globalT * 0.22 + i * 0.17) % 4.8 + 4.8) % 4.8);
-    dustPos[i * 3 + 2] = dustBase[i * 3 + 2] + Math.cos(globalT * 0.65 + i * 0.9) * 0.20;
-  }
-  dustPoints.geometry.attributes.position.needsUpdate = true;
-}
-
-export function evalCamera3D(camKeyframes, localP, globalT, impactOpts = null, transMod = null) {
-  const { camera } = getCore3D();
-  const kfs = camKeyframes && camKeyframes.length ? camKeyframes : [
-    { p: 0.0, pos: [0, 0.5, 5.4], look: [0, 0.0, 0], fov: 39, roll: 0 },
-    { p: 1.0, pos: [0, 0.3, 4.4], look: [0, 0.0, 0], fov: 35, roll: 0 }
-  ];
-  let k0 = kfs[0], k1 = kfs[kfs.length - 1];
-  for (let i = 0; i < kfs.length - 1; i++) {
-    if (localP >= kfs[i].p && localP <= kfs[i + 1].p) { k0 = kfs[i]; k1 = kfs[i + 1]; break; }
-  }
-  const span = Math.max(0.0001, k1.p - k0.p);
-  const rawU = clamp((localP - k0.p) / span, 0, 1);
-  const u = smoothstep5(rawU);
-
-  const bx = Math.sin(globalT * 1.8) * 0.028 + Math.cos(globalT * 3.3) * 0.01;
-  const by = Math.cos(globalT * 1.5) * 0.024;
-  const bz = Math.sin(globalT * 1.1) * 0.028;
-
-  let sx = 0, sy = 0, sRoll = 0;
-  if (impactOpts && localP >= impactOpts.at && localP < impactOpts.at + 0.28) {
-    const dt = localP - impactOpts.at;
-    const mag = (impactOpts.mag || 0.24) * Math.exp(-dt * 18);
-    sx = Math.sin(globalT * 75) * mag;
-    sy = Math.cos(globalT * 92) * mag;
-    sRoll = Math.sin(globalT * 64) * mag * 0.1;
-  }
-
-  const panX = transMod ? (transMod.panOffsetX || 0) : 0;
-  const zScale = transMod ? (transMod.zoomScale || 1.0) : 1.0;
-
-  const lx = lerp(k0.look[0], k1.look[0], u) + sx * 0.4 + panX * 0.65;
-  const ly = lerp(k0.look[1], k1.look[1], u) + 0.18 + sy * 0.4;
-  const lz = lerp(k0.look[2], k1.look[2], u);
-
-  const rawPx = lerp(k0.pos[0], k1.pos[0], u) + bx + sx + panX;
-  const rawPy = lerp(k0.pos[1], k1.pos[1], u) + by + sy;
-  const rawPz = lerp(k0.pos[2], k1.pos[2], u) + bz;
-
-  const px = lx + (rawPx - lx) * 1.56 * zScale;
-  const py = ly + (rawPy - ly) * 1.42 * zScale;
-  const pz = lz + (rawPz - lz) * 1.66 * zScale;
-
-  const fov = clamp(lerp(k0.fov || 40, k1.fov || 40, u) * 1.18 * zScale, 26, 58);
-  const roll = lerp(k0.roll || 0, k1.roll || 0, u) + sRoll;
-
-  camera.position.set(px, py, pz);
-  camera.up.set(Math.sin(roll), Math.cos(roll), 0);
-  camera.lookAt(lx, ly, lz);
-  camera.fov = fov;
-  camera.updateProjectionMatrix();
-  camera.updateMatrixWorld(true);
-}
-
-export function renderWebGLTo2D(ctx) {
-  const { renderer, scene, camera, webglCanvas } = getCore3D();
-  renderer.render(scene, camera);
-  ctx.save();
-  ctx.imageSmoothingEnabled = true;
-  ctx.imageSmoothingQuality = 'high';
-  ctx.drawImage(webglCanvas, 0, 0, W, H);
-  ctx.restore();
 }

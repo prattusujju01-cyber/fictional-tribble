@@ -1,49 +1,171 @@
 {
-  "slug": "water-intoxication",
-  "title": "Why Drinking Too Much Water Can Kill You in 3 Hours (Acute Hyponatremia)",
+  "title": "7.5 Liters of Water in 3 Hours — The Hidden Physics of Water Intoxication",
+  "version": "15.0",
   "fps": 30,
   "width": 1080,
   "height": 1920,
-  "duration": 120.0,
+  "durationSec": 120.0,
   "totalFrames": 3600,
-  "wordCount": 396,
-  "targetWps": 3.30,
   "shots": [
-    { "id": 1,  "t0": 0.00,   "t1": 3.20,   "pal": "emeraldLab",     "trans": "cut",        "tier1": "CRYSTAL CLEAR",     "tier2": "PURE WATER",        "tier2Alt": "LIFE ITSELF",        "accent": "#52D1F0", "vo": "Saaf thanda paani zindagi hai — bina iske insaan kuch din bhi zinda nahi reh sakta." },
-    { "id": 2,  "t0": 3.20,   "t1": 6.50,   "pal": "midnightIndigo", "trans": "whip_left",  "tier1": "JANUARY 2007",      "tier2": "CALIFORNIA",        "tier2Alt": "LIVE ON RADIO",      "accent": "#F7C137", "vo": "Par January 2007 mein California ke ek live FM radio station par..." },
-    { "id": 3,  "t0": 6.50,   "t1": 10.00,  "pal": "goldenOchre",    "trans": "paper_wipe", "tier1": "HOLD YOUR WEE",     "tier2": "FOR A WII!",        "tier2Alt": "FREE CONSOLE!",      "accent": "#B81B10", "vo": "ek ajeeb contest rakha gaya — Hold Your Wee for a Wii, jisme sabse zyada paani peene par gaming console milna tha!" },
-    { "id": 4,  "t0": 10.00,  "t1": 13.50,  "pal": "midnightIndigo", "trans": "whip_right", "tier1": "JENNIFER, AGE 28",  "tier2": "DRANK 7.5 LITERS",  "tier2Alt": "IN JUST 3 HOURS!",   "accent": "#52D1F0", "vo": "28-saal ki Jennifer Strange ne apne bacchon ke liye sirf 3 ghante mein lagbhag 7 liter paani pee liya." },
-    { "id": 5,  "t0": 13.50,  "t1": 16.80,  "pal": "midnightIndigo", "trans": "film_flash", "tier1": "5 HOURS LATER",     "tier2": "SHE COLLAPSED",     "tier2Alt": "NEVER WOKE UP",      "accent": "#FF5A36", "vo": "Ghar lautne ke 5 ghante baad woh behosh ho gayi... aur phir kabhi nahi uthi." },
-    { "id": 6,  "t0": 16.80,  "t1": 19.80,  "pal": "goldenOchre",    "trans": "whip_left",  "tier1": "AUTOPSY REPORT",    "tier2": "NOT POISON",        "tier2Alt": "ONLY PURE WATER!",   "accent": "#B81B10", "vo": "Autopsy mein na koi zeher mila, na koi drug — sirf saaf paani!" },
-    { "id": 7,  "t0": 19.80,  "t1": 23.00,  "pal": "velvetCrimson",  "trans": "zoom_dive",  "tier1": "DOCTORS CALL IT",   "tier2": "HYPONATREMIA",      "tier2Alt": "WATER OVERDOSE",     "accent": "#F7C137", "vo": "Medical science mein is silent killer ko kehte hain — Acute Hyponatremia, yaani Water Intoxication!" },
-    { "id": 8,  "t0": 23.00,  "t1": 26.20,  "pal": "warmKraft",      "trans": "paper_wipe", "tier1": "EVERYONE HEARS",    "tier2": "MORE = HEALTHIER",  "tier2Alt": "DEADLY IN EXCESS!",  "accent": "#B81B10", "vo": "Bachpan se hum sunte aaye hain — jitna zyada paani piyoge utna healthy? Yeh adhoora sach jaanleva ho sakta hai!" },
-    { "id": 9,  "t0": 26.20,  "t1": 29.40,  "pal": "goldenOchre",    "trans": "whip_right", "tier1": "YOUR BODY'S FILTER","tier2": "THE KIDNEYS",       "tier2Alt": "BUILT-IN LIMIT",     "accent": "#B81B10", "vo": "Samajhne ke liye apne body ke smart filter — Kidneys ko dekho." },
-    { "id": 10, "t0": 29.40,  "t1": 32.80,  "pal": "emeraldLab",     "trans": "cut",        "tier1": "MAX FILTER SPEED",  "tier2": "0.8 TO 1.0 L/HR",   "tier2Alt": "STRICT CEILING",     "accent": "#4AE3B5", "vo": "Healthy kidneys ek ghante mein maximum sirf 0.8 se 1 liter paani hi filter karke bahar nikal sakti hain." },
-    { "id": 11, "t0": 32.80,  "t1": 36.20,  "pal": "volcanicAmber",  "trans": "cut",        "tier1": "CHUG 2.5 LITERS?",  "tier2": "KIDNEYS OVERFLOW",  "tier2Alt": "FLOODS THE BLOOD!",  "accent": "#FF6A38", "vo": "Jab aap ek saath 2 ya 3 liter paani gatak jaate ho, toh kidneys overflow ho jaati hain — aur paani khoon mein jama hota hai!" },
-    { "id": 12, "t0": 36.20,  "t1": 39.60,  "pal": "velvetCrimson",  "trans": "zoom_dive",  "tier1": "INSIDE YOUR BLOOD", "tier2": "SODIUM BALANCE",    "tier2Alt": "135–145 mmol/L",     "accent": "#F7C137", "vo": "Aapke khoon mein Sodium ions ka exact balance hona zaroori hai — 135 se 145 millimoles per liter." },
-    { "id": 13, "t0": 39.60,  "t1": 42.80,  "pal": "goldenOchre",    "trans": "whip_left",  "tier1": "WHY SODIUM?",       "tier2": "HOLDS FLUID",       "tier2Alt": "FIRES NERVES!",      "accent": "#B81B10", "vo": "Yahi sodium khoon ka fluid balance sambhalta hai aur nerves ke electric signals chalata hai." },
-    { "id": 14, "t0": 42.80,  "t1": 46.20,  "pal": "velvetCrimson",  "trans": "cut",        "tier1": "FLOOD OF WATER",    "tier2": "DILUTES BLOOD",     "tier2Alt": "SODIUM CRASHES!",    "accent": "#52D1F0", "vo": "Par jab khoon mein achanak paani ki baadh aati hai, toh sodium ghul kar patla ho jaata hai!" },
-    { "id": 15, "t0": 46.20,  "t1": 49.40,  "pal": "warmKraft",      "trans": "paper_wipe", "tier1": "BELOW 135 mmol/L",  "tier2": "DANGER STARTS",     "tier2Alt": "118 = CRITICAL!",    "accent": "#B81B10", "vo": "135 se neeche khatra shuru hota hai — aur 120 se neeche aate hi emergency!" },
-    { "id": 16, "t0": 49.40,  "t1": 52.80,  "pal": "midnightIndigo", "trans": "whip_right", "tier1": "PHYSICS TAKES OVER","tier2": "OSMOSIS LAW",       "tier2Alt": "WATER CHASES SALT",  "accent": "#52D1F0", "vo": "Ab yahan physics ka ek kathor niyam kaam karta hai — Osmosis. Paani kam namak se zyada namak ki taraf bhaagta hai!" },
-    { "id": 17, "t0": 52.80,  "t1": 56.20,  "pal": "velvetCrimson",  "trans": "zoom_dive",  "tier1": "BLOOD IS WATERY",   "tier2": "CELLS ARE SALTY",   "tier2Alt": "WATER RUSHES IN!",   "accent": "#52D1F0", "vo": "Nateeja? Khoon ka extra paani cells ke Aquaporin channels cheer kar andar ghusne lagta hai!" },
-    { "id": 18, "t0": 56.20,  "t1": 59.40,  "pal": "velvetCrimson",  "trans": "cut",        "tier1": "MILLIONS OF CELLS", "tier2": "SWELL UP FAST",     "tier2Alt": "LIKE BALLOONS!",     "accent": "#F7C137", "vo": "Aur aapke laakhon cells paani bharne se gubbare ki tarah phoolne lagte hain!" },
-    { "id": 19, "t0": 59.40,  "t1": 62.60,  "pal": "goldenOchre",    "trans": "whip_left",  "tier1": "MUSCLES & SKIN?",   "tier2": "CAN STRETCH OUT",   "tier2Alt": "ROOM TO EXPAND",     "accent": "#185A3B", "vo": "Haath-pair aur skin ki soft muscles mein phailne ki jagah hoti hai, toh woh sujan jhel leti hain." },
-    { "id": 20, "t0": 62.60,  "t1": 66.20,  "pal": "volcanicAmber",  "trans": "zoom_dive",  "tier1": "YOUR BRAIN SITS IN","tier2": "SOLID 7MM SKULL",   "tier2Alt": "ZERO SPACE!",        "accent": "#F7C137", "vo": "Par aapka dimaag band hai 7 millimeter moti thos haddi ke pinjre — Skull ke andar, jahan phailne ki jagah nahi!" },
-    { "id": 21, "t0": 66.20,  "t1": 70.00,  "pal": "velvetCrimson",  "trans": "cut",        "tier1": "BRAIN CELLS SWELL", "tier2": "CEREBRAL EDEMA",    "tier2Alt": "CRUSHED ON BONE!",   "accent": "#FF5A36", "vo": "Jab brain ke Astrocytes paani sokh kar sujte hain, toh dimaag khud apni hi khopdi ki deewar se kuchalne lagta hai!" },
-    { "id": 22, "t0": 70.00,  "t1": 73.20,  "pal": "volcanicAmber",  "trans": "cut",        "tier1": "SKULL PRESSURE",    "tier2": "SPIKES 4X HIGH",    "tier2Alt": "45 mmHg CRISIS!",    "accent": "#FF7038", "vo": "Skull ke andar pressure chaar guna badh jaata hai aur khoon ki supply rukne lagti hai." },
-    { "id": 23, "t0": 73.20,  "t1": 76.60,  "pal": "midnightIndigo", "trans": "paper_wipe", "tier1": "FIRST SYMPTOMS",    "tier2": "SEVERE HEADACHE",   "tier2Alt": "NAUSEA & BLUR",      "accent": "#F7C137", "vo": "Shuruat hoti hai tez sir-dard, ulti aur ajeeb confusion se — jo aksar heatstroke samajh liya jaata hai." },
-    { "id": 24, "t0": 76.60,  "t1": 80.40,  "pal": "velvetCrimson",  "trans": "zoom_dive",  "tier1": "NOWHERE TO GO",     "tier2": "FORCED DOWNWARD",   "tier2Alt": "SKULL BASE TRAP!",   "accent": "#FF5A36", "vo": "Dimaag ko nikalne ka koi raasta nahi milta, toh woh neeche Foramen Magnum ke chhed mein dhasne lagta hai!" },
-    { "id": 25, "t0": 80.40,  "t1": 84.00,  "pal": "volcanicAmber",  "trans": "cut",        "tier1": "BRAINSTEM CRUSHED", "tier2": "BREATHING STOPS",   "tier2Alt": "COMA & ARREST",      "accent": "#FF5A36", "vo": "Isse Brainstem dab jaata hai — saans aur dhadkan ka switch band, aur insaan coma mein chala jaata hai!" },
-    { "id": 26, "t0": 84.00,  "t1": 87.60,  "pal": "goldenOchre",    "trans": "film_flash", "tier1": "NOT JUST CONTESTS", "tier2": "MARATHON RUNNERS",  "tier2Alt": "1 IN 8 AFFECTED!",   "accent": "#B81B10", "vo": "Aur yeh sirf kisi contest mein nahi — marathon runners ke har aath mein se ek finisher mein mild hyponatremia dekha gaya hai!" },
-    { "id": 27, "t0": 87.60,  "t1": 90.80,  "pal": "warmKraft",      "trans": "whip_right", "tier1": "SWEAT LOSES BOTH",  "tier2": "WATER + SALT",      "tier2Alt": "PLAIN H2O DROPS Na+","accent": "#B81B10", "vo": "Kyunki paseene mein paani ke saath namak bhi nikalta hai — upar se sirf sada paani peena sodium ko aur gira deta hai." },
-    { "id": 28, "t0": 90.80,  "t1": 94.00,  "pal": "volcanicAmber",  "trans": "whip_left",  "tier1": "BABIES UNDER 6 MO", "tier2": "NO PLAIN WATER!",   "tier2Alt": "TINY KIDNEYS",       "accent": "#F7C137", "vo": "6 mahine se chhote bacchon ko toh kabhi alag se sada paani nahi dena chahiye — unki chhoti kidneys ise jhel nahi paati." },
-    { "id": 29, "t0": 94.00,  "t1": 97.40,  "pal": "emeraldLab",     "trans": "film_flash", "tier1": "ICU EMERGENCY CURE","tier2": "3% SALINE IV",      "tier2Alt": "DRAWS WATER OUT!",   "accent": "#4AE3B5", "vo": "Hospital mein doctors turant 3% Hypertonic Saline IV dete hain — jo dimaag se extra paani wapas kheench leta hai!" },
-    { "id": 30, "t0": 97.40,  "t1": 100.40, "pal": "midnightIndigo", "trans": "paper_wipe", "tier1": "STAY PROTECTED",    "tier2": "3 SIMPLE RULES",    "tier2Alt": "HYDRATION GUIDE",    "accent": "#4AE3B5", "vo": "Khud ko safe rakhne ke sirf 3 simple hydration rules hain." },
-    { "id": 31, "t0": 100.40, "t1": 103.80, "pal": "emeraldLab",     "trans": "whip_right", "tier1": "RULE 1: PACE IT",   "tier2": "SIP, DON'T CHUG",   "tier2Alt": "MAX 800 ML / HR",    "accent": "#52D1F0", "vo": "Pehla: paani ek saath gatakne ke bajaye aaram se piyo — ek ghante mein 800 ml se zyada nahi." },
-    { "id": 32, "t0": 103.80, "t1": 107.20, "pal": "goldenOchre",    "trans": "cut",        "tier1": "RULE 2: IN SWEAT",  "tier2": "ADD ELECTROLYTES",  "tier2Alt": "SODIUM + ORS!",      "accent": "#B81B10", "vo": "Doosra: kadi dhoop, gym ya running mein paseena aaye, toh paani mein Electrolytes ya ORS zaroor milao." },
-    { "id": 33, "t0": 107.20, "t1": 110.60, "pal": "warmKraft",      "trans": "whip_left",  "tier1": "RULE 3: EASY CHECK","tier2": "PALE STRAW COLOR",  "tier2Alt": "NOT WATER-CLEAR!",   "accent": "#185A3B", "vo": "Teesra: sabse aasaan test — urine bilkul paani jaisa safed nahi, halka pale-straw hona chahiye!" },
-    { "id": 34, "t0": 110.60, "t1": 113.80, "pal": "emeraldLab",     "trans": "cut",        "tier1": "TRUST YOUR BODY",   "tier2": "DRINK TO THIRST",   "tier2Alt": "BUILT-IN SENSOR",    "accent": "#4AE3B5", "vo": "Apni body ke natural Thirst signal par bharosa rakho — woh laakhon saal ke evolution ka meter hai." },
-    { "id": 35, "t0": 113.80, "t1": 116.90, "pal": "midnightIndigo", "trans": "zoom_dive",  "tier1": "ANCIENT MEDICAL LAW","tier2": "DOSE = POISON",    "tier2Alt": "EVEN PURE H2O!",     "accent": "#F7C137", "vo": "Kyunki science mein zeher koi cheez nahi, uski matra hoti hai — saaf paani ki bhi!" },
-    { "id": 36, "t0": 116.90, "t1": 120.00, "pal": "emeraldLab",     "trans": "film_flash", "tier1": "SEND THIS TO YOUR", "tier2": "GYM & RUN FRIENDS", "tier2Alt": "SHARE & SAVE!",      "accent": "#F7C137", "vo": "Yeh reel apne gym aur runner doston ke saath abhi share karo!" }
+    {
+      "id": "S01", "t0": 0.0, "t1": 3.6, "world": "radio_studio", "palette": "studio_day",
+      "line1": "JANUARY 2007", "line2": "LIVE ON RADIO", "accent": "#F49328", "line2Delay": 0.56,
+      "vo": "January 2007, California ke ek live FM radio show mein ek ajeeb contest rakha gaya."
+    },
+    {
+      "id": "S02", "t0": 3.6, "t1": 7.4, "world": "radio_studio", "palette": "studio_day",
+      "line1": "THE CONTEST RULE:", "line2": "DON'T PEE TO WIN", "accent": "#49CEFF", "line2Delay": 0.60,
+      "vo": "Apne bachon ke liye gaming console jeetne ka rule simple tha — bina washroom gaye sabse zyada paani peena."
+    },
+    {
+      "id": "S03", "t0": 7.4, "t1": 11.4, "world": "radio_studio", "palette": "studio_day",
+      "line1": "JENNIFER DRANK", "line2": "7.5 LITERS IN 3 HOURS", "accent": "#F49328", "line2Delay": 0.58,
+      "vo": "28 saal ki Jennifer Strange ne mahez teen ghante mein saadhe saat liter paani pee liya."
+    },
+    {
+      "id": "S04", "t0": 11.4, "t1": 15.0, "world": "radio_studio", "palette": "studio_alert",
+      "line1": "ON LIVE AIR", "line2": "BLINDING HEAD PAIN", "accent": "#E0342F", "line2Delay": 0.56,
+      "vo": "Studio se nikalte waqt live mic par usne kaha — mera sar dard se phat raha hai."
+    },
+    {
+      "id": "S05", "t0": 15.0, "t1": 19.0, "world": "bedroom_night", "palette": "night_indigo",
+      "line1": "FIVE HOURS LATER", "line2": "FOUND UNCONSCIOUS", "accent": "#E0342F", "line2Delay": 0.60,
+      "vo": "Aur sirf paanch ghante baad, apne hi kamre mein woh hamesha ke liye khamosh mili."
+    },
+    {
+      "id": "S06", "t0": 19.0, "t1": 22.8, "world": "evidence_board", "palette": "ochre_board",
+      "line1": "CAUSE OF DEATH:", "line2": "PURE DRINKING WATER", "accent": "#D92924", "line2Delay": 0.58,
+      "vo": "Postmortem report mein na koi zeher tha, na koi chot — maut ki wajah thi sirf saaf peene ka paani."
+    },
+    {
+      "id": "S07", "t0": 22.8, "t1": 26.5, "world": "evidence_board", "palette": "ochre_board",
+      "line1": "\"MORE WATER = SAFE\"", "line2": "A DEADLY MYTH", "accent": "#D92924", "line2Delay": 0.58,
+      "vo": "Humein bachpan se lagta hai jitna zyada paani piyoge body utni detox hogi — par yeh ek khatarnaak myth hai."
+    },
+    {
+      "id": "S08", "t0": 26.5, "t1": 30.2, "world": "kidney_stand", "palette": "ochre_board",
+      "line1": "YOUR TWO KIDNEYS", "line2": "HAVE A SPEED LIMIT", "accent": "#FFFDF7", "line2Delay": 0.58,
+      "vo": "Kyunki aapki dono kidneys ke paas paani filter karne ki ek strict biological speed limit hoti hai."
+    },
+    {
+      "id": "S09", "t0": 30.2, "t1": 34.0, "world": "kidney_stand", "palette": "ochre_board",
+      "line1": "MAXIMUM OUTPUT:", "line2": "0.8 LITERS PER HOUR", "accent": "#49CEFF", "line2Delay": 0.58,
+      "vo": "Healthy kidneys ek ghante mein maximum sirf zero point eight se ek liter paani hi bahar nikaal sakti hain."
+    },
+    {
+      "id": "S10", "t0": 34.0, "t1": 37.8, "world": "kidney_stand", "palette": "ochre_board",
+      "line1": "SHE DRANK WATER", "line2": "3X FASTER THAN EXIT", "accent": "#D92924", "line2Delay": 0.58,
+      "vo": "Jennifer har ghante dhai liter paani andar bhej rahi thi — yaani exit speed se teen guna tez!"
+    },
+    {
+      "id": "S11", "t0": 37.8, "t1": 41.5, "world": "kidney_stand", "palette": "crimson_bio",
+      "line1": "TRAPPED WATER", "line2": "FLOODS THE BLOOD", "accent": "#49CEFF", "line2Delay": 0.56,
+      "vo": "Jo extra paani bahar nahi nikal paaya, woh seedha khoon ki nason mein bharne laga."
+    },
+    {
+      "id": "S12", "t0": 41.5, "t1": 45.4, "world": "artery_sodium", "palette": "crimson_bio",
+      "line1": "SODIUM IN BLOOD", "line2": "SPARKS EVERY NERVE", "accent": "#F49328", "line2Delay": 0.58,
+      "vo": "Hamare khoon mein maujood sodium har ek nerve signal aur fluid balance ko control karta hai."
+    },
+    {
+      "id": "S13", "t0": 45.4, "t1": 49.4, "world": "artery_sodium", "palette": "ochre_board",
+      "line1": "HEALTHY BLOOD HOLDS", "line2": "140 MMOL/L SODIUM", "accent": "#FFFDF7", "line2Delay": 0.60,
+      "vo": "Normal insaan ke blood mein sodium bilkul ek sau chaalis millimoles per liter par lock rehta hai."
+    },
+    {
+      "id": "S14", "t0": 49.4, "t1": 53.2, "world": "artery_sodium", "palette": "ochre_board",
+      "line1": "GALLONS OF WATER", "line2": "WASH SODIUM AWAY", "accent": "#49CEFF", "line2Delay": 0.58,
+      "vo": "Jab achanak kai liter paani khoon mein milta hai, toh khoon patla hokar sodium ko dilute kar deta hai."
+    },
+    {
+      "id": "S15", "t0": 53.2, "t1": 57.0, "world": "artery_sodium", "palette": "slate_lab",
+      "line1": "AT 118 MMOL/L:", "line2": "SODIUM TURNS CRITICAL", "accent": "#E0342F", "line2Delay": 0.58,
+      "vo": "Jab yeh level gir kar ek sau athaarah ke neeche jaata hai, doctors isse Acute Hyponatremia kehte hain."
+    },
+    {
+      "id": "S16", "t0": 57.0, "t1": 61.0, "world": "osmosis_membrane", "palette": "slate_lab",
+      "line1": "NATURE'S IRON RULE:", "line2": "WATER CHASES SALT", "accent": "#F49328", "line2Delay": 0.58,
+      "vo": "Yahan physics ka ek simple niyam kaam karta hai, Osmosis — paani hamesha zyada namak ki taraf bhaagta hai."
+    },
+    {
+      "id": "S17", "t0": 61.0, "t1": 65.0, "world": "osmosis_membrane", "palette": "cellular_indigo",
+      "line1": "MILLIONS OF PORES", "line2": "PULL WATER INSIDE", "accent": "#49CEFF", "line2Delay": 0.58,
+      "vo": "Khoon mein namak kam aur cells ke andar zyada hone se, paani tezi se cells ke andar ghusne lagta hai."
+    },
+    {
+      "id": "S18", "t0": 65.0, "t1": 69.0, "world": "osmosis_membrane", "palette": "ochre_board",
+      "line1": "MUSCLES CAN STRETCH", "line2": "YOUR SKULL CANNOT", "accent": "#D92924", "line2Delay": 0.58,
+      "vo": "Haath aur pair ke cells phool jayein toh jagah mil jaati hai — par aapka dimaag kahan phailaga?"
+    },
+    {
+      "id": "S19", "t0": 69.0, "t1": 73.0, "world": "skull_brain", "palette": "dark_anatomy",
+      "line1": "YOUR BRAIN SITS IN", "line2": "7MM OF SOLID BONE", "accent": "#FFFDF7", "line2Delay": 0.58,
+      "vo": "Hamara dimaag charon taraf se saat millimeter moti thos haddi ki khopdi mein band hota hai."
+    },
+    {
+      "id": "S20", "t0": 73.0, "t1": 76.8, "world": "skull_brain", "palette": "dark_anatomy",
+      "line1": "BRAIN CELLS SWELL", "line2": "WITH ZERO EXIT ROOM", "accent": "#49CEFF", "line2Delay": 0.58,
+      "vo": "Jaise hi paani brain cells ke andar bharta hai, dimaag phoolne lagta hai par bahar nikalne ki koi jagah nahi hoti."
+    },
+    {
+      "id": "S21", "t0": 76.8, "t1": 80.6, "world": "skull_brain", "palette": "dark_anatomy",
+      "line1": "RISING PRESSURE", "line2": "CHOKES BLOOD FLOW", "accent": "#E0342F", "line2Delay": 0.58,
+      "vo": "Badhta hua pressure khopdi ke andar ki khoon ki nason ko daba kar oxygen supply rok deta hai."
+    },
+    {
+      "id": "S22", "t0": 80.6, "t1": 84.6, "world": "skull_brain", "palette": "dark_anatomy",
+      "line1": "SWOLLEN TISSUE", "line2": "PLUGS THE SKULL BASE", "accent": "#E0342F", "line2Delay": 0.58,
+      "vo": "Aakhir mein phoola hua dimaag neeche ke iklaute chhed, Foramen Magnum mein dhas jaata hai."
+    },
+    {
+      "id": "S23", "t0": 84.6, "t1": 88.5, "world": "switchboard_icu", "palette": "switchboard_green",
+      "line1": "VITAL CONTROLS", "line2": "SWITCHED OFF", "accent": "#F49328", "line2Delay": 0.56,
+      "vo": "Wahin par brainstem hota hai — jo aapki saans aur dil ki dhadkan ka main switchboard hai."
+    },
+    {
+      "id": "S24", "t0": 88.5, "t1": 92.5, "world": "switchboard_icu", "palette": "icu_ward",
+      "line1": "LUNGS AND HEART", "line2": "STOP TOGETHER", "accent": "#E0342F", "line2Delay": 0.56,
+      "vo": "Brainstem dabte hi saans aur dhadkan dono ke switches ek saath band ho jaate hain."
+    },
+    {
+      "id": "S25", "t0": 92.5, "t1": 96.2, "world": "real_cases_icu", "palette": "slate_lab",
+      "line1": "13% OF MARATHONERS", "line2": "OVER-DRINK ON RACE DAY", "accent": "#F49328", "line2Delay": 0.58,
+      "vo": "Yeh sirf radio contest mein nahi hota — Boston Marathon study mein terah percent runners mein yahi condition mili."
+    },
+    {
+      "id": "S26", "t0": 96.2, "t1": 99.8, "world": "real_cases_icu", "palette": "ochre_board",
+      "line1": "BABIES UNDER 6 MONTHS", "line2": "NEED ZERO PLAIN WATER", "accent": "#D92924", "line2Delay": 0.58,
+      "vo": "Aur chheh mahine se chhote bachon ki kidneys chhoti hone ki wajah se unhein saadha paani bilkul nahi diya jaata."
+    },
+    {
+      "id": "S27", "t0": 99.8, "t1": 103.5, "world": "real_cases_icu", "palette": "icu_ward",
+      "line1": "ICU DOCTORS INFUSE", "line2": "3% HYPERTONIC SALT", "accent": "#49CEFF", "line2Delay": 0.58,
+      "vo": "Emergency ICU mein doctors mareez ko saadha paani nahi, balki three percent gaadha salt solution chadhate hain."
+    },
+    {
+      "id": "S28", "t0": 103.5, "t1": 107.0, "world": "hydration_rules", "palette": "slate_lab",
+      "line1": "RULE 1: NEVER CHUG", "line2": "OVER 800 ML PER HOUR", "accent": "#49CEFF", "line2Delay": 0.56,
+      "vo": "Apne aap ko safe rakhne ke teen rules yaad rakhiye — Rule one: ek ghante mein aath sau ML se zyada paani mat pijiye."
+    },
+    {
+      "id": "S29", "t0": 107.0, "t1": 110.5, "world": "hydration_rules", "palette": "ochre_board",
+      "line1": "RULE 2: HEAVY SWEAT?", "line2": "ADD ELECTROLYTES", "accent": "#F49328", "line2Delay": 0.56,
+      "vo": "Rule two: bhaari workout ya garmi mein paseena bahaane par paani ke saath electrolytes ya ORS zaroor lein."
+    },
+    {
+      "id": "S30", "t0": 110.5, "t1": 114.0, "world": "hydration_rules", "palette": "slate_lab",
+      "line1": "RULE 3: PALE YELLOW", "line2": "MEANS IDEAL BALANCE", "accent": "#FFFDF7", "line2Delay": 0.56,
+      "vo": "Rule three: halka peela rang perfect hydration ki nishani hai — bilkul paani jaisa transparent hona rukne ka signal hai."
+    },
+    {
+      "id": "S31", "t0": 114.0, "t1": 117.2, "world": "hydration_rules", "palette": "ochre_board",
+      "line1": "EVEN PURE WATER", "line2": "HAS A LETHAL DOSE", "accent": "#F49328", "line2Delay": 0.56,
+      "vo": "Zeher aur amrit mein farq sirf maatra ka hota hai — sahi matra mein hi paani jeevan hai."
+    },
+    {
+      "id": "S32", "t0": 117.2, "t1": 120.0, "world": "hydration_rules", "palette": "ochre_board",
+      "line1": "SEND THIS TO", "line2": "YOUR GYM PARTNER", "accent": "#49CEFF", "line2Delay": 0.50,
+      "vo": "Yeh reel apne har runner aur gym partner ke saath abhi share kijiye."
+    }
   ]
 }
