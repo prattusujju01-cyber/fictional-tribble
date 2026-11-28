@@ -1,0 +1,226 @@
+{
+  "title": "ISRO's Impossible Space Economics: How India Landed on the Moon's South Pole for ₹615 Crore",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "totalDurationSec": 78.0,
+  "totalFrames": 2340,
+  "chapters": [
+    { "index": 0, "label": "THE PARADOX" },
+    { "index": 1, "label": "HOLLYWOOD" },
+    { "index": 2, "label": "₹615 CRORE" },
+    { "index": 3, "label": "SLINGSHOT" },
+    { "index": 4, "label": "CRYOGENIC" },
+    { "index": 5, "label": "434 SATS" },
+    { "index": 6, "label": "THE REALITY" },
+    { "index": 7, "label": "YOUR PICK" }
+  ],
+  "scenes": [
+    {
+      "id": "S01_BICYCLE_TO_SPACE",
+      "startSec": 0.0,
+      "endSec": 5.5,
+      "chapter": 0,
+      "showRail": false,
+      "lockState": "hidden",
+      "palette": "royalCobalt",
+      "transitionIn": "none",
+      "voiceoverText": "In 1963, Indian scientists carried their first rocket nosecone to a Kerala beach on a bicycle.",
+      "captionMarkup": "In *1963,* Indian scientists carried their first *rocket nosecone* to a Kerala beach on a *bicycle.*",
+      "sfx": [
+        { "offsetSec": 0.05, "file": "whoosh_deep_velvet.wav", "gainDb": -9 },
+        { "offsetSec": 0.95, "file": "bubble_pop_pill.wav", "gainDb": -12 },
+        { "offsetSec": 1.85, "file": "bubble_pop_pill.wav", "gainDb": -12 }
+      ]
+    },
+    {
+      "id": "S02_SOUTH_POLE_PORTAL",
+      "startSec": 5.5,
+      "endSec": 13.0,
+      "chapter": 0,
+      "showRail": false,
+      "lockState": "plant",
+      "palette": "royalCobalt",
+      "transitionIn": "circular_portal_dive",
+      "voiceoverText": "Sixty years later, India became the first nation to land on the Moon's South Pole! Stay with me — one locked number explains why superpowers now ride Indian rockets.",
+      "beatACaption": "Sixty years later, India became the *first nation* to land on the *Moon's South Pole!*",
+      "beatBCaption": "Stay with me — *one locked number* explains why superpowers now *ride Indian rockets.*",
+      "sfx": [
+        { "offsetSec": 0.02, "file": "whoosh_whip_fast.wav", "gainDb": -8 },
+        { "offsetSec": 3.85, "file": "pop_double_stack.wav", "gainDb": -9 }
+      ]
+    },
+    {
+      "id": "S03_HOLLYWOOD_BASELINE",
+      "startSec": 13.0,
+      "endSec": 19.5,
+      "chapter": 1,
+      "showRail": true,
+      "lockState": "docked",
+      "palette": "royalCobalt",
+      "transitionIn": "planetary_horizon_wipe",
+      "voiceoverText": "Hollywood spent ₹1,350 crore just to film Interstellar — while Russia's Luna-25 crashed days earlier.",
+      "captionMarkup": "Hollywood spent *₹1,350 crore* just to film *Interstellar* — while *Luna-25* crashed days earlier.",
+      "sfx": [
+        { "offsetSec": 0.04, "file": "whoosh_deep_velvet.wav", "gainDb": -9 },
+        { "offsetSec": 2.25, "file": "whoosh_whip_fast.wav", "gainDb": -11 }
+      ]
+    },
+    {
+      "id": "S04_CHANDRAYAAN_615CR",
+      "startSec": 19.5,
+      "endSec": 26.5,
+      "chapter": 2,
+      "showRail": true,
+      "lockState": "docked",
+      "palette": "crimsonAmber",
+      "transitionIn": "radial_iris_punch",
+      "voiceoverText": "Yet ISRO built, launched, and landed Chandrayaan-3 on the actual Moon for just ₹615 crore!",
+      "captionMarkup": "Yet *ISRO* built, launched, and landed *Chandrayaan-3* on the actual Moon for just *₹615 crore!*",
+      "sfx": [
+        { "offsetSec": 0.02, "file": "whoosh_deep_velvet.wav", "gainDb": -8 },
+        { "offsetSec": 1.85, "file": "whoosh_whip_fast.wav", "gainDb": -9 },
+        { "offsetSec": 3.70, "file": "sub_bass_thud.wav", "gainDb": -8 }
+      ]
+    },
+    {
+      "id": "S05_ORBITAL_SLINGSHOT",
+      "startSec": 26.5,
+      "endSec": 34.0,
+      "chapter": 3,
+      "showRail": true,
+      "lockState": "docked",
+      "palette": "royalCobalt",
+      "transitionIn": "snap_zoom_portal",
+      "voiceoverText": "How? Five Earth-orbit slingshots that save massive fuel — plus 90% homegrown parts from 400 Indian firms!",
+      "captionMarkup": "How? *Five Earth-orbit slingshots* that save fuel — plus *90% homegrown* parts from *400 Indian firms!*",
+      "sfx": [
+        { "offsetSec": 0.03, "file": "whoosh_whip_fast.wav", "gainDb": -9 },
+        { "offsetSec": 2.45, "file": "click_mouse_crisp.wav", "gainDb": -9 },
+        { "offsetSec": 4.20, "file": "pop_double_stack.wav", "gainDb": -10 }
+      ]
+    },
+    {
+      "id": "S06_LVM3_BLUEPRINT_XRAY",
+      "startSec": 34.0,
+      "endSec": 41.5,
+      "chapter": 4,
+      "showRail": true,
+      "lockState": "docked",
+      "palette": "blueprintDark",
+      "transitionIn": "laser_blueprint_scan",
+      "voiceoverText": "When foreign powers denied India cryogenic engines, ISRO engineered its own CE-20 stage and laser-guided Vikram lander.",
+      "captionMarkup": "Denied *cryogenic tech,* ISRO built its own *CE-20 engine* and laser-guided *Vikram lander.*",
+      "sfx": [
+        { "offsetSec": 0.02, "file": "shutter_metal_roll.wav", "gainDb": -10 },
+        { "offsetSec": 1.65, "file": "whoosh_whip_fast.wav", "gainDb": -10 },
+        { "offsetSec": 3.40, "file": "whoosh_whip_fast.wav", "gainDb": -10 },
+        { "offsetSec": 5.05, "file": "sub_bass_thud.wav", "gainDb": -11 }
+      ]
+    },
+    {
+      "id": "S07_UNLOCK_434_SATS",
+      "startSec": 41.5,
+      "endSec": 48.5,
+      "chapter": 5,
+      "showRail": true,
+      "lockState": "unlock",
+      "palette": "royalCobalt",
+      "transitionIn": "snap_zoomout_dof",
+      "voiceoverText": "Unlocked: Sriharikota has launched 434 foreign satellites for 36 countries — including 104 on one single rocket!",
+      "captionMarkup": "Unlocked: *434 foreign satellites* launched for *36 countries* — including *104 on one rocket!*",
+      "sfx": [
+        { "offsetSec": 0.03, "file": "whoosh_whip_fast.wav", "gainDb": -9 },
+        { "offsetSec": 1.25, "file": "metallic_chime_bell.wav", "gainDb": -8 },
+        { "offsetSec": 3.70, "file": "sub_bass_thud.wav", "gainDb": -10 }
+      ]
+    },
+    {
+      "id": "S08_GLOBAL_ORBIT_WHIPS",
+      "startSec": 48.5,
+      "endSec": 55.5,
+      "chapter": 5,
+      "showRail": true,
+      "lockState": "hidden",
+      "palette": "royalCobalt",
+      "transitionIn": "snap_zoom_portal",
+      "voiceoverText": "From the UK and Singapore to over 230 satellites for America — the world queues up at ISRO!",
+      "captionMarkup": "From the *UK* and *Singapore* to *230+ satellites* for *America* — the world queues at *ISRO!*",
+      "sfx": [
+        { "offsetSec": 0.03, "file": "whoosh_whip_fast.wav", "gainDb": -9 },
+        { "offsetSec": 1.45, "file": "whoosh_whip_fast.wav", "gainDb": -10 },
+        { "offsetSec": 2.95, "file": "whoosh_whip_fast.wav", "gainDb": -10 },
+        { "offsetSec": 4.45, "file": "whoosh_whip_fast.wav", "gainDb": -10 }
+      ]
+    },
+    {
+      "id": "S09_HONEST_SPACE_GAP",
+      "startSec": 55.5,
+      "endSec": 61.5,
+      "chapter": 6,
+      "showRail": true,
+      "lockState": "hidden",
+      "palette": "deepIndigo",
+      "transitionIn": "whip_pan_left",
+      "voiceoverText": "Now, the honest part: India still holds just 2% of the global space market and lacks reusable boosters.",
+      "captionMarkup": "Now, the *honest* part: India holds just *2%* of the global space market and lacks *reusable boosters.*",
+      "sfx": [
+        { "offsetSec": 0.02, "file": "whoosh_whip_fast.wav", "gainDb": -9 },
+        { "offsetSec": 0.65, "file": "sub_bass_thud.wav", "gainDb": -11 }
+      ]
+    },
+    {
+      "id": "S10_GAGANYAAN_NAVIGATOR",
+      "startSec": 61.5,
+      "endSec": 70.0,
+      "chapter": 6,
+      "showRail": true,
+      "lockState": "hidden",
+      "palette": "royalCobalt",
+      "transitionIn": "snap_zoom_portal",
+      "voiceoverText": "That is why Gaganyaan, reusable Soorya rockets, and 300 space startups are scaling right now. A country that rents orbit is a passenger. A country that launches the world is a navigator.",
+      "beatACaption": "That is why *Gaganyaan,* reusable *Soorya rockets,* and *300+ startups* are scaling right now.",
+      "beatBCaption": "A country that rents orbit is a *passenger.* A country that launches the world is a *navigator.*",
+      "sfx": [
+        { "offsetSec": 0.04, "file": "whoosh_whip_fast.wav", "gainDb": -9 },
+        { "offsetSec": 3.90, "file": "pop_double_stack.wav", "gainDb": -9 },
+        { "offsetSec": 6.20, "file": "metallic_chime_bell.wav", "gainDb": -10 }
+      ]
+    },
+    {
+      "id": "S11_POLL_CTA",
+      "startSec": 70.0,
+      "endSec": 74.5,
+      "chapter": 7,
+      "showRail": false,
+      "lockState": "hidden",
+      "palette": "patrioticDusk",
+      "transitionIn": "radial_iris_punch",
+      "voiceoverText": "Which mission makes you proudest — Chandrayaan-3, Mangalyaan, or Gaganyaan? One word below.",
+      "captionMarkup": "Which mission makes you proudest — *Chandrayaan-3, Mangalyaan,* or *Gaganyaan?* One word below.",
+      "sfx": [
+        { "offsetSec": 0.03, "file": "whoosh_deep_velvet.wav", "gainDb": -9 },
+        { "offsetSec": 1.50, "file": "click_mouse_crisp.wav", "gainDb": -10 },
+        { "offsetSec": 2.35, "file": "click_mouse_crisp.wav", "gainDb": -10 },
+        { "offsetSec": 3.20, "file": "click_mouse_crisp.wav", "gainDb": -10 }
+      ]
+    },
+    {
+      "id": "S12_SHARE_OUTRO",
+      "startSec": 74.5,
+      "endSec": 78.0,
+      "chapter": 7,
+      "showRail": false,
+      "lockState": "hidden",
+      "palette": "royalCobalt",
+      "transitionIn": "whip_pan_up",
+      "voiceoverText": "And send this to someone who watched Vikram touch the Moon live!",
+      "captionMarkup": "And *send this* to someone who watched *Vikram* touch the *Moon live!*",
+      "sfx": [
+        { "offsetSec": 0.03, "file": "whoosh_whip_fast.wav", "gainDb": -9 },
+        { "offsetSec": 1.35, "file": "click_mouse_crisp.wav", "gainDb": -8 },
+        { "offsetSec": 1.65, "file": "cash_order_toast.wav", "gainDb": -11 }
+      ]
+    }
+  ]
+}
