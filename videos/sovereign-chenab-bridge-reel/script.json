@@ -1,0 +1,226 @@
+{
+  "title": "35m Taller Than the Eiffel Tower: How India Built the World's Highest Railway Bridge",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "totalDurationSec": 78.0,
+  "totalFrames": 2340,
+  "chapters": [
+    { "index": 0, "label": "THE PARADOX" },
+    { "index": 1, "label": "THE CANYON" },
+    { "index": 2, "label": "359 METRES" },
+    { "index": 3, "label": "THE SCALE" },
+    { "index": 4, "label": "BLAST-PROOF" },
+    { "index": 5, "label": "266 KM/H" },
+    { "index": 6, "label": "THE REALITY" },
+    { "index": 7, "label": "YOUR PICK" }
+  ],
+  "scenes": [
+    {
+      "id": "S01_HOOK_ISOLATION",
+      "startSec": 0.0,
+      "endSec": 5.5,
+      "chapter": 0,
+      "showRail": false,
+      "lockState": "hidden",
+      "palette": "royalCobalt",
+      "transitionIn": "none",
+      "voiceoverText": "For seventy-five years, heavy winter snow could cut Kashmir off from India's railway network.",
+      "captionMarkup": "For *75 years,* heavy winter snow could cut *Kashmir* off from India's *railway network.*",
+      "sfx": [
+        { "offsetSec": 0.05, "file": "whoosh_deep_velvet.wav", "gainDb": -9 },
+        { "offsetSec": 1.20, "file": "bubble_pop_pill.wav", "gainDb": -12 },
+        { "offsetSec": 2.40, "file": "bubble_pop_pill.wav", "gainDb": -12 }
+      ]
+    },
+    {
+      "id": "S02_KASHMIR_PORTAL_DIVE",
+      "startSec": 5.5,
+      "endSec": 13.0,
+      "chapter": 0,
+      "showRail": false,
+      "lockState": "plant",
+      "palette": "royalCobalt",
+      "transitionIn": "circular_portal_dive",
+      "voiceoverText": "So India built the highest railway bridge on Earth right across the Himalayas. Stay with me, because one extreme survival number explains everything.",
+      "beatACaption": "So India built the *highest railway bridge* on Earth right across the *Himalayas.*",
+      "beatBCaption": "Stay with me — *one extreme number* in this video explains *everything.*",
+      "sfx": [
+        { "offsetSec": 0.02, "file": "whoosh_whip_fast.wav", "gainDb": -8 },
+        { "offsetSec": 3.90, "file": "pop_double_stack.wav", "gainDb": -9 }
+      ]
+    },
+    {
+      "id": "S03_GORGE_CHALLENGE",
+      "startSec": 13.0,
+      "endSec": 19.5,
+      "chapter": 1,
+      "showRail": true,
+      "lockState": "docked",
+      "palette": "royalCobalt",
+      "transitionIn": "planetary_horizon_wipe",
+      "voiceoverText": "Between Bakkal and Kauri in Jammu and Kashmir lies a sheer canyon above the roaring Chenab River — inside Seismic Zone Five.",
+      "captionMarkup": "Between *Bakkal* and *Kauri* lies a sheer canyon above the *Chenab River* — inside *Seismic Zone V.*",
+      "sfx": [
+        { "offsetSec": 0.04, "file": "whoosh_deep_velvet.wav", "gainDb": -9 },
+        { "offsetSec": 2.20, "file": "whoosh_whip_fast.wav", "gainDb": -11 }
+      ]
+    },
+    {
+      "id": "S04_EIFFEL_VS_CHENAB",
+      "startSec": 19.5,
+      "endSec": 26.5,
+      "chapter": 2,
+      "showRail": true,
+      "lockState": "docked",
+      "palette": "crimsonAmber",
+      "transitionIn": "radial_iris_punch",
+      "voiceoverText": "India spanned it at 359 metres above the riverbed! That is 35 metres taller than the Eiffel Tower in Paris!",
+      "captionMarkup": "India spanned it at *359 metres* above the river — *35 metres taller* than the *Eiffel Tower!*",
+      "sfx": [
+        { "offsetSec": 0.02, "file": "whoosh_deep_velvet.wav", "gainDb": -8 },
+        { "offsetSec": 1.90, "file": "whoosh_whip_fast.wav", "gainDb": -9 },
+        { "offsetSec": 3.60, "file": "sub_bass_thud.wav", "gainDb": -8 }
+      ]
+    },
+    {
+      "id": "S05_STEEL_AND_TUNNELS",
+      "startSec": 26.5,
+      "endSec": 34.0,
+      "chapter": 3,
+      "showRail": true,
+      "lockState": "docked",
+      "palette": "royalCobalt",
+      "transitionIn": "snap_zoom_portal",
+      "voiceoverText": "Engineers lifted 28,660 tonnes of steel across a 467-metre arch — using giant overhead cable cranes suspended in thin air!",
+      "captionMarkup": "Engineers lifted *28,660 tonnes* of steel across a *467-metre arch* using *giant cable cranes!*",
+      "sfx": [
+        { "offsetSec": 0.03, "file": "whoosh_whip_fast.wav", "gainDb": -9 },
+        { "offsetSec": 2.40, "file": "click_mouse_crisp.wav", "gainDb": -9 },
+        { "offsetSec": 4.10, "file": "pop_double_stack.wav", "gainDb": -10 }
+      ]
+    },
+    {
+      "id": "S06_BLUEPRINT_BLAST_PROOF",
+      "startSec": 34.0,
+      "endSec": 41.5,
+      "chapter": 4,
+      "showRail": true,
+      "lockState": "docked",
+      "palette": "blueprintDark",
+      "transitionIn": "laser_blueprint_scan",
+      "voiceoverText": "With DRDO, they armoured it in 63-millimetre blast-proof steel, concrete-filled piers, and sensors that keep trains safe even if one pier fails.",
+      "captionMarkup": "With *DRDO,* they used *63mm blast-proof steel,* concrete piers, and *real-time structural sensors.*",
+      "sfx": [
+        { "offsetSec": 0.02, "file": "shutter_metal_roll.wav", "gainDb": -10 },
+        { "offsetSec": 1.65, "file": "whoosh_whip_fast.wav", "gainDb": -10 },
+        { "offsetSec": 3.35, "file": "whoosh_whip_fast.wav", "gainDb": -10 },
+        { "offsetSec": 4.95, "file": "sub_bass_thud.wav", "gainDb": -11 }
+      ]
+    },
+    {
+      "id": "S07_SECRET_266_KMH",
+      "startSec": 41.5,
+      "endSec": 48.5,
+      "chapter": 5,
+      "showRail": true,
+      "lockState": "unlock",
+      "palette": "royalCobalt",
+      "transitionIn": "snap_zoomout_dof",
+      "voiceoverText": "Here is that locked number: the bridge withstands 266 kilometre-per-hour cyclonic winds, Magnitude 8 earthquakes, and minus 20 degrees!",
+      "captionMarkup": "Unlocked: it withstands *266 km/h winds,* *Magnitude 8.0* quakes, and *-20°C* for *120 years!*",
+      "sfx": [
+        { "offsetSec": 0.03, "file": "whoosh_whip_fast.wav", "gainDb": -9 },
+        { "offsetSec": 1.25, "file": "metallic_chime_bell.wav", "gainDb": -8 },
+        { "offsetSec": 3.80, "file": "sub_bass_thud.wav", "gainDb": -10 }
+      ]
+    },
+    {
+      "id": "S08_USBRL_WHIP_ROUTE",
+      "startSec": 48.5,
+      "endSec": 55.5,
+      "chapter": 5,
+      "showRail": true,
+      "lockState": "hidden",
+      "palette": "royalCobalt",
+      "transitionIn": "snap_zoom_portal",
+      "voiceoverText": "And it unlocks the entire 272-kilometre rail link — racing from Jammu and Udhampur, across Chenab and Anji Khad, straight into Srinagar!",
+      "captionMarkup": "Unlocking the *272 km* link: *Jammu* to *Udhampur,* *Chenab,* *Anji Khad,* and straight into *Srinagar!*",
+      "sfx": [
+        { "offsetSec": 0.03, "file": "whoosh_whip_fast.wav", "gainDb": -9 },
+        { "offsetSec": 1.55, "file": "whoosh_whip_fast.wav", "gainDb": -10 },
+        { "offsetSec": 3.00, "file": "whoosh_whip_fast.wav", "gainDb": -10 },
+        { "offsetSec": 4.45, "file": "whoosh_whip_fast.wav", "gainDb": -10 }
+      ]
+    },
+    {
+      "id": "S09_HONEST_PART",
+      "startSec": 55.5,
+      "endSec": 61.5,
+      "chapter": 6,
+      "showRail": true,
+      "lockState": "hidden",
+      "palette": "deepIndigo",
+      "transitionIn": "whip_pan_left",
+      "voiceoverText": "Now, the honest part. Carving 38 tunnels through shifting Himalayan rock took over twenty years and ₹37,000 crore.",
+      "captionMarkup": "Now, the *honest* part: carving *38 tunnels* through shifting rock took *20+ years* and *₹37,000 crore.*",
+      "sfx": [
+        { "offsetSec": 0.02, "file": "whoosh_whip_fast.wav", "gainDb": -9 },
+        { "offsetSec": 0.60, "file": "sub_bass_thud.wav", "gainDb": -11 }
+      ]
+    },
+    {
+      "id": "S10_VANDE_BHARAT_REFRAME",
+      "startSec": 61.5,
+      "endSec": 70.0,
+      "chapter": 6,
+      "showRail": true,
+      "lockState": "hidden",
+      "palette": "royalCobalt",
+      "transitionIn": "snap_zoom_portal",
+      "voiceoverText": "Today, Vande Bharat glides into Kashmir in three hours, all year round. A normal bridge connects two riverbanks. A 359-metre Himalayan arch unites a nation.",
+      "beatACaption": "Today, *Vande Bharat* glides into *Kashmir* in *3 hours* — every single day of the year.",
+      "beatBCaption": "A normal bridge connects two *riverbanks.* A *359m Himalayan arch* unites a *nation.*",
+      "sfx": [
+        { "offsetSec": 0.04, "file": "whoosh_whip_fast.wav", "gainDb": -9 },
+        { "offsetSec": 3.90, "file": "pop_double_stack.wav", "gainDb": -9 },
+        { "offsetSec": 6.20, "file": "metallic_chime_bell.wav", "gainDb": -10 }
+      ]
+    },
+    {
+      "id": "S11_POLL_CTA",
+      "startSec": 70.0,
+      "endSec": 74.5,
+      "chapter": 7,
+      "showRail": false,
+      "lockState": "hidden",
+      "palette": "patrioticDusk",
+      "transitionIn": "radial_iris_punch",
+      "voiceoverText": "Which marvel amazes you most — Chenab Bridge, Atal Tunnel, or Pamban Bridge? One word below.",
+      "captionMarkup": "Which marvel amazes you most — *Chenab, Atal Tunnel,* or *Pamban?* Drop *one word* below.",
+      "sfx": [
+        { "offsetSec": 0.03, "file": "whoosh_deep_velvet.wav", "gainDb": -9 },
+        { "offsetSec": 1.50, "file": "click_mouse_crisp.wav", "gainDb": -10 },
+        { "offsetSec": 2.35, "file": "click_mouse_crisp.wav", "gainDb": -10 },
+        { "offsetSec": 3.20, "file": "click_mouse_crisp.wav", "gainDb": -10 }
+      ]
+    },
+    {
+      "id": "S12_SHARE_OUTRO",
+      "startSec": 74.5,
+      "endSec": 78.0,
+      "chapter": 7,
+      "showRail": false,
+      "lockState": "hidden",
+      "palette": "royalCobalt",
+      "transitionIn": "whip_pan_up",
+      "voiceoverText": "And send this to someone who dreams of taking the train to Kashmir!",
+      "captionMarkup": "And *send this* to someone who dreams of taking the *train to Kashmir!*",
+      "sfx": [
+        { "offsetSec": 0.03, "file": "whoosh_whip_fast.wav", "gainDb": -9 },
+        { "offsetSec": 1.35, "file": "click_mouse_crisp.wav", "gainDb": -8 },
+        { "offsetSec": 1.65, "file": "cash_order_toast.wav", "gainDb": -11 }
+      ]
+    }
+  ]
+}
