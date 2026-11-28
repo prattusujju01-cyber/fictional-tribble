@@ -305,10 +305,10 @@ export function createDirector({ canvas, script, geo, clipBank }) {
         { t: 0.00, x: 0,    y: 0,   zoom: 1.30, roll: 0.008,  curve: 'spring' },
         { t: 0.44, x: 0,    y: 0,   zoom: 1.00, roll: 0,      curve: 'spring' },
         { t: 2.00, x: 0,    y: 0,   zoom: 1.02, roll: 0,      curve: 'drift' },
-        { t: 2.38, x: -220, y: -55, zoom: 1.76, roll: -0.010, curve: 'whip' },
-        { t: 3.80, x: -210, y: -55, zoom: 1.80, roll: -0.008, curve: 'drift' },
-        { t: 4.18, x: 220,  y: -55, zoom: 1.76, roll: 0.010,  curve: 'whip' },
-        { t: 5.25, x: 215,  y: -55, zoom: 1.78, roll: 0.008,  curve: 'drift' },
+        { t: 2.38, x: -220, y: -18, zoom: 1.68, roll: -0.010, curve: 'whip' },
+        { t: 3.80, x: -215, y: -18, zoom: 1.72, roll: -0.008, curve: 'drift' },
+        { t: 4.18, x: 220,  y: -18, zoom: 1.68, roll: 0.010,  curve: 'whip' },
+        { t: 5.25, x: 215,  y: -18, zoom: 1.70, roll: 0.008,  curve: 'drift' },
         { t: 5.65, x: 0,    y: 0,   zoom: 1.00, roll: 0,      curve: 'spring' },
         { t: 6.50, x: 0,    y: -10, zoom: 1.03, roll: 0,      curve: 'drift' }
       ];
@@ -355,6 +355,7 @@ export function createDirector({ canvas, script, geo, clipBank }) {
         });
       });
 
+      drawTopHudScrim(ctx, 'royalCobalt', 0.90);
       drawBottomCaptionScrim(ctx, 'royalCobalt', 0.88);
       caption(ctx, sc.captionMarkup, localSec, { y: 1440, span: 3.8 });
     }
@@ -524,12 +525,12 @@ export function createDirector({ canvas, script, geo, clipBank }) {
     else if (sc.id === 'S07_UNLOCK_650_FDA') {
       const camKeys = [
         { t: 0.00, x: 0, y: 0,  zoom: 1.00, roll: 0,      curve: 'drift' },
-        { t: 1.18, x: 0, y: -30,zoom: 1.00, roll: 0,      curve: 'drift' },
-        { t: 1.38, x: 0, y: -80,zoom: 1.16, roll: -0.008, curve: 'whip' },
+        { t: 1.18, x: 0, y: -20,zoom: 1.00, roll: 0,      curve: 'drift' },
+        { t: 1.38, x: 0, y: -55,zoom: 1.14, roll: -0.008, curve: 'whip' },
         { t: 1.75, x: 0, y: 0,  zoom: 1.00, roll: 0,      curve: 'spring' },
         { t: 3.35, x: 0, y: 0,  zoom: 1.02, roll: 0,      curve: 'drift' },
-        { t: 3.73, x: 0, y: 90, zoom: 1.14, roll: 0.005,  curve: 'whip' },
-        { t: 5.15, x: 0, y: 95, zoom: 1.15, roll: 0.004,  curve: 'drift' },
+        { t: 3.73, x: 0, y: 55, zoom: 1.12, roll: 0.005,  curve: 'whip' },
+        { t: 5.15, x: 0, y: 58, zoom: 1.13, roll: 0.004,  curve: 'drift' },
         { t: 5.55, x: 0, y: 0,  zoom: 1.00, roll: 0,      curve: 'spring' },
         { t: 7.00, x: 0, y: -12,zoom: 1.03, roll: 0,      curve: 'drift' }
       ];
@@ -606,7 +607,7 @@ export function createDirector({ canvas, script, geo, clipBank }) {
       drawTrackedCaps(ctx, 'GLOBAL MEDICAL REACH', 299, 248, { fontSize: 14.5, tracking: 2.2, align: 'center', color: '#93C5FD' });
       drawOdometer(ctx, {
         startValue: 20, value: 200, suffix: '+ nations', suffixItalicSerif: true,
-        progress: clamp(localSec / 5.6, 0, 1),
+        progress: clamp(localSec / 3.4, 0, 1),
         x: 299, y: 360, fontSize: 84, weight: 300, color: '#FFFFFF', suffixColor: '#FDE68A'
       });
 
@@ -625,11 +626,11 @@ export function createDirector({ canvas, script, geo, clipBank }) {
     // =====================================================================
     else if (sc.id === 'S09_HONEST_API_GAP') {
       const camKeys = [
-        { t: 0.00, x: 90, y: 0,   zoom: 1.30, roll: 0.008,  curve: 'spring' },
+        { t: 0.00, x: 90, y: 0,   zoom: 1.24, roll: 0.008,  curve: 'spring' },
         { t: 0.42, x: 0,  y: 0,   zoom: 1.00, roll: 0,      curve: 'spring' },
         { t: 2.35, x: 0,  y: 0,   zoom: 1.02, roll: 0,      curve: 'drift' },
-        { t: 2.72, x: 0,  y: 145, zoom: 1.36, roll: -0.006, curve: 'whip' },
-        { t: 4.35, x: 0,  y: 150, zoom: 1.38, roll: -0.005, curve: 'drift' },
+        { t: 2.72, x: 0,  y: 120, zoom: 1.16, roll: -0.006, curve: 'whip' },
+        { t: 4.35, x: 0,  y: 125, zoom: 1.18, roll: -0.005, curve: 'drift' },
         { t: 4.74, x: 0,  y: 0,   zoom: 1.00, roll: 0,      curve: 'spring' },
         { t: 6.00, x: 0,  y: -10, zoom: 1.03, roll: 0,      curve: 'drift' }
       ];
@@ -674,6 +675,7 @@ export function createDirector({ canvas, script, geo, clipBank }) {
         });
       });
 
+      drawTopHudScrim(ctx, 'deepIndigo', 0.90);
       drawBottomCaptionScrim(ctx, 'deepIndigo', 0.90);
       caption(ctx, sc.captionMarkup, localSec, { y: 1435, span: 3.8 });
     }
