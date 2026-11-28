@@ -150,12 +150,14 @@ export class VideoClipBank {
 
     ctx.save();
     ctx.globalAlpha = alpha;
+    ctx.filter = 'blur(5px)';
     const iw = img.naturalWidth, ih = img.naturalHeight;
     const scale = Math.max(W / iw, H / ih) * zoom;
     const dw = iw * scale, dh = ih * scale;
     const dx = (W - dw) * 0.5 + panX;
     const dy = (H - dh) * 0.5;
     ctx.drawImage(img, dx, dy, dw, dh);
+    ctx.filter = 'none';
 
     const g = ctx.createLinearGradient(0, 0, 0, H);
     g.addColorStop(0.0, tintTop);

@@ -440,12 +440,12 @@ export function drawExplodedSmartphone3D(ctx, opts = {}) {
     return { topPts, botPts, center: proj(0, 0, z + dz / 2) };
   };
 
-  const pw = 300, pd = 560;
+  const pw = 285, pd = 510;
   const zOffsets = [
-    lerp(-18, -280, ep), // Layer 4 (Bottom): CNC Metal Unibody Chassis + Li-Ion Battery
-    lerp(-6, -90, ep),   // Layer 3: Multilayer SMT Logic PCB + Silicon Packages
-    lerp(6, 110, ep),    // Layer 2: Triple-Optics Camera Module & Sensor Shield
-    lerp(18, 305, ep)    // Layer 1 (Top): Corning Gorilla Glass OLED Display
+    lerp(-18, -225, ep), // Layer 4 (Bottom): CNC Metal Unibody Chassis + Li-Ion Battery
+    lerp(-6, -70, ep),   // Layer 3: Multilayer SMT Logic PCB + Silicon Packages
+    lerp(6, 95, ep),     // Layer 2: Triple-Optics Camera Module & Sensor Shield
+    lerp(18, 255, ep)    // Layer 1 (Top): Corning Gorilla Glass OLED Display
   ];
 
   // Vertical dotted CAD alignment guide rails between corners
@@ -547,10 +547,10 @@ export function drawExplodedSmartphone3D(ctx, opts = {}) {
   if (ep > 0.25) {
     const ca = clamp((ep - 0.25) / 0.45, 0, 1);
     const callouts = [
-      { anchor: proj(pw * 0.45, -40, zOffsets[3] + 6), side: 'right', x: 710, y: 710, code: '01', title: 'OLED COVER GLASS' },
-      { anchor: camBase.center, side: 'left', x: 60, y: 905, code: '02', title: 'OPTICS CAMERA ARRAY' },
-      { anchor: proj(pw * 0.40, 20, zOffsets[1] + 8), side: 'right', x: 710, y: 1120, code: '03', title: 'MULTILAYER SMT PCB' },
-      { anchor: proj(-pw * 0.45, 60, zOffsets[0] + 12), side: 'left', x: 60, y: 1355, code: '04', title: 'CNC METAL CHASSIS' }
+      { anchor: proj(pw * 0.45, -40, zOffsets[3] + 6), side: 'right', x: 710, y: cy - 310, code: '01', title: 'OLED COVER GLASS' },
+      { anchor: camBase.center, side: 'left', x: 60, y: cy - 125, code: '02', title: 'OPTICS CAMERA ARRAY' },
+      { anchor: proj(pw * 0.40, 20, zOffsets[1] + 8), side: 'right', x: 710, y: cy + 55, code: '03', title: 'MULTILAYER SMT PCB' },
+      { anchor: proj(-pw * 0.45, 60, zOffsets[0] + 12), side: 'left', x: 60, y: cy + 215, code: '04', title: 'CNC METAL CHASSIS' }
     ];
 
     ctx.save();

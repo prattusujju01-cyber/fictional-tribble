@@ -142,20 +142,26 @@ def build_sovereign_world_india_geo():
 
 def unpack_real_video_clips():
     manifest = {}
+    # Trim any opening title frames from drone clips so 100% of frames are pure clean aerial scenery
+    trim_start = {
+        "chennai_corridor": "1.6",
+        "bengaluru_ecity": "1.6",
+    }
     if CLIPS_IN_DIR.exists():
         for mp4 in sorted(CLIPS_IN_DIR.glob("*.mp4")):
             name = mp4.stem
             cdir = CLIPS_FRAMES_DIR / name
             cdir.mkdir(parents=True, exist_ok=True)
+            ss = trim_start.get(name, "0.0")
             subprocess.run([
-                "ffmpeg", "-nostdin", "-y", "-i", str(mp4),
+                "ffmpeg", "-nostdin", "-y", "-ss", ss, "-i", str(mp4),
                 "-vf", "fps=15,scale=640:360",
                 "-q:v", "3",
                 str(cdir / "f_%03d.jpg")
             ], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             cnt = len(list(cdir.glob("f_*.jpg")))
             manifest[name] = {"count": cnt, "fps": 15}
-            print(f"[clips] Unpacked {name}.mp4 -> {cnt} frames")
+            print(f"[clips] Unpacked {name}.mp4 (ss={ss}s) -> {cnt} frames")
 
     (DATA_DIR / "clips_manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
 

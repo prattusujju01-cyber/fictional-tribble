@@ -123,10 +123,10 @@ export function createDirector({ canvas, script, geo, clipBank }) {
 
       const mapCam = {
         lon: lerp(79.2, 79.0, clamp(diveT, 0, 1)),
-        lat: lerp(21.8, 14.2, clamp(diveT, 0, 1)),
-        scale: lerp(720, 1520, clamp(diveT, 0, 1)),
+        lat: lerp(21.8, 13.6, clamp(diveT, 0, 1)),
+        scale: lerp(700, 1380, clamp(diveT, 0, 1)),
         cx: 540,
-        cy: lerp(930, 980, clamp(diveT, 0, 1))
+        cy: lerp(960, 1210, clamp(diveT, 0, 1))
       };
 
       mapStage.draw(ctx, mapCam, {
@@ -143,10 +143,9 @@ export function createDirector({ canvas, script, geo, clipBank }) {
         const blrPt = mapStage.project(77.59, 12.97, mapCam);
 
         const cardAppear = easeOutCubic(clamp((p - 0.08) / 0.22, 0, 1)) * beatAAlpha;
-        // Leader lines + glowing pins on Chennai & Bengaluru
         ctx.save();
         ctx.globalAlpha = cardAppear;
-        for (const [pt, tx, ty] of [[blrPt, 260, 960], [chennaiPt, 820, 1180]]) {
+        for (const [pt, tx, ty] of [[blrPt, 260, 1020], [chennaiPt, 810, 1240]]) {
           ctx.strokeStyle = '#FFFBEB';
           ctx.lineWidth = 2.2;
           ctx.beginPath(); ctx.moveTo(pt[0], pt[1]); ctx.lineTo(tx, ty); ctx.stroke();
@@ -157,10 +156,10 @@ export function createDirector({ canvas, script, geo, clipBank }) {
         }
         ctx.restore();
 
-        clipBank.drawClipCard(ctx, 'bengaluru_ecity', globalFrameIdx, 64, 760, 410, 232, {
+        clipBank.drawClipCard(ctx, 'bengaluru_ecity', globalFrameIdx, 64, 835, 410, 232, {
           radius: 24, titleItalic: 'Bengaluru', tagCaps: 'KARNATAKA', alpha: cardAppear, zoom: 1 + p * 0.12
         });
-        clipBank.drawClipCard(ctx, 'chennai_corridor', globalFrameIdx + 12, 606, 1055, 410, 232, {
+        clipBank.drawClipCard(ctx, 'chennai_corridor', globalFrameIdx + 12, 606, 1145, 410, 232, {
           radius: 24, titleItalic: 'Chennai', tagCaps: 'TAMIL NADU', alpha: cardAppear, zoom: 1 + p * 0.12
         });
 
@@ -171,14 +170,14 @@ export function createDirector({ canvas, script, geo, clipBank }) {
           decimals: 1,
           suffix: '%',
           progress: clamp(p / 0.34, 0, 1),
-          x: 540, y: 345,
-          fontSize: 162, weight: 300,
+          x: 540, y: 315,
+          fontSize: 156, weight: 300,
           color: '#FFFFFF', suffixColor: '#FDE68A',
           alpha: beatAAlpha
         });
 
         drawOpticalMarkup(ctx, sc.beatACaption, {
-          x: 540, y: 465, maxWidth: 900, fontSize: 52,
+          x: 540, y: 425, maxWidth: 900, fontSize: 52,
           progress: clamp(p / 0.38, 0, 1),
           alpha: beatAAlpha,
           italicColor: '#FDE68A'
@@ -470,7 +469,7 @@ export function createDirector({ canvas, script, geo, clipBank }) {
       }, 1.0, () => {
         drawExplodedSmartphone3D(ctx, {
           cx: 540,
-          cy: 890,
+          cy: 790,
           explodeProgress: clamp(p / 0.34, 0, 1),
           yawDeg: lerp(-34, -17, p),
           pitchDeg: lerp(24, 29, p),
