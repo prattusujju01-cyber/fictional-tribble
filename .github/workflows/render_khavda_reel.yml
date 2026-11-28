@@ -1,0 +1,160 @@
+name: Render Sovereign Khavda Solar Reel v3.0
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'probe (24 keyframes + 12 transition strip + 4 HD heroes) or full (4-shard 78.00s 1080x1920 BT.709 MP4)'
+        required: true
+        default: 'probe'
+        type: choice
+        options:
+          - probe
+          - full
+
+jobs:
+  probe:
+    if: ${{ github.event.inputs.mode == 'probe' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Cache Playwright Chromium
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: pw-chromium-u24-v2
+      - name: Install FFmpeg & Playwright
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          mkdir -p /tmp/pw_runtime
+          cd /tmp/pw_runtime
+          npm init -y >/dev/null 2>&1
+          npm install --no-audit --no-fund playwright@latest
+          npx playwright install chromium
+      - name: Unpack Real India Solar Video Clips, Sovereign GeoJSON & Render v3.0 Probe
+        env:
+          NODE_PATH: /tmp/pw_runtime/node_modules
+          PROJECT_ROOT: ${{ github.workspace }}/videos/sovereign-khavda-solar-reel
+        run: |
+          python3 videos/sovereign-khavda-solar-reel/tools/prepare_assets_and_vo.py
+          node videos/sovereign-khavda-solar-reel/tools/probe_render.mjs
+      - name: Upload Probe Visual Audit Bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: khavda-reel-probe
+          path: |
+            videos/sovereign-khavda-solar-reel/out/probe_24.jpg
+            videos/sovereign-khavda-solar-reel/out/probe_transitions_12.jpg
+            videos/sovereign-khavda-solar-reel/out/hero_*.jpg
+          retention-days: 7
+
+  prep-full:
+    if: ${{ github.event.inputs.mode == 'full' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Unpack Real Video Clips, Fonts & Sovereign GeoJSON
+        env:
+          PROJECT_ROOT: ${{ github.workspace }}/videos/sovereign-khavda-solar-reel
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          python3 videos/sovereign-khavda-solar-reel/tools/prepare_assets_and_vo.py
+      - name: Upload Deterministic Prep Bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: khavda-prep-bundle
+          path: |
+            videos/sovereign-khavda-solar-reel/fonts/**
+            videos/sovereign-khavda-solar-reel/data/**
+            videos/sovereign-khavda-solar-reel/clips_frames/**
+          retention-days: 3
+
+  render-shards:
+    if: ${{ github.event.inputs.mode == 'full' }}
+    needs: prep-full
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    strategy:
+      fail-fast: true
+      matrix:
+        shard: [0, 1, 2, 3]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Download Deterministic Prep Bundle
+        uses: actions/download-artifact@v4
+        with:
+          name: khavda-prep-bundle
+          path: videos/sovereign-khavda-solar-reel
+      - name: Cache Playwright Chromium
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: pw-chromium-u24-v2
+      - name: Install Runtime & Render Shard ${{ matrix.shard }}
+        env:
+          NODE_PATH: /tmp/pw_runtime/node_modules
+          PROJECT_ROOT: ${{ github.workspace }}/videos/sovereign-khavda-solar-reel
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          mkdir -p /tmp/pw_runtime
+          cd /tmp/pw_runtime
+          npm init -y >/dev/null 2>&1
+          npm install --no-audit --no-fund playwright@latest
+          npx playwright install chromium
+          cd "${{ github.workspace }}"
+          node videos/sovereign-khavda-solar-reel/tools/render_parallel.mjs --num-shards=4 --shard=${{ matrix.shard }} --workers=3 --out="${{ github.workspace }}/videos/sovereign-khavda-solar-reel/out/seg_${{ matrix.shard }}.mp4"
+          ffprobe -v error -select_streams v:0 -count_frames -show_entries stream=width,height,r_frame_rate,nb_read_frames,duration -of default=nw=1 "${{ github.workspace }}/videos/sovereign-khavda-solar-reel/out/seg_${{ matrix.shard }}.mp4"
+      - name: Upload Shard ${{ matrix.shard }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: khavda-seg-${{ matrix.shard }}
+          path: videos/sovereign-khavda-solar-reel/out/seg_${{ matrix.shard }}.mp4
+          retention-days: 3
+
+  merge-and-mix:
+    if: ${{ github.event.inputs.mode == 'full' }}
+    needs: [prep-full, render-shards]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download Prep Bundle
+        uses: actions/download-artifact@v4
+        with:
+          name: khavda-prep-bundle
+          path: videos/sovereign-khavda-solar-reel
+      - name: Download All 4 Shards
+        uses: actions/download-artifact@v4
+        with:
+          pattern: khavda-seg-*
+          path: videos/sovereign-khavda-solar-reel/out/segs
+          merge-multiple: true
+      - name: Concat Intra Shards & Encode Single-Pass Universal BT.709 78.00s Master
+        env:
+          PROJECT_ROOT: ${{ github.workspace }}/videos/sovereign-khavda-solar-reel
+          SFX_DIR: ${{ github.workspace }}/videos/fried-rice-syndrome/assets_sfx
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          cd videos/sovereign-khavda-solar-reel/out/segs
+          printf "file 'seg_0.mp4'\nfile 'seg_1.mp4'\nfile 'seg_2.mp4'\nfile 'seg_3.mp4'\n" > concat_list.txt
+          ffmpeg -nostdin -y -f concat -safe 0 -i concat_list.txt -c copy ../khavda_silent.mp4
+          cd "${{ github.workspace }}"
+          python3 videos/sovereign-khavda-solar-reel/tools/mix_audio.py
+          echo "=== FINAL FFPROBE STREAM & FRAME COUNT VERIFICATION ==="
+          ffprobe -v error -select_streams v:0 -count_frames -show_entries format=duration,size,bit_rate:stream=codec_name,profile,level,color_space,width,height,r_frame_rate,nb_read_frames -of default=nw=1 videos/sovereign-khavda-solar-reel/out/Khavda_30GW_Solar_Park_Sovereign_Reel.mp4
+      - name: Upload Final Universal MP4 & Audit Contact Sheet
+        uses: actions/upload-artifact@v4
+        with:
+          name: khavda-reel-final
+          path: |
+            videos/sovereign-khavda-solar-reel/out/Khavda_30GW_Solar_Park_Sovereign_Reel.mp4
+            videos/sovereign-khavda-solar-reel/out/audit_24.jpg
+          retention-days: 7
