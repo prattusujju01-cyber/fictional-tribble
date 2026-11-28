@@ -272,7 +272,7 @@ export function drawOdometer(ctx, opts = {}) {
       const placeScale = Math.pow(10, placeIdxFromRight - decimals);
       const placeActive = (placeIdxFromRight <= decimals) || (absCur >= placeScale * 0.85) || (eased > 0.88);
       if (placeActive) {
-        const continuous = absCur / placeScale;
+        const continuous = (absCur + (eased >= 0.997 ? placeScale * 1e-5 : 0)) / placeScale;
         const frac = eased >= 0.997 ? 0 : (continuous % 1);
         const d0 = Math.floor(continuous) % 10;
         const d1 = (d0 + 1) % 10;

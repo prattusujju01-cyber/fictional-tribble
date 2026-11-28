@@ -167,16 +167,16 @@ export function createDirector({ canvas, script, geo, clipBank }) {
     ctx.restore();
   }
 
-  function drawBottomCaptionScrim(ctx, paletteName, strength = 0.88) {
+  function drawBottomCaptionScrim(ctx, paletteName, strength = 0.92) {
     const [r, g, b] = SCRIM_RGB[paletteName] || SCRIM_RGB.royalCobalt;
-    const grad = ctx.createLinearGradient(0, 1315, 0, H);
+    const grad = ctx.createLinearGradient(0, 1250, 0, H);
     grad.addColorStop(0.00, `rgba(${r}, ${g}, ${b}, 0)`);
-    grad.addColorStop(0.24, `rgba(${r}, ${g}, ${b}, ${(0.76 * strength).toFixed(3)})`);
-    grad.addColorStop(0.52, `rgba(${r}, ${g}, ${b}, ${(0.92 * strength).toFixed(3)})`);
-    grad.addColorStop(1.00, `rgba(${r}, ${g}, ${b}, ${(0.97 * strength).toFixed(3)})`);
+    grad.addColorStop(0.22, `rgba(${r}, ${g}, ${b}, ${(0.88 * strength).toFixed(3)})`);
+    grad.addColorStop(0.45, `rgba(${r}, ${g}, ${b}, ${(0.96 * strength).toFixed(3)})`);
+    grad.addColorStop(1.00, `rgba(${r}, ${g}, ${b}, ${(0.99 * strength).toFixed(3)})`);
     ctx.save();
     ctx.fillStyle = grad;
-    ctx.fillRect(0, 1315, W, H - 1315);
+    ctx.fillRect(0, 1250, W, H - 1250);
     ctx.restore();
   }
 
@@ -522,9 +522,9 @@ export function createDirector({ canvas, script, geo, clipBank }) {
         { t: 1.18, x: 0, y: -30, zoom: 1.00, roll: 0,      curve: 'drift' },
         { t: 1.38, x: 0, y: -80, zoom: 1.16, roll: -0.008, curve: 'whip' },
         { t: 1.75, x: 0, y: 0,   zoom: 1.00, roll: 0,      curve: 'spring' },
-        { t: 3.35, x: 0, y: 0,   zoom: 1.02, roll: 0,      curve: 'drift' },
-        { t: 3.73, x: 60, y: 160, zoom: 1.28, roll: 0.006, curve: 'whip' },
-        { t: 5.15, x: 65, y: 165, zoom: 1.30, roll: 0.004, curve: 'drift' },
+        { t: 3.35, x: 0, y: 0,  zoom: 1.02, roll: 0,      curve: 'drift' },
+        { t: 3.73, x: 0, y: 90, zoom: 1.14, roll: 0.005,  curve: 'whip' },
+        { t: 5.15, x: 0, y: 95, zoom: 1.15, roll: 0.004,  curve: 'drift' },
         { t: 5.55, x: 0, y: 0,   zoom: 1.00, roll: 0,      curve: 'spring' },
         { t: 7.00, x: 0, y: -12, zoom: 1.03, roll: 0,      curve: 'drift' }
       ];
