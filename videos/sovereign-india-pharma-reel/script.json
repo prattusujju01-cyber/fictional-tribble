@@ -1,0 +1,226 @@
+{
+  "title": "Pharmacy of the World: Why 4 in 10 American Pills Come From India",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "totalDurationSec": 78.0,
+  "totalFrames": 2340,
+  "chapters": [
+    { "index": 0, "label": "THE CABINET" },
+    { "index": 1, "label": "$10,000" },
+    { "index": 2, "label": "$1 A DAY" },
+    { "index": 3, "label": "1970 LAW" },
+    { "index": 4, "label": "CLEANROOM" },
+    { "index": 5, "label": "650+ FDA" },
+    { "index": 6, "label": "THE REALITY" },
+    { "index": 7, "label": "YOUR PICK" }
+  ],
+  "scenes": [
+    {
+      "id": "S01_CABINET_HOOK",
+      "startSec": 0.0,
+      "endSec": 5.5,
+      "chapter": 0,
+      "showRail": false,
+      "lockState": "hidden",
+      "palette": "royalCobalt",
+      "transitionIn": "none",
+      "voiceoverText": "Open any medicine cabinet in America — four out of every ten generic pills inside were made in India!",
+      "captionMarkup": "Open any medicine cabinet in *America* — *4 out of 10* generic pills inside were *made in India!*",
+      "sfx": [
+        { "offsetSec": 0.05, "file": "whoosh_deep_velvet.wav", "gainDb": -9 },
+        { "offsetSec": 0.95, "file": "bubble_pop_pill.wav", "gainDb": -12 },
+        { "offsetSec": 1.85, "file": "bubble_pop_pill.wav", "gainDb": -12 }
+      ]
+    },
+    {
+      "id": "S02_BIOTECH_PORTAL_DIVE",
+      "startSec": 5.5,
+      "endSec": 13.0,
+      "chapter": 0,
+      "showRail": false,
+      "lockState": "plant",
+      "palette": "royalCobalt",
+      "transitionIn": "circular_portal_dive",
+      "voiceoverText": "Today, India supplies a quarter of Britain's medicines and 60% of the world's vaccines! Stay with me — one locked factory number explains why Western hospitals cannot run without India.",
+      "beatACaption": "Today, India supplies *25%* of Britain's medicines and *60%* of the *world's vaccines!*",
+      "beatBCaption": "Stay with me — *one locked factory* number explains why hospitals *cannot run* without India.",
+      "sfx": [
+        { "offsetSec": 0.02, "file": "whoosh_whip_fast.wav", "gainDb": -8 },
+        { "offsetSec": 3.85, "file": "pop_double_stack.wav", "gainDb": -9 }
+      ]
+    },
+    {
+      "id": "S03_MONOPOLY_BASELINE",
+      "startSec": 13.0,
+      "endSec": 19.5,
+      "chapter": 1,
+      "showRail": true,
+      "lockState": "docked",
+      "palette": "royalCobalt",
+      "transitionIn": "planetary_horizon_wipe",
+      "voiceoverText": "Before 1970, foreign monopolies gave India pricey drugs — and HIV therapy cost $10,000 a year.",
+      "captionMarkup": "Before *1970,* foreign monopolies ruled — and *HIV therapy* cost *$10,000 a year.*",
+      "sfx": [
+        { "offsetSec": 0.04, "file": "whoosh_deep_velvet.wav", "gainDb": -9 },
+        { "offsetSec": 2.25, "file": "whoosh_whip_fast.wav", "gainDb": -11 }
+      ]
+    },
+    {
+      "id": "S04_ONE_DOLLAR_REVOLUTION",
+      "startSec": 19.5,
+      "endSec": 26.5,
+      "chapter": 2,
+      "showRail": true,
+      "lockState": "docked",
+      "palette": "crimsonAmber",
+      "transitionIn": "radial_iris_punch",
+      "voiceoverText": "Then India's Cipla crushed that $10,000 price down to under $1 a day — saving millions of lives!",
+      "captionMarkup": "Then India's *Cipla* crushed *$10,000* down to under *$1 a day* — saving *millions of lives!*",
+      "sfx": [
+        { "offsetSec": 0.02, "file": "whoosh_deep_velvet.wav", "gainDb": -8 },
+        { "offsetSec": 1.85, "file": "whoosh_whip_fast.wav", "gainDb": -9 },
+        { "offsetSec": 3.70, "file": "sub_bass_thud.wav", "gainDb": -8 }
+      ]
+    },
+    {
+      "id": "S05_PATENT_LAW_EXPORTS",
+      "startSec": 26.5,
+      "endSec": 34.0,
+      "chapter": 3,
+      "showRail": true,
+      "lockState": "docked",
+      "palette": "royalCobalt",
+      "transitionIn": "snap_zoom_portal",
+      "voiceoverText": "How? India's 1970 Patent Act protected processes, not monopolies — driving ₹2.46 lakh crore in exports!",
+      "captionMarkup": "How? India's *1970 Patent Act* protected *processes,* not monopolies — driving *₹2.46 lakh crore* in exports!",
+      "sfx": [
+        { "offsetSec": 0.03, "file": "whoosh_whip_fast.wav", "gainDb": -9 },
+        { "offsetSec": 2.40, "file": "click_mouse_crisp.wav", "gainDb": -9 },
+        { "offsetSec": 4.20, "file": "pop_double_stack.wav", "gainDb": -10 }
+      ]
+    },
+    {
+      "id": "S06_CAPSULE_BIOREACTOR_XRAY",
+      "startSec": 34.0,
+      "endSec": 41.5,
+      "chapter": 4,
+      "showRail": true,
+      "lockState": "docked",
+      "palette": "blueprintDark",
+      "transitionIn": "laser_blueprint_scan",
+      "voiceoverText": "Inside cleanrooms from Hyderabad to Pune, automated bioreactors synthesize complex molecules at a third of Western cost.",
+      "captionMarkup": "From *Hyderabad* to *Pune,* automated *bioreactors* synthesize molecules at *one-third* Western cost.",
+      "sfx": [
+        { "offsetSec": 0.02, "file": "shutter_metal_roll.wav", "gainDb": -10 },
+        { "offsetSec": 1.65, "file": "whoosh_whip_fast.wav", "gainDb": -10 },
+        { "offsetSec": 3.40, "file": "whoosh_whip_fast.wav", "gainDb": -10 },
+        { "offsetSec": 5.05, "file": "sub_bass_thud.wav", "gainDb": -11 }
+      ]
+    },
+    {
+      "id": "S07_UNLOCK_650_FDA",
+      "startSec": 41.5,
+      "endSec": 48.5,
+      "chapter": 5,
+      "showRail": true,
+      "lockState": "unlock",
+      "palette": "royalCobalt",
+      "transitionIn": "snap_zoomout_dof",
+      "voiceoverText": "Unlocked: India has over 650 US-FDA approved plants — the highest anywhere outside America itself!",
+      "captionMarkup": "Unlocked: over *650 US-FDA* approved plants — the *highest* anywhere outside *America!*",
+      "sfx": [
+        { "offsetSec": 0.03, "file": "whoosh_whip_fast.wav", "gainDb": -9 },
+        { "offsetSec": 1.25, "file": "metallic_chime_bell.wav", "gainDb": -8 },
+        { "offsetSec": 3.70, "file": "sub_bass_thud.wav", "gainDb": -10 }
+      ]
+    },
+    {
+      "id": "S08_GLOBAL_LIFELINE_WHIPS",
+      "startSec": 48.5,
+      "endSec": 55.5,
+      "chapter": 5,
+      "showRail": true,
+      "lockState": "hidden",
+      "palette": "royalCobalt",
+      "transitionIn": "snap_zoom_portal",
+      "voiceoverText": "From Hyderabad and Pune, life-saving shipments race to the UK, Africa, America, and 200 nations!",
+      "captionMarkup": "From *Hyderabad* and *Pune,* shipments race to the *UK, Africa, America,* and *200+ nations!*",
+      "sfx": [
+        { "offsetSec": 0.03, "file": "whoosh_whip_fast.wav", "gainDb": -9 },
+        { "offsetSec": 1.45, "file": "whoosh_whip_fast.wav", "gainDb": -10 },
+        { "offsetSec": 2.95, "file": "whoosh_whip_fast.wav", "gainDb": -10 },
+        { "offsetSec": 4.45, "file": "whoosh_whip_fast.wav", "gainDb": -10 }
+      ]
+    },
+    {
+      "id": "S09_HONEST_API_GAP",
+      "startSec": 55.5,
+      "endSec": 61.5,
+      "chapter": 6,
+      "showRail": true,
+      "lockState": "hidden",
+      "palette": "deepIndigo",
+      "transitionIn": "whip_pan_left",
+      "voiceoverText": "Now, the honest part: India still imports nearly 70% of raw chemical APIs from China.",
+      "captionMarkup": "Now, the *honest* part: India still imports nearly *70%* of raw *chemical APIs* from China.",
+      "sfx": [
+        { "offsetSec": 0.02, "file": "whoosh_whip_fast.wav", "gainDb": -9 },
+        { "offsetSec": 0.65, "file": "sub_bass_thud.wav", "gainDb": -11 }
+      ]
+    },
+    {
+      "id": "S10_PLI_LIFELINE_REFRAME",
+      "startSec": 61.5,
+      "endSec": 70.0,
+      "chapter": 6,
+      "showRail": true,
+      "lockState": "hidden",
+      "palette": "royalCobalt",
+      "transitionIn": "snap_zoom_portal",
+      "voiceoverText": "That is why ₹15,000 crore bulk-drug PLI plants — like Kakinada's Penicillin-G giant — just restarted local chemistry. Pricing medicine for billionaires is a business. Healing billions for pennies is a lifeline.",
+      "beatACaption": "That is why *₹15,000 crore* PLI plants — like Kakinada's *Penicillin-G* giant — restarted local chemistry.",
+      "beatBCaption": "Pricing medicine for billionaires is a *business.* Healing billions for pennies is a *lifeline.*",
+      "sfx": [
+        { "offsetSec": 0.04, "file": "whoosh_whip_fast.wav", "gainDb": -9 },
+        { "offsetSec": 3.90, "file": "pop_double_stack.wav", "gainDb": -9 },
+        { "offsetSec": 6.20, "file": "metallic_chime_bell.wav", "gainDb": -10 }
+      ]
+    },
+    {
+      "id": "S11_POLL_CTA",
+      "startSec": 70.0,
+      "endSec": 74.5,
+      "chapter": 7,
+      "showRail": false,
+      "lockState": "hidden",
+      "palette": "patrioticDusk",
+      "transitionIn": "radial_iris_punch",
+      "voiceoverText": "Which breakthrough matters most next — Cancer Generics, Bulk APIs, or New Vaccines? One word below.",
+      "captionMarkup": "Which breakthrough matters next — *Cancer Generics, Bulk APIs,* or *Vaccines?* One word below.",
+      "sfx": [
+        { "offsetSec": 0.03, "file": "whoosh_deep_velvet.wav", "gainDb": -9 },
+        { "offsetSec": 1.50, "file": "click_mouse_crisp.wav", "gainDb": -10 },
+        { "offsetSec": 2.35, "file": "click_mouse_crisp.wav", "gainDb": -10 },
+        { "offsetSec": 3.20, "file": "click_mouse_crisp.wav", "gainDb": -10 }
+      ]
+    },
+    {
+      "id": "S12_SHARE_OUTRO",
+      "startSec": 74.5,
+      "endSec": 78.0,
+      "chapter": 7,
+      "showRail": false,
+      "lockState": "hidden",
+      "palette": "royalCobalt",
+      "transitionIn": "whip_pan_up",
+      "voiceoverText": "And send this to a doctor, pharmacist, or med student in your life!",
+      "captionMarkup": "And *send this* to a *doctor, pharmacist,* or *med student* in your life!",
+      "sfx": [
+        { "offsetSec": 0.03, "file": "whoosh_whip_fast.wav", "gainDb": -9 },
+        { "offsetSec": 1.35, "file": "click_mouse_crisp.wav", "gainDb": -8 },
+        { "offsetSec": 1.65, "file": "cash_order_toast.wav", "gainDb": -11 }
+      ]
+    }
+  ]
+}

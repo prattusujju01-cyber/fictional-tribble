@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, height=1920, initial-scale=1.0" />
+  <title>Sovereign India Data-Cinema v3.0 — Pharmacy of the World</title>
+  <style>
+    @font-face {
+      font-family: 'InstrumentSerif';
+      src: url('./fonts/InstrumentSerif-Regular.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'InstrumentSerif';
+      src: url('./fonts/InstrumentSerif-Italic.ttf') format('truetype');
+      font-weight: 400;
+      font-style: italic;
+    }
+    @font-face {
+      font-family: 'PlusJakarta';
+      src: url('./fonts/PlusJakartaSans-Variable.ttf') format('truetype');
+      font-weight: 200 800;
+      font-style: normal;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      background: #02013E;
+      user-select: none;
+    }
+    #stage {
+      display: block;
+      width: 1080px;
+      height: 1920px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="stage" width="1080" height="1920"></canvas>
+  <script type="module">
+    import { createDirector } from './engine/scenes.js';
+    import { VideoClipBank } from './engine/video_clips.js';
+
+    window.__READY = false;
+    window.__ERROR = null;
+
+    async function boot() {
+      try {
+        await document.fonts.ready;
+        const warm = document.createElement('canvas');
+        warm.width = 64; warm.height = 64;
+        const wctx = warm.getContext('2d');
+        for (const spec of [
+          '400 32px InstrumentSerif',
+          'italic 400 32px InstrumentSerif',
+          '300 32px PlusJakarta',
+          '400 32px PlusJakarta',
+          '600 32px PlusJakarta'
+        ]) {
+          wctx.font = spec;
+          wctx.fillText('₹#+-°0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', 0, 32);
+        }
+
+        const [scriptRes, geoRes, clipsManifest] = await Promise.all([
+          fetch('./script.json').then(r => r.json()),
+          fetch('./data/world_india_geo.json').then(r => r.json()),
+          fetch('./data/clips_manifest.json').then(r => r.json()).catch(() => ({}))
+        ]);
+
+        const clipBank = new VideoClipBank(clipsManifest);
+        await clipBank.preloadAll();
+
+        const canvas = document.getElementById('stage');
+        const director = createDirector({
+          canvas,
+          script: scriptRes,
+          geo: geoRes,
+          clipBank
+        });
+
+        window.__TOTAL_FRAMES = scriptRes.totalFrames;
+        window.renderFrame = (frameIdx) => {
+          director.renderFrame(frameIdx);
+          return true;
+        };
+
+        director.renderFrame(0);
+        window.__READY = true;
+      } catch (err) {
+        console.error('BOOT_ERROR:', err);
+        window.__ERROR = String(err && err.stack ? err.stack : err);
+      }
+    }
+
+    boot();
+  </script>
+</body>
+</html>
