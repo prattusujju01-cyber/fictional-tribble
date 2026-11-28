@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=1080, height=1920, initial-scale=1.0" />
-  <title>Sovereign India Data-Cinema Engine — 1080x1920</title>
+  <title>Sovereign India Data-Cinema Engine v2.0 — 1080x1920</title>
   <style>
     @font-face {
       font-family: 'InstrumentSerif';
@@ -23,16 +23,12 @@
       font-weight: 200 800;
       font-style: normal;
     }
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body {
       width: 1080px;
       height: 1920px;
       overflow: hidden;
-      background: #020148;
+      background: #02013E;
       user-select: none;
     }
     #stage {
@@ -46,6 +42,7 @@
   <canvas id="stage" width="1080" height="1920"></canvas>
   <script type="module">
     import { createDirector } from './engine/scenes.js';
+    import { VideoClipBank } from './engine/video_clips.js';
 
     window.__READY = false;
     window.__ERROR = null;
@@ -53,7 +50,6 @@
     async function boot() {
       try {
         await document.fonts.ready;
-        // Force rasterize each font variant once so glyphs are hot in Chromium Skia cache
         const warm = document.createElement('canvas');
         warm.width = 64; warm.height = 64;
         const wctx = warm.getContext('2d');
@@ -65,31 +61,32 @@
           '600 32px PlusJakarta'
         ]) {
           wctx.font = spec;
-          wctx.fillText('₹0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', 0, 32);
+          wctx.fillText('₹#0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', 0, 32);
         }
 
-        const [scriptRes, timelineRes, geoRes] = await Promise.all([
+        const [scriptRes, geoRes, clipsManifest] = await Promise.all([
           fetch('./script.json').then(r => r.json()),
-          fetch('./data/vo_timeline.json').then(r => r.json()),
-          fetch('./data/world_india_geo.json').then(r => r.json())
+          fetch('./data/world_india_geo.json').then(r => r.json()),
+          fetch('./data/clips_manifest.json').then(r => r.json()).catch(() => ({}))
         ]);
+
+        const clipBank = new VideoClipBank(clipsManifest);
+        await clipBank.preloadAll();
 
         const canvas = document.getElementById('stage');
         const director = createDirector({
           canvas,
           script: scriptRes,
-          timeline: timelineRes,
-          geo: geoRes
+          geo: geoRes,
+          clipBank
         });
 
-        window.__TOTAL_FRAMES = timelineRes.totalFrames;
-        window.__TIMELINE = timelineRes;
+        window.__TOTAL_FRAMES = scriptRes.totalFrames;
         window.renderFrame = (frameIdx) => {
           director.renderFrame(frameIdx);
           return true;
         };
 
-        // Render initial frame 0
         director.renderFrame(0);
         window.__READY = true;
       } catch (err) {

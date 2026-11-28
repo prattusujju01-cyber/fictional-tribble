@@ -30,7 +30,9 @@ const MIME = {
   '.html': 'text/html',
   '.js': 'application/javascript',
   '.json': 'application/json',
-  '.ttf': 'font/ttf'
+  '.ttf': 'font/ttf',
+  '.jpg': 'image/jpeg',
+  '.mp4': 'video/mp4'
 };
 
 const server = http.createServer((req, res) => {

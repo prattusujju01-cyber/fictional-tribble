@@ -1,10 +1,10 @@
-name: Render Sovereign Smartphone Reel v1.0
+name: Render Sovereign Smartphone Reel v2.0
 
 on:
   workflow_dispatch:
     inputs:
       mode:
-        description: 'probe (24 keyframes + 4 HD heroes) or full (4-shard 1080x1920 MP4 + -14 LUFS audio)'
+        description: 'probe (24 keyframes + 4 HD heroes) or full (4-shard 78.00s 1080x1920 BT.709 MP4)'
         required: true
         default: 'probe'
         type: choice
@@ -27,16 +27,15 @@ jobs:
         with:
           path: ~/.cache/ms-playwright
           key: pw-chromium-u24-v2
-      - name: Install FFmpeg, Edge-TTS & Playwright
+      - name: Install FFmpeg & Playwright
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
-          python3 -m pip install --break-system-packages --quiet edge-tts
           mkdir -p /tmp/pw_runtime
           cd /tmp/pw_runtime
           npm init -y >/dev/null 2>&1
           npm install --no-audit --no-fund playwright@latest
           npx playwright install chromium
-      - name: Synthesize Voiceover, Build Sovereign GeoJSON & Render 24-Keyframe Probe
+      - name: Unpack Real India Video Clips, Sovereign GeoJSON & Render 24-Keyframe Probe
         env:
           NODE_PATH: /tmp/pw_runtime/node_modules
           PROJECT_ROOT: ${{ github.workspace }}/videos/sovereign-india-smartphone-reel
@@ -50,7 +49,6 @@ jobs:
           path: |
             videos/sovereign-india-smartphone-reel/out/probe_24.jpg
             videos/sovereign-india-smartphone-reel/out/hero_*.jpg
-            videos/sovereign-india-smartphone-reel/data/vo_timeline.json
           retention-days: 7
 
   prep-full:
@@ -59,21 +57,20 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
-      - name: Synthesize Master Voiceover & Sovereign GeoJSON Once
+      - name: Unpack Real Video Clips, Fonts & Sovereign GeoJSON
         env:
           PROJECT_ROOT: ${{ github.workspace }}/videos/sovereign-india-smartphone-reel
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
-          python3 -m pip install --break-system-packages --quiet edge-tts
           python3 videos/sovereign-india-smartphone-reel/tools/prepare_assets_and_vo.py
       - name: Upload Deterministic Prep Bundle
         uses: actions/upload-artifact@v4
         with:
           name: smartphone-prep-bundle
           path: |
-            videos/sovereign-india-smartphone-reel/fonts/*
-            videos/sovereign-india-smartphone-reel/data/*
-            videos/sovereign-india-smartphone-reel/out/vo.wav
+            videos/sovereign-india-smartphone-reel/fonts/**
+            videos/sovereign-india-smartphone-reel/data/**
+            videos/sovereign-india-smartphone-reel/clips_frames/**
           retention-days: 3
 
   render-shards:
@@ -139,7 +136,7 @@ jobs:
           pattern: smartphone-seg-*
           path: videos/sovereign-india-smartphone-reel/out/segs
           merge-multiple: true
-      - name: Concat Shards, Mix -14.0 LUFS Soundtrack & Verify Final MP4
+      - name: Concat Intra Shards & Encode Single-Pass Universal BT.709 78.00s Master
         env:
           PROJECT_ROOT: ${{ github.workspace }}/videos/sovereign-india-smartphone-reel
           SFX_DIR: ${{ github.workspace }}/videos/fried-rice-syndrome/assets_sfx
@@ -150,9 +147,9 @@ jobs:
           ffmpeg -nostdin -y -f concat -safe 0 -i concat_list.txt -c copy ../smartphone_silent.mp4
           cd "${{ github.workspace }}"
           python3 videos/sovereign-india-smartphone-reel/tools/mix_audio.py
-          echo "=== FINAL FFPROBE STREAM VERIFICATION ==="
-          ffprobe -v error -show_entries format=duration,size,bit_rate:stream=codec_type,codec_name,width,height,r_frame_rate,nb_frames,sample_rate,channels -of default=nw=1 videos/sovereign-india-smartphone-reel/out/India_Smartphone_Revolution_Sovereign_Reel.mp4
-      - name: Upload Final Broadcast MP4 & Audit Contact Sheet
+          echo "=== FINAL FFPROBE STREAM & FRAME COUNT VERIFICATION ==="
+          ffprobe -v error -select_streams v:0 -count_frames -show_entries format=duration,size,bit_rate:stream=codec_name,profile,level,color_space,width,height,r_frame_rate,nb_read_frames -of default=nw=1 videos/sovereign-india-smartphone-reel/out/India_Smartphone_Revolution_Sovereign_Reel.mp4
+      - name: Upload Final Universal MP4 & Audit Contact Sheet
         uses: actions/upload-artifact@v4
         with:
           name: smartphone-reel-final

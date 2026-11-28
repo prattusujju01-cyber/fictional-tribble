@@ -44,7 +44,9 @@ const MIME = {
   '.html': 'text/html',
   '.js': 'application/javascript',
   '.json': 'application/json',
-  '.ttf': 'font/ttf'
+  '.ttf': 'font/ttf',
+  '.jpg': 'image/jpeg',
+  '.mp4': 'video/mp4'
 };
 
 const server = http.createServer((req, res) => {
@@ -93,7 +95,7 @@ console.log(`[Shard ${SHARD_IDX}] Rendered ${COUNT} frames in ${elapsed}s (${(CO
 
 execSync(
   `ffmpeg -nostdin -y -framerate 30 -i "${path.join(FRAME_DIR, 'f_%05d.jpg')}" ` +
-  `-c:v libx264 -preset fast -crf 16 -pix_fmt yuv420p -r 30 -video_track_timescale 90000 -g 30 -bf 0 "${SEG_OUT}"`,
+  `-c:v libx264 -preset ultrafast -crf 12 -pix_fmt yuv420p -r 30 -video_track_timescale 90000 -g 1 "${SEG_OUT}"`,
   { stdio: 'inherit' }
 );
 
