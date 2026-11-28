@@ -171,6 +171,18 @@ export function createDirector({ canvas, script, geo, clipBank }) {
     blueprintDark: [1, 3, 11],
     patrioticDusk: [39, 10, 78]
   };
+  function drawTopHudScrim(ctx, paletteName, strength = 0.85) {
+    const [r, g, b] = SCRIM_RGB[paletteName] || SCRIM_RGB.royalCobalt;
+    const grad = ctx.createLinearGradient(0, 0, 0, 205);
+    grad.addColorStop(0.00, `rgba(${r}, ${g}, ${b}, ${(0.94 * strength).toFixed(3)})`);
+    grad.addColorStop(0.65, `rgba(${r}, ${g}, ${b}, ${(0.72 * strength).toFixed(3)})`);
+    grad.addColorStop(1.00, `rgba(${r}, ${g}, ${b}, 0)`);
+    ctx.save();
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, W, 205);
+    ctx.restore();
+  }
+
   function drawBottomCaptionScrim(ctx, paletteName, strength = 0.88) {
     const [r, g, b] = SCRIM_RGB[paletteName] || SCRIM_RGB.royalCobalt;
     const grad = ctx.createLinearGradient(0, 1315, 0, H);
@@ -497,39 +509,40 @@ export function createDirector({ canvas, script, geo, clipBank }) {
 
     // =====================================================================
     // S06 (34.0–41.5s): 4-beat LVM3 CAD X-ray inspection
-    // CE-20 reticle at ~(540, 610) -> offset (0, -350) ; Vikram at ~(540, 408) -> offset (0, -552)
     // =====================================================================
     else if (sc.id === 'S06_LVM3_BLUEPRINT_XRAY') {
       const camKeys = [
-        { t: 0.00, x: 0,   y: -150, zoom: 1.00, roll: 0,      curve: 'drift' },
-        { t: 1.50, x: 0,   y: -150, zoom: 1.02, roll: 0,      curve: 'drift' },
-        { t: 1.88, x: -40, y: -350, zoom: 2.15, roll: -0.014, curve: 'whip' },  // CE-20 cryogenic punch
-        { t: 3.30, x: -35, y: -345, zoom: 2.20, roll: -0.010, curve: 'drift' },
-        { t: 3.68, x: 40,  y: -545, zoom: 2.10, roll: 0.012,  curve: 'whip' },  // whip up to Vikram lander
-        { t: 5.00, x: 45,  y: -540, zoom: 2.14, roll: 0.010,  curve: 'drift' },
-        { t: 5.40, x: 0,   y: -150, zoom: 1.00, roll: 0,      curve: 'spring' },
-        { t: 7.50, x: 0,   y: -160, zoom: 1.03, roll: 0,      curve: 'drift' }
+        { t: 0.00, x: 0,    y: 0,    zoom: 1.00, roll: 0,      curve: 'drift' },
+        { t: 1.50, x: 0,    y: 0,    zoom: 1.02, roll: 0,      curve: 'drift' },
+        { t: 1.88, x: -95,  y: -175, zoom: 1.76, roll: -0.012, curve: 'whip' },  // CE-20 cryogenic + left badge in-frame!
+        { t: 3.30, x: -90,  y: -170, zoom: 1.80, roll: -0.009, curve: 'drift' },
+        { t: 3.68, x: 95,   y: -355, zoom: 1.80, roll: 0.012,  curve: 'whip' },  // whip up to Vikram lander + right badge!
+        { t: 5.00, x: 100,  y: -350, zoom: 1.84, roll: 0.009,  curve: 'drift' },
+        { t: 5.40, x: 0,    y: 0,    zoom: 1.00, roll: 0,      curve: 'spring' },
+        { t: 7.50, x: 0,    y: -10,  zoom: 1.03, roll: 0,      curve: 'drift' }
       ];
 
       renderWithShutterBlur(ctx, localSec, camKeys, (sctx, st, cam) => {
         drawStudioBackdrop(sctx, 'blueprintDark', sc.startSec + st);
-        const stepActive = st < 3.5 ? (st < 1.9 ? 1 : 2) : 3;
+        const stepActive = st < 3.5 ? (st < 1.8 ? 1 : 2) : 3;
         withCameraPlane(sctx, cam, 1.0, () => {
-          drawTrackedCaps(sctx, 'LVM3 STRUCTURAL X-RAY • 43.5M • 640 TONNES', 540, 238, {
-            fontSize: 17, tracking: 3.0, align: 'center', color: '#7DD3FC'
-          });
-          drawLVM3BlueprintXRay(sctx, { cx: 540, topY: 300, totalH: 690, stepActive, tSec: st });
+          drawLVM3BlueprintXRay(sctx, { cx: 540, topY: 285, totalH: 685, stepActive, tSec: st });
         });
       });
 
+      drawTopHudScrim(ctx, 'blueprintDark', 0.92);
+      drawTrackedCaps(ctx, 'LVM3 STRUCTURAL X-RAY • 43.5M • 640 TONNES', 540, 212, {
+        fontSize: 16.5, tracking: 2.8, align: 'center', color: '#7DD3FC'
+      });
+
       // Screen-space real-footage cards (stay crisp, outside camera)
-      const cardIn = snapOutSpring(clamp((localSec - 5.45) / 0.45, 0, 1));
-      const cardA = clamp((localSec - 5.45) / 0.25, 0, 1);
+      const cardIn = snapOutSpring(clamp((localSec - 5.35) / 0.45, 0, 1));
+      const cardA = clamp((localSec - 5.35) / 0.25, 0, 1);
       if (cardA > 0.01) {
-        clipBank.drawClipCard(ctx, 'lvm3_onboard', frameIdx, 82, 1030 + (1 - cardIn) * 80, 442, 250, {
+        clipBank.drawClipCard(ctx, 'lvm3_onboard', frameIdx, 82, 1025 + (1 - cardIn) * 80, 442, 248, {
           titleItalic: 'CE-20 Stage', tagCaps: '-253°C', alpha: cardA, borderColor: 'rgba(247, 201, 72, 0.85)'
         });
-        clipBank.drawClipCard(ctx, 'vikram_hop', frameIdx, 556, 1030 + (1 - cardIn) * 80, 442, 250, {
+        clipBank.drawClipCard(ctx, 'vikram_hop', frameIdx, 556, 1025 + (1 - cardIn) * 80, 442, 248, {
           titleItalic: 'Vikram', tagCaps: 'LASER DOPPLER', alpha: cardA, borderColor: 'rgba(91, 192, 255, 0.85)'
         });
       }
@@ -544,13 +557,13 @@ export function createDirector({ canvas, script, geo, clipBank }) {
     else if (sc.id === 'S07_UNLOCK_434_SATS') {
       const camKeys = [
         { t: 0.00, x: 0, y: 0,   zoom: 1.00, roll: 0,      curve: 'drift' },
-        { t: 1.18, x: 0, y: -40, zoom: 1.00, roll: 0,      curve: 'drift' },
-        { t: 1.38, x: 0, y: -95, zoom: 1.16, roll: -0.008, curve: 'whip' },   // unlock impact punch
+        { t: 1.18, x: 0, y: -30, zoom: 1.00, roll: 0,      curve: 'drift' },
+        { t: 1.38, x: 0, y: -80, zoom: 1.16, roll: -0.008, curve: 'whip' },   // unlock impact punch
         { t: 1.75, x: 0, y: 0,   zoom: 1.00, roll: 0,      curve: 'spring' },
         { t: 3.40, x: 0, y: 0,   zoom: 1.02, roll: 0,      curve: 'drift' },
-        { t: 3.78, x: 0, y: 330, zoom: 1.40, roll: 0.006,  curve: 'whip' },   // punch onto 104 record
-        { t: 5.40, x: 0, y: 335, zoom: 1.42, roll: 0.004,  curve: 'drift' },
-        { t: 5.80, x: 0, y: 0,   zoom: 1.00, roll: 0,      curve: 'spring' },
+        { t: 3.78, x: 0, y: 165, zoom: 1.28, roll: 0.006,  curve: 'whip' },   // punch onto 104 record
+        { t: 5.15, x: 0, y: 170, zoom: 1.30, roll: 0.004,  curve: 'drift' },
+        { t: 5.55, x: 0, y: 0,   zoom: 1.00, roll: 0,      curve: 'spring' },
         { t: 7.00, x: 0, y: -12, zoom: 1.03, roll: 0,      curve: 'drift' }
       ];
 
@@ -882,7 +895,10 @@ export function createDirector({ canvas, script, geo, clipBank }) {
     }
 
     // Screen-space HUD
-    if (sc.showRail) drawChapterRail(ctx, chapters, sc.chapter, 1.0);
+    if (sc.showRail) {
+      drawTopHudScrim(ctx, sc.palette || 'royalCobalt', 0.65);
+      drawChapterRail(ctx, chapters, sc.chapter, 1.0);
+    }
     if (sc.lockState === 'docked') drawCuriosityLockWidget(ctx, 'docked', 1.0);
   }
 
