@@ -162,6 +162,27 @@ export function createDirector({ canvas, script, geo, clipBank }) {
     [74.80, 34.08]  // Srinagar
   ];
 
+  const CAPTION_SCRIM_HEX = {
+    royalCobalt: [2, 1, 62],
+    deepIndigo: [2, 1, 36],
+    crimsonAmber: [50, 8, 59],
+    blueprintDark: [1, 3, 11],
+    patrioticDusk: [39, 10, 78]
+  };
+
+  function drawBottomCaptionScrim(ctx, paletteName, strength = 0.88) {
+    const [r, g, b] = CAPTION_SCRIM_HEX[paletteName] || CAPTION_SCRIM_HEX.royalCobalt;
+    ctx.save();
+    const grad = ctx.createLinearGradient(0, 1315, 0, H);
+    grad.addColorStop(0.00, `rgba(${r}, ${g}, ${b}, 0.00)`);
+    grad.addColorStop(0.24, `rgba(${r}, ${g}, ${b}, ${(0.76 * strength).toFixed(3)})`);
+    grad.addColorStop(0.52, `rgba(${r}, ${g}, ${b}, ${(0.92 * strength).toFixed(3)})`);
+    grad.addColorStop(1.00, `rgba(${r}, ${g}, ${b}, ${(0.97 * strength).toFixed(3)})`);
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 1315, W, H - 1315);
+    ctx.restore();
+  }
+
   function renderSingleScene(ctx, sc, localSec, globalFrameIdx) {
     const dur = sc.endSec - sc.startSec;
     const p = clamp(localSec / dur, 0, 1);
@@ -350,6 +371,7 @@ export function createDirector({ canvas, script, geo, clipBank }) {
         });
       });
 
+      drawBottomCaptionScrim(ctx, 'royalCobalt', 0.86);
       drawOpticalMarkup(ctx, sc.captionMarkup, {
         x: 540, y: 1435, maxWidth: 920, fontSize: 51,
         progress: clamp((localSec - 0.15) / 3.8, 0, 1)
@@ -361,10 +383,10 @@ export function createDirector({ canvas, script, geo, clipBank }) {
     // =========================================================================
     else if (sc.id === 'S04_EIFFEL_VS_CHENAB') {
       const camKeys = [
-        { t: 0.00, x: -245, y: 65,   zoom: 1.78, roll: -0.014, curve: 'spring' },
-        { t: 1.70, x: -230, y: 50,   zoom: 1.82, roll: -0.010, curve: 'drift' },
-        { t: 2.10, x: 185,  y: -235, zoom: 1.96, roll:  0.012, curve: 'whip' },
-        { t: 3.65, x: 195,  y: -245, zoom: 2.02, roll:  0.010, curve: 'drift' },
+        { t: 0.00, x: -235, y: 55,   zoom: 1.72, roll: -0.014, curve: 'spring' },
+        { t: 1.70, x: -220, y: 45,   zoom: 1.76, roll: -0.010, curve: 'drift' },
+        { t: 2.10, x: 175,  y: -140, zoom: 1.82, roll:  0.012, curve: 'whip' },
+        { t: 3.65, x: 185,  y: -145, zoom: 1.86, roll:  0.010, curve: 'drift' },
         { t: 4.08, x: 0,    y: 0,    zoom: 1.00, roll:  0.000, curve: 'spring' },
         { t: 7.00, x: 0,    y: -14,  zoom: 1.04, roll:  0.000, curve: 'drift' }
       ];
@@ -406,6 +428,7 @@ export function createDirector({ canvas, script, geo, clipBank }) {
         });
       });
 
+      drawBottomCaptionScrim(ctx, 'crimsonAmber', 0.85);
       drawOpticalMarkup(ctx, sc.captionMarkup, {
         x: 540, y: 1460, maxWidth: 920, fontSize: 52,
         progress: clamp((localSec - 0.15) / 4.0, 0, 1)
@@ -540,6 +563,7 @@ export function createDirector({ canvas, script, geo, clipBank }) {
         });
       });
 
+      drawBottomCaptionScrim(ctx, 'blueprintDark', 0.94);
       drawOpticalMarkup(ctx, sc.captionMarkup, {
         x: 540, y: 1435, maxWidth: 920, fontSize: 51,
         progress: clamp((localSec - 0.15) / 4.4, 0, 1)
@@ -693,6 +717,7 @@ export function createDirector({ canvas, script, geo, clipBank }) {
         borderColor: 'rgba(253, 230, 138, 0.90)'
       });
 
+      drawBottomCaptionScrim(ctx, 'royalCobalt', 0.88);
       drawOpticalMarkup(ctx, sc.captionMarkup, {
         x: 540, y: 1440, maxWidth: 920, fontSize: 51,
         progress: clamp((localSec - 0.12) / 4.2, 0, 1)
@@ -762,6 +787,7 @@ export function createDirector({ canvas, script, geo, clipBank }) {
         });
       });
 
+      drawBottomCaptionScrim(ctx, 'deepIndigo', 0.90);
       drawOpticalMarkup(ctx, sc.captionMarkup, {
         x: 540, y: 1435, maxWidth: 920, fontSize: 51,
         progress: clamp((localSec - 0.15) / 3.8, 0, 1)
